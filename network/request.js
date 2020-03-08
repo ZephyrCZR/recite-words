@@ -1,6 +1,6 @@
 import uniRequest from 'uni-request';
 
-uniRequest.defaults.baseURL = 'http://127.0.0.1:5000';
+uniRequest.defaults.baseURL = 'http://127.0.0.1:5230/zrizc';
 uniRequest.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 uniRequest.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 

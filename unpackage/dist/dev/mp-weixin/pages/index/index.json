@@ -1,3 +1,9 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "avatar": "/pages/index/childComp/Avatar",
+    "sign-in": "/pages/index/childComp/SignIn",
+    "background-desc": "/pages/index/childComp/BackgroundDesc",
+    "home-botton": "/pages/index/childComp/HomeBotton",
+    "tab-bar": "/pages/index/childComp/TabBar"
+  }
 }

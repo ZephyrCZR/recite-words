@@ -1,159 +1,17 @@
 
-.bg_dec {
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;
-		-webkit-box-orient: vertical;
-		-webkit-box-direction: normal;
-		-webkit-flex-direction: column;
-		        flex-direction: column;
-		position: absolute;
-		top: 28%;
-		width: 100vw;
-		/* background-color: #007AFF; */
-		-webkit-box-align: center;
-		-webkit-align-items: center;
-		        align-items: center;
+.home_middle {
+	position: absolute;
+	top: 20%;
+	width: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
 }
-.bg_dec>.bg_word {
-		/* background-color: #4CD964; */
-		font-size: 88rpx;
-		padding-bottom: 30rpx;
-		line-height: 88rpx;
-}
-.bg_dec>.bg_par {
-		/* background-color: #007AFF; */
-		font-size: 34rpx;
-		line-height: 40rpx;
-}
-.text {
-		font-size: 32rpx;
-		line-height: 44rpx;
-		/* background-color: #007AFF; */
-}
-.nav_bar {
-		/* background-color:#3F536E; */
-		position: absolute;
-		height: 96rpx;
-		width: 100%;
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;
-		-webkit-justify-content: space-around;
-		        justify-content: space-around;
-		bottom: 0;
-}
-.nav_icon {
-		line-height: 96rpx;
-		font-size: 24px;
-}
-.content {
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;
-		-webkit-box-orient: vertical;
-		-webkit-box-direction: normal;
-		-webkit-flex-direction: column;
-		        flex-direction: column;
-		-webkit-box-align: center;
-		-webkit-align-items: center;
-		        align-items: center;
-		-webkit-box-pack: center;
-		-webkit-justify-content: center;
-		        justify-content: center;
-		height: 100vh;
-		background-image: url(http://attach.bbs.miui.com/forum/201406/28/011404x55gqgsuaufp95sq.jpg);
-		background-size:cover;
-		background-repeat: no-repeat;
-}
-.mask {
-		-webkit-backdrop-filter: blur(8rpx);
-		        backdrop-filter: blur(8rpx);
-		background-color: rgba(255,255,255,0.8);
-}
-.sign_in {
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;
-		-webkit-box-orient: vertical;
-		-webkit-box-direction: normal;
-		-webkit-flex-direction: column;
-		        flex-direction: column;
-		-webkit-box-align: center;
-		-webkit-align-items: center;
-		        align-items: center;
-		-webkit-justify-content: space-around;
-		        justify-content: space-around;
-		height: 300rpx;
-		width: 300rpx;		
-		border-radius: 30%;
-		position: absolute;
-		top: 28%;
-		left: 50%;
-		-webkit-transform: translateX(-150rpx);
-		        transform: translateX(-150rpx);
-}
-.sign_icon {
-		line-height: 70rpx;
-		font-size: 40px;
-}
-.avatar {
-		height: 100rpx;
-		width: 100rpx;
-		/* background-color: #007AFF; */
-		position: absolute;
-		top: 60rpx;
-		left: 30rpx;
-		border-radius: 50%;	
-		overflow: hidden;
-}
-.avatar_img {
-		height: 100%;
-		width: 100%;
-}
-.buttons {
-		/* background-color: #007AFF; */
-		position: absolute;
-		top: 70%;
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;		
-	  -webkit-box-pack: justify;		
-	  -webkit-justify-content: space-between;		
-	          justify-content: space-between;
-		height: 120rpx;
-		width: 100%;
-}
-.button {
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;
-		-webkit-box-align: center;
-		-webkit-align-items: center;
-		        align-items: center;
-		-webkit-box-pack: center;
-		-webkit-justify-content: center;
-		        justify-content: center;
-		/* background-color:#F0AD4E ; */
-		width: 260rpx;
-		height: 100%;
-		margin: 0 30rpx;
-		-webkit-box-orient:vertical;
-		-webkit-box-direction:normal;
-		-webkit-flex-direction:column;
-		        flex-direction:column;
-		border-radius: 18rpx;
-}
-.text-area {
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;
-		-webkit-box-pack: center;
-		-webkit-justify-content: center;
-		        justify-content: center;
-}
-.title {
-		font-size: 36rpx;
-		/* color: #8f8f94; */
+.home_btn {
+	position: absolute;
+	top: 70%;
 }
 

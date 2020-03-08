@@ -1,0 +1,1 @@
+<view class="buttons"><view class="button mask"><label class="text _span">Learn</label><label class="count _span">{{book_state.learn}}</label></view><view class="button mask"><label class="text _span">Review</label><label class="count _span">{{book_state.review}}</label></view></view>

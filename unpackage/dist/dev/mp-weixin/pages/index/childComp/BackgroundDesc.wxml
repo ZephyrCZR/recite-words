@@ -1,0 +1,1 @@
+<view class="bg_dec"><label class="bg_word _span">{{desc.word}}</label><label class="bg_par _span">{{desc.par}}</label></view>

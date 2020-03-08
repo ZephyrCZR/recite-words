@@ -1,0 +1,19 @@
+
+.tab_bar {
+		/* background-color:#3F536E; */
+		position: absolute;
+		height: 96rpx;
+		width: 100%;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-justify-content: space-around;
+		        justify-content: space-around;
+		bottom: 0;
+		left: 0;
+}
+.tab_icon {
+		line-height: 96rpx;
+		font-size: 24px;
+}
+

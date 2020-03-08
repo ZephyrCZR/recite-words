@@ -8525,7 +8525,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": {} }, "globalStyle": { "navigationStyle": "custom" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/login/register/register": { "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" }, "pages/index/index": {}, "pages/recite/recite": {}, "pages/login/login/login": { "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" } }, "globalStyle": { "navigationStyle": "custom" } };exports.default = _default;
 
 /***/ }),
 /* 8 */

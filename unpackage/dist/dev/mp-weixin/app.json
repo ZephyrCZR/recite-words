@@ -1,11 +1,14 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/login/login/login",
+    "pages/login/register/register",
+    "pages/index/index",
+    "pages/recite/recite"
+   
   ],
   "subPackages": [],
   "window": {
     "navigationStyle": "custom"
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap80.json"
+  "usingComponents": {}
 }

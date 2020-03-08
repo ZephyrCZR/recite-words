@@ -1,0 +1,60 @@
+
+#login {
+	height: 100vh;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.main {
+	margin-top: 84rpx;
+	height: 500rpx;
+	width: 540rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: space-between;
+	-webkit-align-items: space-between;
+	        align-items: space-between;
+}
+
+/* 底部 */
+.footer {		
+	position: absolute;
+	bottom: 66rpx;
+	width: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	font-size: 28rpx;
+	color: rgba(0, 0, 0, 0.7);
+	text-align: center;
+	height: 40rpx;
+	line-height: 40rpx;
+}
+.footer text {
+	font-size: 24rpx;
+	margin-left: 15rpx;
+	margin-right: 15rpx;
+}
+
