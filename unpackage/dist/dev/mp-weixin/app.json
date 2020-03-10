@@ -4,7 +4,6 @@
     "pages/login/register/register",
     "pages/index/index",
     "pages/recite/recite"
-   
   ],
   "subPackages": [],
   "window": {

@@ -14,19 +14,17 @@ var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 9));function 
 _vue.default.config.productionTip = false;
 
 // 判断登陆状态，无登录则跳转到登录页
-_vue.default.prototype.checkLogin = function (backpage, backtype) {
+_vue.default.prototype.checkToken = function () {
   console.log("调用了checkLogin方法");
   var TOKEN = uni.getStorageSync('TOKEN');
-  var SUID = uni.getStorageSync('SUID');
-  var AVATAR = uni.getStorageSync('AVATAR');
-  if (TOKEN == '' || SUID == '' || SFACE == '') {
+  if (TOKEN == '') {
     uni.redirectTo({
       url: '/pages/login/login/login' });
 
     return false;
   }
   return {
-    avatar: AVATAR };
+    TOKEN: TOKEN };
 
 };
 

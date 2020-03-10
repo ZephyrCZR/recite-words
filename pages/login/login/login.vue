@@ -4,12 +4,12 @@
 		<logo></logo>
 		<!-- 表单 -->
 		<view class="main">
-			<wInput v-model="phoneData" type="text" maxlength="11" placeholder="用户名/手机号码"></wInput>
-			<wInput v-model="passData" type="password" maxlength="11" placeholder="密码"></wInput>
+			<wInput v-model="phone" type="text" maxlength="11" placeholder="用户名/手机号码"></wInput>
+			<wInput v-model="password" type="password" maxlength="11" placeholder="密码"></wInput>
 
 			<wButton text="登 录" :rotate="isRotate" @click.native="startLogin()"></wButton>
 		</view>
- 
+
 		<!-- 底部信息 -->
 		<view class="footer">
 			<navigator url="forget" open-type="navigate">找回密码</navigator>
@@ -21,112 +21,106 @@
 
 <script>
 	import Logo from '../childComp/Logo.vue';
-	import wInput from '../../../components/watch-login/watch-input.vue';
-	import wButton from '../../../components/watch-login/watch-button.vue';
+	import wInput from 'components/watch-login/watch-input.vue';
+	import wButton from 'components/watch-login/watch-button.vue';
+
+	import {expTest} from 'common/utils.js'
+	import {login} from 'network/user.js'
+
 	export default {
 		data() {
 			return {
-				phoneData:'', //用户/电话
-				passData:'', //密码
+				phone: '', //用户/电话
+				password: '', //密码
 				isRotate: false, //是否加载旋转
 			};
 		},
-		components:{
+		components: {
 			Logo,
 			wInput,
 			wButton,
 		},
 		mounted() {
-			_this= this;
+			_this = this;
 			//this.isLogin();
 		},
 		methods: {
-			isLogin(){
-				//判断缓存中是否登录过，直接登录
-				// try {
-				// 	const value = uni.getStorageSync('setUserData');
-				// 	if (value) {
-				// 		//有登录信息
-				// 		console.log("已登录用户：",value);
-				// 		_this.$store.dispatch("setUserData",value); //存入状态
-				// 		uni.reLaunch({
-				// 			url: '../../../pages/index',
-				// 		});
-				// 	}
-				// } catch (e) {
-				// 	// error
-				// }
-			},
-		    startLogin(){
+
+			startLogin() {
 				//登录
-				if(this.isRotate){
+				if (this.isRotate) {
 					//判断是否加载中，避免重复点击请求
 					return false;
 				}
-				if (this.phoneData.length == "") {
-				     uni.showToast({
-				        icon: 'none',
+
+				if (!expTest('phone', this.phone)) {
+					uni.showToast({
+						icon: 'none',
 						position: 'bottom',
-				        title: '用户名不能为空'
-				    });
-				    return;
+						title: '请填入正确的手机号码'
+					});
+					return;
 				}
-		        if (this.passData.length < 5) {
-		            uni.showToast({
-		                icon: 'none',
+				if (!this.password) {
+					uni.showToast({
+						icon: 'none',
 						position: 'bottom',
-		                title: '密码不正确'
-		            });
-		            return;
-		        }
-				
-				console.log("登录成功")
-				
-				_this.isRotate=true
-				setTimeout(function(){
-					_this.isRotate=false
-				},3000)
-				// uni.showLoading({
-				// 	title: '登录中'
-				// });
-				// getLogin()
-				// .then(res => {
-				// 	//console.log(res)
-				// 	//简单验证下登录（不安全）
-				// 	if(_this.phoneData==res.data.username && _this.passData==res.data.password){
-				// 		let userdata={
-				// 			"username":res.data.username,
-				// 			"nickname":res.data.nickname,
-				// 			"accesstoken":res.data.accesstoken,
-				// 		} //保存用户信息和accesstoken
-				// 		_this.$store.dispatch("setUserData",userdata); //存入状态
-				// 		try {
-				// 			uni.setStorageSync('setUserData', userdata); //存入缓存
-				// 		} catch (e) {
-				// 			// error
-				// 		}
-				// 		uni.showToast({
-				// 			icon: 'success',
-				// 			position: 'bottom',
-				// 			title: '登录成功'
-				// 		});
-				// 		uni.reLaunch({
-				// 			url: '../../../pages/index',
-				// 		});
-				// 	}else{
-				// 		_this.passData=""
-				// 		uni.showToast({
-				// 			icon: 'error',
-				// 			position: 'bottom',
-				// 			title: '账号或密码错误，账号admin密码admin'
-				// 		});
-				// 	}
-				// 	uni.hideLoading();
-				// }).catch(err => {
-				// 	uni.hideLoading();
-				// })
-				
-		    }			
+						title: '请输入密码'
+					});
+					return;
+				}
+
+				console.log("测试")
+
+				this.isRotate = true
+
+				uni.showLoading({
+					title: '登录中'
+				});
+
+				login({
+					phone: this.phone,
+					password: this.password
+				}).then((success) => {
+					console.log('请求成功')
+					console.log(success)
+					if (success.data.err_code !== 0) {
+						this.isRotate = false
+						uni.hideLoading();
+						uni.showToast({
+							icon: 'error',
+							position: 'center',
+							title: success.data.message
+						});
+						return false
+					}
+					
+					uni.setStorageSync('TOKEN', success.data.data.token)
+					uni.hideLoading();
+					uni.showToast({
+						duration: 2000,
+						icon: 'success',
+						position: 'center',
+						title: "登录成功",
+						mask: true,
+						complete: () => {
+							uni.redirectTo({
+								url: '/pages/index/index'
+							})
+						}
+					});
+
+				}, (error) => {
+					console.log(error)
+					this.isRotate = false
+					uni.hideLoading();
+					uni.showToast({
+						icon: 'error',
+						position: 'center',
+						title: success.data.message
+					});
+				})
+			}
 		}
 	}
 </script>
@@ -138,7 +132,7 @@
 		flex-direction: column;
 		align-items: center;
 	}
-	
+
 	.main {
 		margin-top: 84rpx;
 		height: 500rpx;
@@ -149,7 +143,7 @@
 	}
 
 	/* 底部 */
-	.footer {		
+	.footer {
 		position: absolute;
 		bottom: 66rpx;
 		width: 100%;
@@ -163,7 +157,7 @@
 		height: 40rpx;
 		line-height: 40rpx;
 	}
-	
+
 	.footer text {
 		font-size: 24rpx;
 		margin-left: 15rpx;
