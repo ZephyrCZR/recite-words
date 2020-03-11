@@ -1,11 +1,11 @@
 <template>
 	<view class="sign_in mask"><span class="iconfont icon-calendar sign_icon"></span>
-	<!-- 		<span>
+			<span>
 				<span class="text">+10</span>
 				<span class="text iconfont icon-collection_fill">
-			</span> -->
 			</span>
-			<span class="text">点击签到</span>
+			</span>
+			<span class="text">打卡</span>
 	</view>
 </template>
 
@@ -18,6 +18,11 @@
 			}
 		},
 		methods: {
+
+		},
+		created() {
+			// 获取日期
+
 			
 		}
 	}

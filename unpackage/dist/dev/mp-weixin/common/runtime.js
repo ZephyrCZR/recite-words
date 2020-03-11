@@ -104,11 +104,11 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"components/watch-login/watch-button":1,"components/watch-login/watch-input":1,"pages/login/childComp/Logo":1,"pages/index/childComp/Avatar":1,"pages/index/childComp/BackgroundDesc":1,"pages/index/childComp/HomeBotton":1,"pages/index/childComp/SignIn":1,"pages/index/childComp/TabBar":1};
+/******/ 		var cssChunks = {"pages/index/childComp/Avatar":1,"pages/index/childComp/BackgroundDesc":1,"pages/index/childComp/HomeBotton":1,"pages/index/childComp/SignIn":1,"pages/index/childComp/TabBar":1,"components/watch-login/watch-button":1,"components/watch-login/watch-input":1,"pages/login/childComp/Logo":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
-/******/ 				var href = "" + ({"components/watch-login/watch-button":"components/watch-login/watch-button","components/watch-login/watch-input":"components/watch-login/watch-input","pages/login/childComp/Logo":"pages/login/childComp/Logo","pages/index/childComp/Avatar":"pages/index/childComp/Avatar","pages/index/childComp/BackgroundDesc":"pages/index/childComp/BackgroundDesc","pages/index/childComp/HomeBotton":"pages/index/childComp/HomeBotton","pages/index/childComp/SignIn":"pages/index/childComp/SignIn","pages/index/childComp/TabBar":"pages/index/childComp/TabBar"}[chunkId]||chunkId) + ".wxss";
+/******/ 				var href = "" + ({"pages/index/childComp/Avatar":"pages/index/childComp/Avatar","pages/index/childComp/BackgroundDesc":"pages/index/childComp/BackgroundDesc","pages/index/childComp/HomeBotton":"pages/index/childComp/HomeBotton","pages/index/childComp/SignIn":"pages/index/childComp/SignIn","pages/index/childComp/TabBar":"pages/index/childComp/TabBar","components/watch-login/watch-button":"components/watch-login/watch-button","components/watch-login/watch-input":"components/watch-login/watch-input","pages/login/childComp/Logo":"pages/login/childComp/Logo"}[chunkId]||chunkId) + ".wxss";
 /******/ 				var fullhref = __webpack_require__.p + href;
 /******/ 				var existingLinkTags = document.getElementsByTagName("link");
 /******/ 				for(var i = 0; i < existingLinkTags.length; i++) {

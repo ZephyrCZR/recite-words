@@ -1,4 +1,5 @@
 {
+  "disableScroll": true,
   "usingComponents": {
     "avatar": "/pages/index/childComp/Avatar",
     "sign-in": "/pages/index/childComp/SignIn",

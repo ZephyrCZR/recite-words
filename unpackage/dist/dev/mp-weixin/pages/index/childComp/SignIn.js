@@ -135,7 +135,14 @@ var _default =
 
 
   },
-  methods: {} };exports.default = _default;
+  methods: {},
+
+
+  created: function created() {
+    // 获取日期
+
+
+  } };exports.default = _default;
 
 /***/ }),
 

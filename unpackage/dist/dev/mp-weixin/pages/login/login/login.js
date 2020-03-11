@@ -205,13 +205,7 @@ var _user = __webpack_require__(/*! network/user.js */ 21);var Logo = function L
         return;
       }
 
-      console.log("测试");
-
       this.isRotate = true;
-
-      uni.showLoading({
-        title: '登录中' });
-
 
       (0, _user.login)({
         phone: this.phone,
@@ -229,9 +223,9 @@ var _user = __webpack_require__(/*! network/user.js */ 21);var Logo = function L
 
           return false;
         }
+        uni.setStorageSync('UserInfo', success.data.userInfo);
+        uni.setStorageSync('TOKEN', success.data.token);
 
-        uni.setStorageSync('TOKEN', success.data.data.token);
-        uni.hideLoading();
         uni.showToast({
           duration: 2000,
           icon: 'success',
@@ -239,20 +233,17 @@ var _user = __webpack_require__(/*! network/user.js */ 21);var Logo = function L
           title: "登录成功",
           mask: true,
           complete: function complete() {
-            uni.redirectTo({
-              url: '/pages/index/index' });
-
+            _this2.checkToken();
           } });
 
 
       }, function (error) {
-        console.log(error);
         _this2.isRotate = false;
         uni.hideLoading();
         uni.showToast({
-          icon: 'error',
-          position: 'center',
-          title: success.data.message });
+          icon: 'none',
+          position: 'bottom',
+          title: "网络错误" });
 
       });
     } } };exports.default = _default;

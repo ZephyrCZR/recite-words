@@ -13,18 +13,19 @@ var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 9));function 
 
 _vue.default.config.productionTip = false;
 
-// 判断登陆状态，无登录则跳转到登录页
+// 判断登陆状态，无登录则跳转到登录页, 已登录跳转到首页
 _vue.default.prototype.checkToken = function () {
   console.log("调用了checkLogin方法");
   var TOKEN = uni.getStorageSync('TOKEN');
-  if (TOKEN == '') {
+  var UserInfo = uni.getStorageSync('UserInfo');
+  if (TOKEN !== '') {
     uni.redirectTo({
       url: '/pages/login/login/login' });
 
     return false;
   }
-  return {
-    TOKEN: TOKEN };
+  uni.redirectTo({
+    url: '/pages/index/index' });
 
 };
 
@@ -113,9 +114,11 @@ __webpack_require__.r(__webpack_exports__);
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
 {
   onLaunch: function onLaunch() {
+    this.checkToken();
     console.log('App Launch');
   },
   onShow: function onShow() {
+
     console.log('App Show');
   },
   onHide: function onHide() {

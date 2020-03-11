@@ -7784,7 +7784,7 @@ module.exports = { login: login, register: register, getMessage: getMessage };
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {var TOKEN = uni.getStorageSync('TOKEN');
 if (!TOKEN) TOKEN = '0';
-var baseURL = 'http://127.0.0.1:5230/zrizc';
+var baseURL = 'http://192.168.0.105:5230/zrizc';
 
 var post = function post(path, body) {
   return new Promise(function (resolve, reject) {
@@ -9041,7 +9041,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/login/register/register": { "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black", "usingComponents": { "logo": "/pages/login/childComp/Logo", "w-input": "/components/watch-login/watch-input", "w-button": "/components/watch-login/watch-button" }, "usingAutoImportComponents": {} }, "pages/index/index": { "usingComponents": { "avatar": "/pages/index/childComp/Avatar", "sign-in": "/pages/index/childComp/SignIn", "background-desc": "/pages/index/childComp/BackgroundDesc", "home-botton": "/pages/index/childComp/HomeBotton", "tab-bar": "/pages/index/childComp/TabBar" }, "usingAutoImportComponents": {} }, "pages/recite/recite": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/login/login": { "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black", "usingComponents": { "logo": "/pages/login/childComp/Logo", "w-input": "/components/watch-login/watch-input", "w-button": "/components/watch-login/watch-button" }, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationStyle": "custom" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/login/register/register": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black", "usingComponents": { "logo": "/pages/login/childComp/Logo", "w-input": "/components/watch-login/watch-input", "w-button": "/components/watch-login/watch-button" }, "usingAutoImportComponents": {} }, "pages/index/index": { "disableScroll": true, "usingComponents": { "avatar": "/pages/index/childComp/Avatar", "sign-in": "/pages/index/childComp/SignIn", "background-desc": "/pages/index/childComp/BackgroundDesc", "home-botton": "/pages/index/childComp/HomeBotton", "tab-bar": "/pages/index/childComp/TabBar" }, "usingAutoImportComponents": {} }, "pages/recite/recite": { "disableScroll": true, "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/login/login": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black", "usingComponents": { "logo": "/pages/login/childComp/Logo", "w-input": "/components/watch-login/watch-input", "w-button": "/components/watch-login/watch-button" }, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationStyle": "custom" } };exports.default = _default;
 
 /***/ }),
 

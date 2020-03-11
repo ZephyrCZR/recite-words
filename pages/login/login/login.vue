@@ -70,13 +70,7 @@
 					return;
 				}
 
-				console.log("测试")
-
 				this.isRotate = true
-
-				uni.showLoading({
-					title: '登录中'
-				});
 
 				login({
 					phone: this.phone,
@@ -94,9 +88,9 @@
 						});
 						return false
 					}
+					uni.setStorageSync('UserInfo', success.data.userInfo)
+					uni.setStorageSync('TOKEN', success.data.token)
 					
-					uni.setStorageSync('TOKEN', success.data.data.token)
-					uni.hideLoading();
 					uni.showToast({
 						duration: 2000,
 						icon: 'success',
@@ -104,20 +98,17 @@
 						title: "登录成功",
 						mask: true,
 						complete: () => {
-							uni.redirectTo({
-								url: '/pages/index/index'
-							})
+						this.checkToken()
 						}
 					});
 
-				}, (error) => {
-					console.log(error)
+				}, (error) => {					
 					this.isRotate = false
 					uni.hideLoading();
 					uni.showToast({
-						icon: 'error',
-						position: 'center',
-						title: success.data.message
+						icon: 'none',
+						position: 'bottom',
+						title: "网络错误"
 					});
 				})
 			}

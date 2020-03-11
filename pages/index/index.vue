@@ -21,7 +21,7 @@
 		data() {
 			return {
 				title: 'Hello',
-				isSign: false,
+				isSign: true,
 				bg_decs: {}
 			}
 		},

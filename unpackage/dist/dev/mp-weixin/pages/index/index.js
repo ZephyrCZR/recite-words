@@ -156,7 +156,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   data: function data() {
     return {
       title: 'Hello',
-      isSign: false,
+      isSign: true,
       bg_decs: {} };
 
   },

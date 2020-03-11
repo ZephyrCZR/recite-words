@@ -1,8 +1,16 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/index/index",
+			"style": {
+				"disableScroll": true
+			}
+
+		},
+		{
 			"path": "pages/login/login/login",
 			"style": {
+				"disableScroll": true,
 				"backgroundColor": "#F8F8F8",
 				"navigationBarTextStyle": "black"
 			}
@@ -10,22 +18,20 @@
 		{
 			"path": "pages/login/register/register",
 			"style": {
+				"disableScroll": true,
 				"backgroundColor": "#F8F8F8",
 				"navigationBarTextStyle": "black"
 			}
 		},
 		{
-			"path": "pages/index/index",
-			"style": {
-				// "navigationBarTitleText": "uni-app" 
-			}
-		},
-		{
 			"path": "pages/recite/recite",
-			"style": {}
+			"style": {
+				"disableScroll": true
+			}
 		}
 	],
 	"globalStyle": {
+
 		"navigationStyle": "custom"
 		// "navigationBarTextStyle": "black",
 		// "navigationBarTitleText": "uni-app",
@@ -40,4 +46,5 @@
 			"query": "" //启动参数，在页面的onLoad函数里面得到
 		}]
 	}
+	
 }

@@ -1,9 +1,11 @@
 <script>
 	export default {
 		onLaunch: function() {
+			this.checkToken()
 			console.log('App Launch')
 		},
 		onShow: function() {
+			
 			console.log('App Show')
 		},
 		onHide: function() {

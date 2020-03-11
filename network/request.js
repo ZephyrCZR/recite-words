@@ -1,6 +1,6 @@
 let TOKEN = uni.getStorageSync('TOKEN')
 if(!TOKEN) TOKEN = '0'
-const baseURL = 'http://127.0.0.1:5230/zrizc'
+const baseURL = 'http://192.168.0.105:5230/zrizc'
 
 const post = function(path, body) {	
 	return new Promise((resolve, reject) => {
