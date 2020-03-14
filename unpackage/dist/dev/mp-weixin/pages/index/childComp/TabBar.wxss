@@ -1,7 +1,7 @@
 
-.tab_bar {
-		/* background-color:#3F536E; */
+.my-tab-bar {
 		position: absolute;
+		z-index: 233;
 		height: 96rpx;
 		width: 100%;
 		display: -webkit-box;
@@ -12,7 +12,7 @@
 		bottom: 0;
 		left: 0;
 }
-.tab_icon {
+.tab-icon {
 		line-height: 96rpx;
 		font-size: 24px;
 }

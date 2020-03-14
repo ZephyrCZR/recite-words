@@ -1,5 +1,5 @@
 <template>
-	<view id="register">
+	<view class="register">
 		<!-- 头部LOGO -->
 		<logo></logo>
 		<!-- 表单 -->
@@ -26,7 +26,7 @@
 	import wButton from 'components/watch-login/watch-button.vue';
 	
 	import {expTest} from 'common/utils.js'
-	import {register,getMessage} from 'network/user.js'
+	import {register,getMessage} from 'network/logAndReg.js'
 
 	export default {
 		components: {
@@ -73,7 +73,9 @@
 							title: '验证码已发送，请注意查收'
 						});
 						//保存token
+						
 						uni.setStorageSync('TempToken', res.data.temptoken)
+					 console.log(uni.getStorageSync('TempToken'))	 //不加这个TempToken有时存不进去？？？？？
 
 					} else {
 						uni.showToast({
@@ -156,10 +158,16 @@
 						this.isRotate = false
 						return false
 					}					
-					
+					if(!success.data.token){
+						// 获取不到用户信息,让用户重新登录
+						uni.redirectTo({
+							url:'/pages/login/login/login'
+						})
+					}
 					//注册成功：
+				
 					uni.setStorageSync('TOKEN', success.data.token)
-
+				
 					uni.showToast({
 						icon: 'success',
 						position: 'center',
@@ -186,10 +194,8 @@
 	}
 </script>
 
-<style>
-	@import url("../../../components/watch-login/css/icon.css");
-
-	#register {
+<style scoped>
+	.register {
 		height: 100vh;
 		display: flex;
 		flex-direction: column;

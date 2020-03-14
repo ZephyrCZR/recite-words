@@ -1,0 +1,1 @@
+<view class="cu-modal bottom-modal show"><view class="cu-dialog"><view class="cu-bar bg-white"><view data-event-opts="{{[['tap',[['confirm',['$event']]]]]}}" class="action text-red" bindtap="__e">确定</view><view data-event-opts="{{[['tap',[['cancel',['$event']]]]]}}" class="action text-green" bindtap="__e">取消</view></view><view class="padding-xl">删除该词书</view></view></view>

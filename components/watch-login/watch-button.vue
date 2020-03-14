@@ -40,7 +40,7 @@
 </script>
 
 <style>
-	@import url("./css/icon.css");
+
 	
 	.dlbutton {
 		color: #FFFFFF;

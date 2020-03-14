@@ -2,9 +2,11 @@
   "disableScroll": true,
   "usingComponents": {
     "avatar": "/pages/index/childComp/Avatar",
-    "sign-in": "/pages/index/childComp/SignIn",
+    "clock-in": "/pages/index/childComp/ClockIn",
     "background-desc": "/pages/index/childComp/BackgroundDesc",
     "home-botton": "/pages/index/childComp/HomeBotton",
+    "popup": "/pages/index/childComp/Popup",
+    "panel": "/components/panel/panel",
     "tab-bar": "/pages/index/childComp/TabBar"
   }
 }

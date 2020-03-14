@@ -1,11 +1,16 @@
 <script>
+
+
 	export default {
 		onLaunch: function() {
-			this.checkToken()
+				//登录状态
+			this.checkLogin()
 			console.log('App Launch')
+
 		},
 		onShow: function() {
-			
+
+
 			console.log('App Show')
 		},
 		onHide: function() {
@@ -16,7 +21,11 @@
 
 <style>
 	/*每个页面公共css */
+	/* @import url("./uni.scss"); */
+	
+	@import "colorui/main.css";
+	@import "colorui/icon.css";
+
 	@import url("/static/css/iconfont/iconfont.css");
 	@import url("/static/css/base.css");
-
 </style>

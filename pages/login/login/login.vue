@@ -1,9 +1,9 @@
 <template>
-	<view id="login">
+	<view class="my-login">
 		<!-- 头部LOGO -->
 		<logo></logo>
 		<!-- 表单 -->
-		<view class="main">
+		<view class="my-main">
 			<wInput v-model="phone" type="text" maxlength="11" placeholder="用户名/手机号码"></wInput>
 			<wInput v-model="password" type="password" maxlength="11" placeholder="密码"></wInput>
 
@@ -11,7 +11,7 @@
 		</view>
 
 		<!-- 底部信息 -->
-		<view class="footer">
+		<view class="my-footer">
 			<navigator url="forget" open-type="navigate">找回密码</navigator>
 			<text>|</text>
 			<navigator url="../register/register" open-type="navigate">注册账号</navigator>
@@ -24,8 +24,12 @@
 	import wInput from 'components/watch-login/watch-input.vue';
 	import wButton from 'components/watch-login/watch-button.vue';
 
-	import {expTest} from 'common/utils.js'
-	import {login} from 'network/user.js'
+	import {
+		expTest
+	} from 'common/utils.js'
+	import {
+		login
+	} from 'network/logAndReg.js'
 
 	export default {
 		data() {
@@ -90,7 +94,7 @@
 					}
 					uni.setStorageSync('UserInfo', success.data.userInfo)
 					uni.setStorageSync('TOKEN', success.data.token)
-					
+
 					uni.showToast({
 						duration: 2000,
 						icon: 'success',
@@ -98,11 +102,13 @@
 						title: "登录成功",
 						mask: true,
 						complete: () => {
-						this.checkToken()
+							uni.redirectTo({
+								url: '/pages/index/index'
+							})
 						}
 					});
 
-				}, (error) => {					
+				}, (error) => {
 					this.isRotate = false
 					uni.hideLoading();
 					uni.showToast({
@@ -117,14 +123,15 @@
 </script>
 
 <style>
-	#login {
+	.my-login {
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+
 	}
 
-	.main {
+	.my-main {
 		margin-top: 84rpx;
 		height: 500rpx;
 		width: 540rpx;
@@ -134,7 +141,7 @@
 	}
 
 	/* 底部 */
-	.footer {
+	.my-footer {
 		position: absolute;
 		bottom: 66rpx;
 		width: 100%;
@@ -149,7 +156,7 @@
 		line-height: 40rpx;
 	}
 
-	.footer text {
+	.my-footer text {
 		font-size: 24rpx;
 		margin-left: 15rpx;
 		margin-right: 15rpx;

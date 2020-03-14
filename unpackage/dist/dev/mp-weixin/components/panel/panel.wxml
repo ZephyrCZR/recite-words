@@ -1,0 +1,1 @@
+<view hidden="{{!(isShow)}}" class="panel-bg-mask" id="panel"><view data-event-opts="{{[['tap',[['onTap',['$event']]]]]}}" class="panel-control-block " bindtap="__e"><text class="panel-fold-bar"></text></view><view class="panel-content "><slot></slot></view></view>

@@ -1,9 +1,9 @@
 <template>
-	<view class="tab_bar mask">
-		<view class="search"><span class="iconfont icon-search tab_icon"></span></view>	
-		<view class="books"><span class="iconfont icon-shengyijing tab_icon"></span></view>	
-		<view class="settings"><span class="iconfont icon-flag tab_icon"></span></view>					
-		<view class="theme"><span class="iconfont icon-integral tab_icon"></span></view>
+	<view class="my-tab-bar base-mask">
+		<view class="search" @tap="toSea"><span class="iconfont icon-search tab-icon"></span></view>	
+		<view class="books" @tap="toBoo"><span class="iconfont icon-shengyijing tab-icon"></span></view>	
+		<view class="settings" @tap="toSet"><span class="iconfont icon-flag tab-icon"></span></view>					
+		<view class="theme" @tap="toThe"><span class="iconfont icon-integral tab-icon"></span></view>
 	</view>
 </template>
 
@@ -16,15 +16,28 @@
 			}
 		},
 		methods: {
-			
+			toSea() {
+				this.$emit("toSea")
+			},
+			toBoo() {
+				uni.navigateTo({
+					url:'/pages/books/books'
+				})
+			},
+			toSet() {
+				this.$emit("toSet")
+			},
+			toThe() {
+				this.$emit("toThe")
+			}
 		}
 	}
 </script>
 
 <style>
-.tab_bar {
-		/* background-color:#3F536E; */
+.my-tab-bar {
 		position: absolute;
+		z-index: 233;
 		height: 96rpx;
 		width: 100%;
 		display: flex;
@@ -33,7 +46,7 @@
 		left: 0;
 	}
 	
-	.tab_icon {
+	.tab-icon {
 		line-height: 96rpx;
 		font-size: 24px;
 	}

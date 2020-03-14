@@ -1,23 +1,43 @@
 
 	/* 部分组件、子组件依赖此样式表 */
-	.bg_image {
+	.base-bg-image {
 		height: 100vh;
 		background-image: url(http://attach.bbs.miui.com/forum/201406/28/011404x55gqgsuaufp95sq.jpg);
 		background-size:cover;
 		background-repeat: no-repeat;	
 	}
-	.mask {
+	.base-mask {
 		backdrop-filter: blur(12rpx);
 		background-color: rgba(255,255,255,0.6);
 	}
-	.text {
-		font-size: 40rpx;
+	.base-text {
+		font-size: 42rpx;
 		line-height: 60rpx;
 		/* color: #007AFF; */
 		/* padding: 20rpx; */
 	}
-	.count{
+	.base-bg-color{
+		background-color: #fafafa;
+	}
+	.base-text-primary{
 		font-size: 36rpx;
+	}
+	.base-text-sub{
+		font-size: 30rpx;		
+	}
+	.base-text-thin{
+		font-size: 26rpx;
+	}
+	.base-color-primary{
+		color: #36322d;
+	}
+	.base-color-sub{
+		color: #75695e;
+	}	
+	.base-color-reversal{
+		color: #c7b9a4;
+	}
+	.base-color-focus{
 		color: #DD524D;
 	}
 	

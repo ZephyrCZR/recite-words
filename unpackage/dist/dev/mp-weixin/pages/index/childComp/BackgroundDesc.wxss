@@ -1,5 +1,5 @@
 
-.bg_dec {
+.bg-dec {
 		display: -webkit-box;
 		display: -webkit-flex;
 		display: flex;
@@ -12,13 +12,13 @@
 		        align-items: center;
 		font-weight: bold;
 }
-.bg_dec>.bg_word {
+.bg-word {
 		/* background-color: #4CD964; */
 		font-size: 88rpx;
 		padding-bottom: 30rpx;
 		line-height: 88rpx;
 }
-.bg_dec>.bg_par {
+.bg-par {
 		/* background-color: #007AFF; */
 		font-size: 34rpx;
 		line-height: 40rpx;

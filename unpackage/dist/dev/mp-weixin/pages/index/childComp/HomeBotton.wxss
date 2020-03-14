@@ -1,5 +1,5 @@
 
-.button {
+.my-button {
 		display: -webkit-box;
 		display: -webkit-flex;
 		display: flex;
@@ -15,8 +15,9 @@
 		        flex-direction:column;
 		border-radius: 10rpx;		
 		padding-left: 50rpx;
+		line-height: 60rpx;
 }
-.buttons {
+.my-buttons {
 		display: -webkit-box;
 		display: -webkit-flex;
 		display: flex;		

@@ -9,30 +9,38 @@
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni, createApp) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 9));
 
-_vue.default.config.productionTip = false;
+
+
+var _server = __webpack_require__(/*! network/server.js */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}_vue.default.config.productionTip = false;
 
 // 判断登陆状态，无登录则跳转到登录页, 已登录跳转到首页
-_vue.default.prototype.checkToken = function () {
+_vue.default.prototype.checkLogin = function () {
   console.log("调用了checkLogin方法");
   var TOKEN = uni.getStorageSync('TOKEN');
   var UserInfo = uni.getStorageSync('UserInfo');
-  if (TOKEN !== '') {
+
+  if (TOKEN && !UserInfo) {//如果token存在但是用户信息不存在
+    console.log("用户信息丢失，尝试重新获取");
+    (0, _server.getUserInfo)();
+  }
+
+  if (TOKEN == '') {
+    console.log("未登录");
     uni.redirectTo({
       url: '/pages/login/login/login' });
 
     return false;
+  } else {
+    return true;
   }
-  uni.redirectTo({
-    url: '/pages/index/index' });
-
 };
-
 
 _App.default.mpType = 'app';
 
 var app = new _vue.default(_objectSpread({},
+
 _App.default));
 
 createApp(app).$mount();
@@ -112,12 +120,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
+
+
 {
   onLaunch: function onLaunch() {
-    this.checkToken();
+    //登录状态
+    this.checkLogin();
     console.log('App Launch');
+
   },
   onShow: function onShow() {
+
 
     console.log('App Show');
   },

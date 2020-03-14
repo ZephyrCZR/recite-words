@@ -1,15 +1,31 @@
-import { uniReq } from "./request";
+import {
+	get,
+	post
+} from "./request";
 
-//获取背景图，背景图片描述
-export function getBackgroundImg() {
-  return uniReq.get ('/home/bg')
+const INFO = uni.getStorageSync('UserInfo')
+console.log(INFO.calendar)
+// console.log(INFO.calendar[0])
+
+//获取词书状态信息
+export function getBookInfo(book_id) {
+	return get('/word/download', {
+		book_id
+	})
 }
 
-export function syncData() {
-  return uniReq.post ('/home/upload')
+//每日初始化，并且获取用户信息表
+export function dailyInit() {
+	return post('/home/init',{
+		_id: INFO._id,
+		calendar: INFO.calendar[0]
+	})
 }
 
-export function loadData() {
-  return uniReq.post ('/home/loaddata')
+//打卡
+export function clockIn() {
+	return get('/home/clock', {
+		user_id: INFO._id
+	})
 }
 

@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/login/login/login",
     "pages/login/register/register",
-    "pages/recite/recite"
+    "pages/recite/recite",
+    "pages/books/books"
   ],
   "subPackages": [],
   "window": {

@@ -1,0 +1,10 @@
+
+.book-swiper {
+	margin-top: 20rpx;
+}
+.books-content {
+	width: 100%;
+	height: 100%;
+	background-color: #007AFF
+}
+

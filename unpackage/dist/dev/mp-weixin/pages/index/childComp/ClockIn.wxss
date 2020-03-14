@@ -1,0 +1,73 @@
+
+.cuIcon-loading1 {
+	color: #333333;
+	font-size: 80rpx;
+}
+.my-sign-in {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
+	height: 300rpx;
+	width: 300rpx;
+	border-radius: 20%;
+}
+.my-sign-icon {
+	margin-top: 40rpx;
+	line-height: 70rpx;
+	font-size: 30px;
+}
+.my-date {
+	font-size: 30rpx;
+	color: #808080;
+}
+.my-touch {
+	color: #808080;
+}
+.dlbutton_loading {
+
+	height: 200rpx;
+	width: 200rpx;
+	color: #333333;
+	font-size: 80rpx;
+	border-radius: 50%;
+	text-align: center;
+	margin: 50rpx;
+}
+
+/* 旋转动画 */
+.rotate_loop {
+	-webkit-transition-property: -webkit-transform;
+	-webkit-transition-duration: 1s;
+	-moz-transition-property: -moz-transform;
+	-moz-transition-duration: 1s;
+	-webkit-animation: rotate 1s linear infinite;
+	animation: rotate 1s linear infinite;
+}
+@-webkit-keyframes rotate {
+from {
+		-webkit-transform: rotate(0deg)
+}
+to {
+		-webkit-transform: rotate(360deg)
+}
+}
+@keyframes rotate {
+from {
+		-webkit-transform: rotate(0deg);
+		        transform: rotate(0deg)
+}
+to {
+		-webkit-transform: rotate(359deg);
+		        transform: rotate(359deg)
+}
+}
+

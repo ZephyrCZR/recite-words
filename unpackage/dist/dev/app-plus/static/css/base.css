@@ -10,6 +10,7 @@
 		backdrop-filter: blur(12rpx);
 		background-color: rgba(255,255,255,0.6);
 	}
+	
 	.text {
 		font-size: 40rpx;
 		line-height: 60rpx;

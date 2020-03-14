@@ -1,0 +1,9 @@
+{
+  "navigationBarTextStyle": "black",
+  "backgroundColor": "#ff0000",
+  "usingComponents": {
+    "nav-bar": "/components/navbar/NavBar",
+    "book-swiper": "/pages/books/childComp/BookSwiper",
+    "bottom-modal": "/pages/books/childComp/BottomModal"
+  }
+}

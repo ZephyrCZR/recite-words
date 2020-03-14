@@ -1,6 +1,6 @@
-(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
-
-/***/ 1:
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],[
+/* 0 */,
+/* 1 */
 /*!************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js ***!
   \************************************************************/
@@ -8,7 +8,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createComponent = createComponent;exports.createPage = createPage;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance");}function _iterableToArrayLimit(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}
+Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createComponent = createComponent;exports.createPage = createPage;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance");}function _iterableToArrayLimit(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}
 
 var _toString = Object.prototype.toString;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -1327,9 +1327,10 @@ function parseBaseComponent(vueComponentOptions)
 {var _ref5 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},isPage = _ref5.isPage,initRelation = _ref5.initRelation;var _initVueComponent =
   initVueComponent(_vue.default, vueComponentOptions),_initVueComponent2 = _slicedToArray(_initVueComponent, 2),VueComponent = _initVueComponent2[0],vueOptions = _initVueComponent2[1];
 
-  var options = {
+  var options = _objectSpread({
     multipleSlots: true,
-    addGlobalClass: true };
+    addGlobalClass: true },
+  vueOptions.options || {});
 
 
   {
@@ -1550,153 +1551,7 @@ var uni$1 = uni;var _default =
 uni$1;exports.default = _default;
 
 /***/ }),
-
-/***/ 118:
-/*!****************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/common/utils.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.expTest = expTest; //正则匹配，type：phone，password 
-function expTest(type, string) {
-  console.log(type);
-  var exp = new RegExp();
-  if (type == 'phone') {
-    exp = new RegExp("^1(3|4|5|7|8)\\d{9}$");
-  }
-  if (type == 'password') {
-    exp = new RegExp("^[a-zA-Z]\\w{5,17}$");
-  }
-
-  return exp.test(string);
-}
-
-/***/ }),
-
-/***/ 14:
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    options.components = Object.assign(components, options.components || {})
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-
-/***/ 2:
+/* 2 */
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -1707,7 +1562,7 @@ function normalizeComponent (
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(global) {/*!
  * Vue.js v2.6.11
- * (c) 2014-2019 Evan You
+ * (c) 2014-2020 Evan You
  * Released under the MIT License.
  */
 /*  */
@@ -7330,7 +7185,7 @@ var patch = function(oldVnode, vnode) {
     Object.keys(data).forEach(function (key) { //仅同步 data 中有的数据
       mpData[key] = mpInstance.data[key];
     });
-    var diffData = diff(data, mpData);
+    var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
       if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
@@ -7505,12 +7360,11 @@ function getTarget(obj, path) {
 function internalMixin(Vue) {
 
   Vue.config.errorHandler = function(err) {
+    console.error(err);
     /* eslint-disable no-undef */
     var app = getApp();
     if (app && app.onError) {
       app.onError(err);
-    } else {
-      console.error(err);
     }
   };
 
@@ -7726,373 +7580,7 @@ internalMixin(Vue);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
 
 /***/ }),
-
-/***/ 21:
-/*!****************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/user.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.login = login;exports.register = register;exports.getMessage = getMessage;var request = __webpack_require__(/*! ./request */ 22);
-var sha256 = __webpack_require__(/*! sha256 */ 23);
-
-var TEMP_TOKEN = uni.getStorageSync('TempToken');
-
-//获取背景图，背景图片描述
-function login(options) {
-  var key = sha256(options.password + "zengchun529");
-  return request.post('/login', {
-    phone: options.phone,
-    password: key });
-
-}
-
-function register(options) {
-  var key = sha256(options.password + "zengchun529");
-  return request.post('/register', {
-    phone: options.phone,
-    password: key,
-    code: options.code,
-    token: TEMP_TOKEN });
-
-}
-
-function getMessage(options) {
-  return request.post('/getmsg', options);
-}
-
-
-// export function resetpassword() {
-// 	return uniReq.post('/home/loaddata')
-// }
-
-
-module.exports = { login: login, register: register, getMessage: getMessage };
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 22:
-/*!*******************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/request.js ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {var TOKEN = uni.getStorageSync('TOKEN');
-if (!TOKEN) TOKEN = '0';
-var baseURL = 'http://192.168.0.105:5230/zrizc';
-
-var post = function post(path, body) {
-  return new Promise(function (resolve, reject) {
-    console.log(baseURL + path);
-    uni.request({
-      method: 'POST',
-      url: baseURL + path,
-      data: body,
-      header: {
-        'Authorization': TOKEN },
-
-      success: function success(res) {
-        resolve(res);
-      },
-      fail: function fail(err) {
-        reject(err);
-      } });
-
-  });
-};
-var get = function get(path, body) {
-  return new Promise(function (resolve, reject) {
-    console.log(baseURL + path);
-    uni.request({
-      method: 'GET',
-      url: baseURL + path,
-      data: body,
-      header: {
-        'Authorization': TOKEN },
-
-      success: function success(res) {
-        resolve(res);
-      },
-      fail: function fail(err) {
-        reject(err);
-      } });
-
-  });
-};
-
-module.exports = { post: post, get: get };
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 23:
-/*!**********************************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/sha256/lib/sha256.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-!function (globals) {
-  'use strict';
-
-  var _imports = {};
-
-  if ( true && module.exports) {//CommonJS
-    _imports.bytesToHex = __webpack_require__(/*! convert-hex */ 24).bytesToHex;
-    _imports.convertString = __webpack_require__(/*! convert-string */ 25);
-    module.exports = sha256;
-  } else {
-    _imports.bytesToHex = globals.convertHex.bytesToHex;
-    _imports.convertString = globals.convertString;
-    globals.sha256 = sha256;
-  }
-
-  /*
-    CryptoJS v3.1.2
-    code.google.com/p/crypto-js
-    (c) 2009-2013 by Jeff Mott. All rights reserved.
-    code.google.com/p/crypto-js/wiki/License
-    */
-
-  // Initialization round constants tables
-  var K = [];
-
-  // Compute constants
-  !function () {
-    function isPrime(n) {
-      var sqrtN = Math.sqrt(n);
-      for (var factor = 2; factor <= sqrtN; factor++) {
-        if (!(n % factor)) return false;
-      }
-
-      return true;
-    }
-
-    function getFractionalBits(n) {
-      return (n - (n | 0)) * 0x100000000 | 0;
-    }
-
-    var n = 2;
-    var nPrime = 0;
-    while (nPrime < 64) {
-      if (isPrime(n)) {
-        K[nPrime] = getFractionalBits(Math.pow(n, 1 / 3));
-        nPrime++;
-      }
-
-      n++;
-    }
-  }();
-
-  var bytesToWords = function bytesToWords(bytes) {
-    var words = [];
-    for (var i = 0, b = 0; i < bytes.length; i++, b += 8) {
-      words[b >>> 5] |= bytes[i] << 24 - b % 32;
-    }
-    return words;
-  };
-
-  var wordsToBytes = function wordsToBytes(words) {
-    var bytes = [];
-    for (var b = 0; b < words.length * 32; b += 8) {
-      bytes.push(words[b >>> 5] >>> 24 - b % 32 & 0xFF);
-    }
-    return bytes;
-  };
-
-  // Reusable object
-  var W = [];
-
-  var processBlock = function processBlock(H, M, offset) {
-    // Working variables
-    var a = H[0],b = H[1],c = H[2],d = H[3];
-    var e = H[4],f = H[5],g = H[6],h = H[7];
-
-    // Computation
-    for (var i = 0; i < 64; i++) {
-      if (i < 16) {
-        W[i] = M[offset + i] | 0;
-      } else {
-        var gamma0x = W[i - 15];
-        var gamma0 = (gamma0x << 25 | gamma0x >>> 7) ^ (
-        gamma0x << 14 | gamma0x >>> 18) ^
-        gamma0x >>> 3;
-
-        var gamma1x = W[i - 2];
-        var gamma1 = (gamma1x << 15 | gamma1x >>> 17) ^ (
-        gamma1x << 13 | gamma1x >>> 19) ^
-        gamma1x >>> 10;
-
-        W[i] = gamma0 + W[i - 7] + gamma1 + W[i - 16];
-      }
-
-      var ch = e & f ^ ~e & g;
-      var maj = a & b ^ a & c ^ b & c;
-
-      var sigma0 = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22);
-      var sigma1 = (e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25);
-
-      var t1 = h + sigma1 + ch + K[i] + W[i];
-      var t2 = sigma0 + maj;
-
-      h = g;
-      g = f;
-      f = e;
-      e = d + t1 | 0;
-      d = c;
-      c = b;
-      b = a;
-      a = t1 + t2 | 0;
-    }
-
-    // Intermediate hash value
-    H[0] = H[0] + a | 0;
-    H[1] = H[1] + b | 0;
-    H[2] = H[2] + c | 0;
-    H[3] = H[3] + d | 0;
-    H[4] = H[4] + e | 0;
-    H[5] = H[5] + f | 0;
-    H[6] = H[6] + g | 0;
-    H[7] = H[7] + h | 0;
-  };
-
-  function sha256(message, options) {;
-    if (message.constructor === String) {
-      message = _imports.convertString.UTF8.stringToBytes(message);
-    }
-
-    var H = [0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
-    0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19];
-
-    var m = bytesToWords(message);
-    var l = message.length * 8;
-
-    m[l >> 5] |= 0x80 << 24 - l % 32;
-    m[(l + 64 >> 9 << 4) + 15] = l;
-
-    for (var i = 0; i < m.length; i += 16) {
-      processBlock(H, m, i);
-    }
-
-    var digestbytes = wordsToBytes(H);
-    return options && options.asBytes ? digestbytes :
-    options && options.asString ? _imports.convertString.bytesToString(digestbytes) :
-    _imports.bytesToHex(digestbytes);
-  }
-
-  sha256.x2 = function (message, options) {
-    return sha256(sha256(message, { asBytes: true }), options);
-  };
-
-}(void 0);
-
-/***/ }),
-
-/***/ 24:
-/*!****************************************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/convert-hex/convert-hex.js ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-!function (globals) {
-  'use strict';
-
-  var convertHex = {
-    bytesToHex: function bytesToHex(bytes) {
-      /*if (typeof bytes.byteLength != 'undefined') {
-                                              var newBytes = []
-                                               if (typeof bytes.buffer != 'undefined')
-                                                bytes = new DataView(bytes.buffer)
-                                              else
-                                                bytes = new DataView(bytes)
-                                               for (var i = 0; i < bytes.byteLength; ++i) {
-                                                newBytes.push(bytes.getUint8(i))
-                                              }
-                                              bytes = newBytes
-                                            }*/
-
-
-      return arrBytesToHex(bytes);
-    },
-    hexToBytes: function hexToBytes(hex) {
-      if (hex.length % 2 === 1) throw new Error("hexToBytes can't have a string with an odd number of characters.");
-      if (hex.indexOf('0x') === 0) hex = hex.slice(2);
-      return hex.match(/../g).map(function (x) {return parseInt(x, 16);});
-    }
-
-
-
-    // PRIVATE
-  };
-  function arrBytesToHex(bytes) {
-    return bytes.map(function (x) {return padLeft(x.toString(16), 2);}).join('');
-  }
-
-  function padLeft(orig, len) {
-    if (orig.length > len) return orig;
-    return Array(len - orig.length + 1).join('0') + orig;
-  }
-
-
-  if ( true && module.exports) {//CommonJS
-    module.exports = convertHex;
-  } else {
-    globals.convertHex = convertHex;
-  }
-
-}(void 0);
-
-/***/ }),
-
-/***/ 25:
-/*!**********************************************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/convert-string/convert-string.js ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-!function (globals) {
-  'use strict';
-
-  var convertString = {
-    bytesToString: function bytesToString(bytes) {
-      return bytes.map(function (x) {return String.fromCharCode(x);}).join('');
-    },
-    stringToBytes: function stringToBytes(str) {
-      return str.split('').map(function (x) {return x.charCodeAt(0);});
-    }
-
-
-    //http://hossa.in/2012/07/20/utf-8-in-javascript.html
-  };convertString.UTF8 = {
-    bytesToString: function bytesToString(bytes) {
-      return decodeURIComponent(escape(convertString.bytesToString(bytes)));
-    },
-    stringToBytes: function stringToBytes(str) {
-      return convertString.stringToBytes(unescape(encodeURIComponent(str)));
-    } };
-
-
-  if ( true && module.exports) {//CommonJS
-    module.exports = convertString;
-  } else {
-    globals.convertString = convertString;
-  }
-
-}(void 0);
-
-/***/ }),
-
-/***/ 3:
+/* 3 */
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
   \***********************************/
@@ -8122,8 +7610,7 @@ module.exports = g;
 
 
 /***/ }),
-
-/***/ 4:
+/* 4 */
 /*!***********************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages.json ***!
   \***********************************************************/
@@ -8134,8 +7621,7 @@ module.exports = g;
 
 
 /***/ }),
-
-/***/ 5:
+/* 5 */
 /*!*******************************************************!*\
   !*** ./node_modules/@dcloudio/uni-stat/dist/index.js ***!
   \*******************************************************/
@@ -9021,19 +8507,17 @@ main();
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-
-/***/ 6:
+/* 6 */
 /*!******************************************************!*\
   !*** ./node_modules/@dcloudio/uni-stat/package.json ***!
   \******************************************************/
 /*! exports provided: _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _shasum, _spec, _where, author, bugs, bundleDependencies, deprecated, description, devDependencies, files, gitHead, homepage, license, main, name, repository, scripts, version, default */
 /***/ (function(module) {
 
-module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2.0.0-alpha-25720200116005","_inBundle":false,"_integrity":"sha512-RZFw3WAaS/CZTzzv9JPaWvmoNitojD/06vPdHSzlqZi8GbuE222lFuyochEjrGkG8rPPrWHAnwfoPBuQVtkfdg==","_location":"/@dcloudio/uni-stat","_phantomChildren":{},"_requested":{"type":"tag","registry":true,"raw":"@dcloudio/uni-stat@alpha","name":"@dcloudio/uni-stat","escapedName":"@dcloudio%2funi-stat","scope":"@dcloudio","rawSpec":"alpha","saveSpec":null,"fetchSpec":"alpha"},"_requiredBy":["#USER","/","/@dcloudio/vue-cli-plugin-uni"],"_resolved":"https://registry.npmjs.org/@dcloudio/uni-stat/-/uni-stat-2.0.0-alpha-25720200116005.tgz","_shasum":"08bb17aba91c84a981f33d74153aa3dd07b578ad","_spec":"@dcloudio/uni-stat@alpha","_where":"/Users/guoshengqiang/Documents/dcloud-plugins/alpha/uniapp-cli","author":"","bugs":{"url":"https://github.com/dcloudio/uni-app/issues"},"bundleDependencies":false,"deprecated":false,"description":"","devDependencies":{"@babel/core":"^7.5.5","@babel/preset-env":"^7.5.5","eslint":"^6.1.0","rollup":"^1.19.3","rollup-plugin-babel":"^4.3.3","rollup-plugin-clear":"^2.0.7","rollup-plugin-commonjs":"^10.0.2","rollup-plugin-copy":"^3.1.0","rollup-plugin-eslint":"^7.0.0","rollup-plugin-json":"^4.0.0","rollup-plugin-node-resolve":"^5.2.0","rollup-plugin-replace":"^2.2.0","rollup-plugin-uglify":"^6.0.2"},"files":["dist","package.json","LICENSE"],"gitHead":"a129bde60de35f7ef497f43d5a45b4556231995c","homepage":"https://github.com/dcloudio/uni-app#readme","license":"Apache-2.0","main":"dist/index.js","name":"@dcloudio/uni-stat","repository":{"type":"git","url":"git+https://github.com/dcloudio/uni-app.git","directory":"packages/uni-stat"},"scripts":{"build":"NODE_ENV=production rollup -c rollup.config.js","dev":"NODE_ENV=development rollup -w -c rollup.config.js"},"version":"2.0.0-alpha-25720200116005"};
+module.exports = {"_from":"@dcloudio/uni-stat@next","_id":"@dcloudio/uni-stat@2.0.0-26420200313001","_inBundle":false,"_integrity":"sha512-7dPuazTiDmUyRcw+WW+UlWGKH0eeCUB+p0P4pJVKEHjpdXnXgvDQCSdJk764NH99TfsUycnuxecP5oHckVa88g==","_location":"/@dcloudio/uni-stat","_phantomChildren":{},"_requested":{"type":"tag","registry":true,"raw":"@dcloudio/uni-stat@next","name":"@dcloudio/uni-stat","escapedName":"@dcloudio%2funi-stat","scope":"@dcloudio","rawSpec":"next","saveSpec":null,"fetchSpec":"next"},"_requiredBy":["#USER","/","/@dcloudio/vue-cli-plugin-uni"],"_resolved":"https://registry.npmjs.org/@dcloudio/uni-stat/-/uni-stat-2.0.0-26420200313001.tgz","_shasum":"a006e329e033cd412accfa635f8933dbb822a9c3","_spec":"@dcloudio/uni-stat@next","_where":"/Users/guoshengqiang/Documents/dcloud-plugins/release/uniapp-cli","author":"","bugs":{"url":"https://github.com/dcloudio/uni-app/issues"},"bundleDependencies":false,"deprecated":false,"description":"","devDependencies":{"@babel/core":"^7.5.5","@babel/preset-env":"^7.5.5","eslint":"^6.1.0","rollup":"^1.19.3","rollup-plugin-babel":"^4.3.3","rollup-plugin-clear":"^2.0.7","rollup-plugin-commonjs":"^10.0.2","rollup-plugin-copy":"^3.1.0","rollup-plugin-eslint":"^7.0.0","rollup-plugin-json":"^4.0.0","rollup-plugin-node-resolve":"^5.2.0","rollup-plugin-replace":"^2.2.0","rollup-plugin-uglify":"^6.0.2"},"files":["dist","package.json","LICENSE"],"gitHead":"b1fdbafab5dd4673cff64188a5203d0c947e4f50","homepage":"https://github.com/dcloudio/uni-app#readme","license":"Apache-2.0","main":"dist/index.js","name":"@dcloudio/uni-stat","repository":{"type":"git","url":"git+https://github.com/dcloudio/uni-app.git","directory":"packages/uni-stat"},"scripts":{"build":"NODE_ENV=production rollup -c rollup.config.js","dev":"NODE_ENV=development rollup -w -c rollup.config.js"},"version":"2.0.0-26420200313001"};
 
 /***/ }),
-
-/***/ 7:
+/* 7 */
 /*!****************************************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages.json?{"type":"style"} ***!
   \****************************************************************************/
@@ -9041,11 +8525,10 @@ module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/login/register/register": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black", "usingComponents": { "logo": "/pages/login/childComp/Logo", "w-input": "/components/watch-login/watch-input", "w-button": "/components/watch-login/watch-button" }, "usingAutoImportComponents": {} }, "pages/index/index": { "disableScroll": true, "usingComponents": { "avatar": "/pages/index/childComp/Avatar", "sign-in": "/pages/index/childComp/SignIn", "background-desc": "/pages/index/childComp/BackgroundDesc", "home-botton": "/pages/index/childComp/HomeBotton", "tab-bar": "/pages/index/childComp/TabBar" }, "usingAutoImportComponents": {} }, "pages/recite/recite": { "disableScroll": true, "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/login/login": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black", "usingComponents": { "logo": "/pages/login/childComp/Logo", "w-input": "/components/watch-login/watch-input", "w-button": "/components/watch-login/watch-button" }, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationStyle": "custom" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "disableScroll": true }, "pages/login/login/login": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" }, "pages/login/register/register": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" }, "pages/recite/recite": { "disableScroll": true }, "pages/books/books": { "navigationBarTextStyle": "black", "backgroundColor": "#ff0000" } }, "globalStyle": { "navigationStyle": "custom" } };exports.default = _default;
 
 /***/ }),
-
-/***/ 8:
+/* 8 */
 /*!***************************************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages.json?{"type":"stat"} ***!
   \***************************************************************************/
@@ -9055,7 +8538,729 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "appid": "__UNI__7823060" };exports.default = _default;
 
-/***/ })
+/***/ }),
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-}]);
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    options.components = Object.assign(components, options.components || {})
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 15 */
+/*!******************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/server.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getServerBookList = getServerBookList;exports.addUserBook = addUserBook;exports.getUserInfo = getUserInfo;var _request = __webpack_require__(/*! ./request */ 16);
+
+
+
+var uBooksList = uni.getStorageSync('UserInfo').book_list;
+var BookTypeList = [{
+  type: '我的',
+  list: [] },
+
+{
+  type: '大学',
+  list: [] },
+
+{
+  type: '出国',
+  list: [] },
+
+{
+  type: '高中',
+  list: [] },
+
+{
+  type: '初中',
+  list: [] },
+
+{
+  type: '小学',
+  list: [] },
+
+{
+  type: '实用',
+  list: [] },
+
+{
+  type: '其它',
+  list: [] }];
+
+
+
+//获取系统书库列表
+function getServerBookList() {
+  return new Promise(function (resolve) {
+    //判断本地缓存
+    var booksList = uni.getStorageSync('ServerBookList');
+    if (booksList) {
+      resolve();
+
+    } else {
+      //发送网络请求获取词书列表信息
+      (0, _request.get)('/server/getserverbooks').then(function (res) {
+        console.log(res);
+        //遍历请求结果，过滤用户已有的词书并分类数据
+        res.data.bookList.forEach(function (book) {
+          if (!checkUserBook(uBooksList, book.book_name)) {//判断用户是否拥有该词书
+            //进行分类
+            BookTypeList.forEach(function (category) {
+              if (book.book_type === category.type) {
+                category.list.push(book);
+              }
+            });
+          }
+        });
+        //获取用户词书信息				
+        BookTypeList[0].list = uBooksList;
+
+        //保存到本地
+        uni.setStorageSync('ServerBookList', BookTypeList);
+        console.log(BookTypeList);
+        resolve();
+      });
+    }
+  });
+}
+
+//添加词书
+function addUserBook(book_name) {
+  return new Promise(function (resolve) {
+    console.log(uBooksList);
+
+    //判断该词书是否已经存在用户词书列表里（后端也有判断的）
+    if (uBooksList && !checkUserBook(uBooksList, book_name)) {
+      (0, _request.get)('/word/addbook', {
+        'book_name': book_name }).
+      then(function (res) {
+
+        resolve(res);
+      });
+    } else {
+      resolve(false);
+    }
+  });
+}
+
+//获取用户信息
+function getUserInfo() {
+  return new Promise(function (resolve, reject) {
+    (0, _request.get)('/home/getUserInfo').then(function (suc) {
+      console.log(suc);
+      if (suc.data.uInfo) {
+        uni.setStorageSync('UserInfo', suc.data.uInfo);
+        console.log("获取用户信息成功");
+        resolve();
+      } else {
+        console.log("获取用户信息失败，请重新登录");
+        reject();
+      }
+    });
+  });
+}
+
+
+//判断该词书是否已经存在用户词书列表里（后端也有判断的）		
+function checkUserBook(uBooksList, book_name) {
+  var flag = false;
+  if (uBooksList) {
+    uBooksList.forEach(function (el) {
+      if (el.book_name === book_name) {
+        flag = true;
+      }
+    });
+  }
+
+  return flag;
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 16 */
+/*!*******************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/request.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {var TOKEN = uni.getStorageSync('TOKEN');
+if (!TOKEN) TOKEN = '0';
+var baseURL = 'http://192.168.0.105:5230/zrizc';
+
+var post = function post(path, body) {
+  return new Promise(function (resolve, reject) {
+    console.log(baseURL + path);
+    uni.request({
+      method: 'POST',
+      url: baseURL + path,
+      data: body,
+      header: {
+        'Authorization': TOKEN },
+
+      success: function success(res) {
+        resolve(res);
+      },
+      fail: function fail(err) {
+        reject(err);
+      } });
+
+  });
+};
+var get = function get(path, body) {
+  return new Promise(function (resolve, reject) {
+    console.log(baseURL + path);
+    uni.request({
+      method: 'GET',
+      url: baseURL + path,
+      data: body,
+      header: {
+        'Authorization': TOKEN },
+
+      success: function success(res) {
+        resolve(res);
+      },
+      fail: function fail(err) {
+        reject(err);
+      } });
+
+  });
+};
+
+module.exports = { post: post, get: get };
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */
+/*!****************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/common/utils.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.expTest = expTest;exports.dateFormat = dateFormat; //正则匹配，type：phone，password 
+function expTest(type, string) {
+  console.log(type);
+  var exp = new RegExp();
+  if (type == 'phone') {
+    exp = new RegExp("^1(3|4|5|7|8)\\d{9}$");
+  }
+  if (type == 'password') {
+    exp = new RegExp("^[a-zA-Z]\\w{5,17}$");
+  }
+  return exp.test(string);
+}
+
+//格式化时间戳
+function dateFormat(time) {
+  var date = new Date(time);
+  var arr = [];
+  arr.push(date.getFullYear());
+  arr.push(date.getMonth() + 1);
+  arr.push(date.getDate());
+  return arr.join('-');
+}
+
+/***/ }),
+/* 24 */
+/*!****************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/home.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getBookInfo = getBookInfo;exports.dailyInit = dailyInit;exports.clockIn = clockIn;var _request = __webpack_require__(/*! ./request */ 16);
+
+
+
+
+var INFO = uni.getStorageSync('UserInfo');
+console.log(INFO.calendar);
+// console.log(INFO.calendar[0])
+
+//获取词书状态信息
+function getBookInfo(book_id) {
+  return (0, _request.get)('/word/download', {
+    book_id: book_id });
+
+}
+
+//每日初始化，并且获取用户信息表
+function dailyInit() {
+  return (0, _request.post)('/home/init', {
+    _id: INFO._id,
+    calendar: INFO.calendar[0] });
+
+}
+
+//打卡
+function clockIn() {
+  return (0, _request.get)('/home/clock', {
+    user_id: INFO._id });
+
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */
+/*!*********************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/logAndReg.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.login = login;exports.register = register;exports.getMessage = getMessage;var _request = __webpack_require__(/*! ./request */ 16);
+
+
+
+var sha256 = __webpack_require__(/*! sha256 */ 34);
+
+
+
+//登录 并获取用户信息表 token
+function login(options) {
+  var key = sha256(options.password + "zengchun529");
+  return (0, _request.post)('/login', {
+    phone: options.phone,
+    password: key });
+
+}
+
+//注册 并获取用户信息表 token
+function register(options) {
+  var TEMP_TOKEN = uni.getStorageSync('TempToken');
+  if (TEMP_TOKEN) {
+    var key = sha256(options.password + "zengchun529");
+    return (0, _request.post)('/register', {
+      phone: options.phone,
+      password: key,
+      code: options.code,
+      token: TEMP_TOKEN });
+
+  } else {
+    return new Promise(function (resolve, reject) {
+      reject("网络繁忙，请重试"); //其实是没获取到临时token，让用户再获取一次
+    });
+  }
+
+}
+
+//获取短信验证码
+function getMessage(options) {
+  return (0, _request.post)('/getmsg', options);
+}
+
+//修改密码
+// export function resetpassword() {
+// 	return uniReq.post('/home/loaddata')
+// }
+
+
+module.exports = {
+  login: login,
+  register: register,
+  getMessage: getMessage };
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 34 */
+/*!**********************************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/sha256/lib/sha256.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+!function (globals) {
+  'use strict';
+
+  var _imports = {};
+
+  if ( true && module.exports) {//CommonJS
+    _imports.bytesToHex = __webpack_require__(/*! convert-hex */ 35).bytesToHex;
+    _imports.convertString = __webpack_require__(/*! convert-string */ 36);
+    module.exports = sha256;
+  } else {
+    _imports.bytesToHex = globals.convertHex.bytesToHex;
+    _imports.convertString = globals.convertString;
+    globals.sha256 = sha256;
+  }
+
+  /*
+    CryptoJS v3.1.2
+    code.google.com/p/crypto-js
+    (c) 2009-2013 by Jeff Mott. All rights reserved.
+    code.google.com/p/crypto-js/wiki/License
+    */
+
+  // Initialization round constants tables
+  var K = [];
+
+  // Compute constants
+  !function () {
+    function isPrime(n) {
+      var sqrtN = Math.sqrt(n);
+      for (var factor = 2; factor <= sqrtN; factor++) {
+        if (!(n % factor)) return false;
+      }
+
+      return true;
+    }
+
+    function getFractionalBits(n) {
+      return (n - (n | 0)) * 0x100000000 | 0;
+    }
+
+    var n = 2;
+    var nPrime = 0;
+    while (nPrime < 64) {
+      if (isPrime(n)) {
+        K[nPrime] = getFractionalBits(Math.pow(n, 1 / 3));
+        nPrime++;
+      }
+
+      n++;
+    }
+  }();
+
+  var bytesToWords = function bytesToWords(bytes) {
+    var words = [];
+    for (var i = 0, b = 0; i < bytes.length; i++, b += 8) {
+      words[b >>> 5] |= bytes[i] << 24 - b % 32;
+    }
+    return words;
+  };
+
+  var wordsToBytes = function wordsToBytes(words) {
+    var bytes = [];
+    for (var b = 0; b < words.length * 32; b += 8) {
+      bytes.push(words[b >>> 5] >>> 24 - b % 32 & 0xFF);
+    }
+    return bytes;
+  };
+
+  // Reusable object
+  var W = [];
+
+  var processBlock = function processBlock(H, M, offset) {
+    // Working variables
+    var a = H[0],b = H[1],c = H[2],d = H[3];
+    var e = H[4],f = H[5],g = H[6],h = H[7];
+
+    // Computation
+    for (var i = 0; i < 64; i++) {
+      if (i < 16) {
+        W[i] = M[offset + i] | 0;
+      } else {
+        var gamma0x = W[i - 15];
+        var gamma0 = (gamma0x << 25 | gamma0x >>> 7) ^ (
+        gamma0x << 14 | gamma0x >>> 18) ^
+        gamma0x >>> 3;
+
+        var gamma1x = W[i - 2];
+        var gamma1 = (gamma1x << 15 | gamma1x >>> 17) ^ (
+        gamma1x << 13 | gamma1x >>> 19) ^
+        gamma1x >>> 10;
+
+        W[i] = gamma0 + W[i - 7] + gamma1 + W[i - 16];
+      }
+
+      var ch = e & f ^ ~e & g;
+      var maj = a & b ^ a & c ^ b & c;
+
+      var sigma0 = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22);
+      var sigma1 = (e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25);
+
+      var t1 = h + sigma1 + ch + K[i] + W[i];
+      var t2 = sigma0 + maj;
+
+      h = g;
+      g = f;
+      f = e;
+      e = d + t1 | 0;
+      d = c;
+      c = b;
+      b = a;
+      a = t1 + t2 | 0;
+    }
+
+    // Intermediate hash value
+    H[0] = H[0] + a | 0;
+    H[1] = H[1] + b | 0;
+    H[2] = H[2] + c | 0;
+    H[3] = H[3] + d | 0;
+    H[4] = H[4] + e | 0;
+    H[5] = H[5] + f | 0;
+    H[6] = H[6] + g | 0;
+    H[7] = H[7] + h | 0;
+  };
+
+  function sha256(message, options) {;
+    if (message.constructor === String) {
+      message = _imports.convertString.UTF8.stringToBytes(message);
+    }
+
+    var H = [0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
+    0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19];
+
+    var m = bytesToWords(message);
+    var l = message.length * 8;
+
+    m[l >> 5] |= 0x80 << 24 - l % 32;
+    m[(l + 64 >> 9 << 4) + 15] = l;
+
+    for (var i = 0; i < m.length; i += 16) {
+      processBlock(H, m, i);
+    }
+
+    var digestbytes = wordsToBytes(H);
+    return options && options.asBytes ? digestbytes :
+    options && options.asString ? _imports.convertString.bytesToString(digestbytes) :
+    _imports.bytesToHex(digestbytes);
+  }
+
+  sha256.x2 = function (message, options) {
+    return sha256(sha256(message, { asBytes: true }), options);
+  };
+
+}(void 0);
+
+/***/ }),
+/* 35 */
+/*!****************************************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/convert-hex/convert-hex.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+!function (globals) {
+  'use strict';
+
+  var convertHex = {
+    bytesToHex: function bytesToHex(bytes) {
+      /*if (typeof bytes.byteLength != 'undefined') {
+                                              var newBytes = []
+                                               if (typeof bytes.buffer != 'undefined')
+                                                bytes = new DataView(bytes.buffer)
+                                              else
+                                                bytes = new DataView(bytes)
+                                               for (var i = 0; i < bytes.byteLength; ++i) {
+                                                newBytes.push(bytes.getUint8(i))
+                                              }
+                                              bytes = newBytes
+                                            }*/
+
+
+      return arrBytesToHex(bytes);
+    },
+    hexToBytes: function hexToBytes(hex) {
+      if (hex.length % 2 === 1) throw new Error("hexToBytes can't have a string with an odd number of characters.");
+      if (hex.indexOf('0x') === 0) hex = hex.slice(2);
+      return hex.match(/../g).map(function (x) {return parseInt(x, 16);});
+    }
+
+
+
+    // PRIVATE
+  };
+  function arrBytesToHex(bytes) {
+    return bytes.map(function (x) {return padLeft(x.toString(16), 2);}).join('');
+  }
+
+  function padLeft(orig, len) {
+    if (orig.length > len) return orig;
+    return Array(len - orig.length + 1).join('0') + orig;
+  }
+
+
+  if ( true && module.exports) {//CommonJS
+    module.exports = convertHex;
+  } else {
+    globals.convertHex = convertHex;
+  }
+
+}(void 0);
+
+/***/ }),
+/* 36 */
+/*!**********************************************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/convert-string/convert-string.js ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+!function (globals) {
+  'use strict';
+
+  var convertString = {
+    bytesToString: function bytesToString(bytes) {
+      return bytes.map(function (x) {return String.fromCharCode(x);}).join('');
+    },
+    stringToBytes: function stringToBytes(str) {
+      return str.split('').map(function (x) {return x.charCodeAt(0);});
+    }
+
+
+    //http://hossa.in/2012/07/20/utf-8-in-javascript.html
+  };convertString.UTF8 = {
+    bytesToString: function bytesToString(bytes) {
+      return decodeURIComponent(escape(convertString.bytesToString(bytes)));
+    },
+    stringToBytes: function stringToBytes(str) {
+      return convertString.stringToBytes(unescape(encodeURIComponent(str)));
+    } };
+
+
+  if ( true && module.exports) {//CommonJS
+    module.exports = convertString;
+  } else {
+    globals.convertString = convertString;
+  }
+
+}(void 0);
+
+/***/ })
+]]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

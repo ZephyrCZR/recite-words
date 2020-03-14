@@ -1,7 +1,7 @@
 <template>
-	<view class="buttons">
-		<view class="button mask"><span class="text">Learn</span><span class="count">{{book_state.learn}}</span></view>
-		<view class="button mask"><span class="text">Review</span></span><span class="count">{{book_state.review}}</span></view>
+	<view class="my-buttons">
+		<view class="my-button base-mask"><span class="base-text-primary">Learn</span><span class="base-color-focus">{{book_state.learn}}</span></view>
+		<view class="my-button base-mask"><span class="base-text-primary">Review</span></span><span class="base-color-focus">{{book_state.review}}</span></view>
 	</view>			
 </template>
 
@@ -29,7 +29,7 @@
 </script>
 
 <style>
-.button {
+.my-button {
 		display: flex;
 		justify-content: center;
 		width: 260rpx;
@@ -38,10 +38,11 @@
 		flex-direction:column;
 		border-radius: 10rpx;		
 		padding-left: 50rpx;
+		line-height: 60rpx;
 	}
-	.buttons {
+	.my-buttons {
 		display: flex;		
 	  justify-content: space-between;		
-		width: 100%;		
+		width: 100%;
 	}
 </style>

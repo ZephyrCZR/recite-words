@@ -1,0 +1,91 @@
+
+.card-shadow {
+	box-shadow: 3rpx 3rpx 20rpx 2rpx rgba(120,120,120,0.1);
+}
+.book-btn {
+	-webkit-box-flex:1;
+	-webkit-flex:1;
+	        flex:1;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: end;
+	-webkit-align-items: flex-end;
+	        align-items: flex-end;
+	padding-bottom: 30rpx;
+}
+.book-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: block;
+}
+.book-wordsamount {
+	font-weight: bold;
+}
+.book-desc-text {
+	padding-bottom: 30rpx;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: block;
+}
+.book-cover-img {
+	width: 100%;
+	height: 100%;
+	border-radius: 10rpx;
+	overflow: hidden;
+}
+.book-desc {
+	width: 44%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
+	padding: 20rpx;
+}
+.book-cover {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	padding: 20rpx;
+}
+.book-card {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	height: 260rpx;
+	background-color: #FFFFFF;
+	border-radius: 30rpx;
+	margin: 30rpx;
+}
+.bnav-content {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	height: 100%;
+}
+.swiper-item {
+	height: 100%;
+}
+.swiper-content {
+	height: calc(100vh - 268rpx)
+}
+.book-nav {
+	margin-top: 20rpx;
+	box-shadow: 0rpx 3rpx 3rpx 0 rgba(90, 90, 90, 0.1);
+	z-index: 999;
+}
+

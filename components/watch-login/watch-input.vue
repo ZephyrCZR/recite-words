@@ -1,8 +1,8 @@
 <template>
-	<view class="main-list oBorder">
+	<view class="w-main-list w-oBorder">
 		<!-- 文本框 -->
 		<input 
-			class="main-input" 
+			class="w-main-input" 
 			:value="value" 
 			:type="_type" 
 			:maxlength="maxlength" 
@@ -13,14 +13,14 @@
 		<!-- 是否可见密码 -->
 		<image 
 			v-if="_isShowPass&&type==='password'&&!_isShowCode"
-			class="img cuIcon" 
+			class="w-img cuIcon" 
 			:class="showPassword?'cuIcon-attention':'cuIcon-attentionforbid'" 
 			@tap="showPass"
 		></image>
 		<!-- 倒计时 -->
 		<view 
 			v-if="_isShowCode&&!_isShowPass"
-			:class="['vercode',{'vercode-run': second>0}]" 
+			:class="['w-vercode',{'w-vercode-run': second>0}]" 
 			@click="setCode"
 		>{{ getVerCodeSecond }}</view>
 		
@@ -160,10 +160,8 @@
 	}
 </script>
 
-<style>
-	@import url("./css/icon.css");
-	
-	.main-list{
+<style scoped>	
+	.w-main-list{
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -174,12 +172,12 @@
 		margin-top:24rpx;
 		margin-bottom: 24rpx;
 	}
-	.img{
+	.w-img{
 		width: 32rpx;
 		height: 32rpx;
 		font-size: 32rpx;
 	}
-	.main-input{
+	.w-main-input{
 		flex: 1;
 		text-align: left;
 		font-size: 28rpx;
@@ -187,15 +185,15 @@
 		padding-right: 10rpx;
 		margin-left: 20rpx;
 	}
-	.vercode {
+	.w-vercode {
 		color: rgba(0,0,0,0.7);
 		font-size: 24rpx;
 		line-height: 100rpx;
 	}
-	.vercode-run {
+	.w-vercode-run {
 		color: rgba(0,0,0,0.4) !important;
 	}
-	.oBorder{
+	.w-oBorder{
 	    border: none;
 	    border-radius: 2.5rem ;
 	    -webkit-box-shadow: 0 0 60rpx 0 rgba(167,134,107,.1) ;

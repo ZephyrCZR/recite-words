@@ -1,5 +1,5 @@
 
-#login {
+.my-login {
 	height: 100vh;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -12,7 +12,7 @@
 	-webkit-align-items: center;
 	        align-items: center;
 }
-.main {
+.my-main {
 	margin-top: 84rpx;
 	height: 500rpx;
 	width: 540rpx;
@@ -29,7 +29,7 @@
 }
 
 /* 底部 */
-.footer {
+.my-footer {
 	position: absolute;
 	bottom: 66rpx;
 	width: 100%;
@@ -52,7 +52,7 @@
 	height: 40rpx;
 	line-height: 40rpx;
 }
-.footer text {
+.my-footer text {
 	font-size: 24rpx;
 	margin-left: 15rpx;
 	margin-right: 15rpx;

@@ -1,7 +1,7 @@
 <template>
-	<view class="bg_dec">
-			<span class="bg_word">{{desc.word}}</span>
-			<span class="bg_par">{{desc.par}}</span>
+	<view class="bg-dec">
+			<span class="bg-word">{{desc.word}}</span>
+			<span class="bg-par">{{desc.par}}</span>
 		</view>
 </template>
 
@@ -31,19 +31,19 @@
 </script>
 
 <style>
-.bg_dec {
+.bg-dec {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		font-weight: bold;		
 	}
-	.bg_dec>.bg_word {
+  .bg-word {
 		/* background-color: #4CD964; */
 		font-size: 88rpx;
 		padding-bottom: 30rpx;
 		line-height: 88rpx;
 	}
-	.bg_dec>.bg_par {
+	.bg-par {
 		/* background-color: #007AFF; */
 		font-size: 34rpx;
 		line-height: 40rpx;
