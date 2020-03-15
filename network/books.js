@@ -91,22 +91,7 @@ export function addUserBook(book_name) {
 	})
 }
 
-//获取用户信息
-export function getUserInfo() {
-	return new Promise((resolve, reject) => {
-		get('/home/getUserInfo').then(suc => {
-			console.log(suc)
-			if (suc.data.uInfo) {
-				uni.setStorageSync('UserInfo', suc.data.uInfo)
-				console.log("获取用户信息成功")
-				resolve()
-			} else {
-				console.log("获取用户信息失败，请重新登录")
-				reject()
-			}
-		})
-	})
-}
+
 
 
 //判断该词书是否已经存在用户词书列表里（后端也有判断的）		

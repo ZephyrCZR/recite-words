@@ -44,9 +44,21 @@ export function getMessage(options) {
 // 	return uniReq.post('/home/loaddata')
 // }
 
-
-module.exports = {
-	login,
-	register,
-	getMessage
+//获取用户信息并保存
+export function getUserInfo() {
+	return new Promise((resolve, reject) => {
+		get('/home/getUserInfo').then(suc => {
+			console.log(suc)
+			if (suc.data.uInfo) {
+				uni.setStorageSync('UserInfo', suc.data.uInfo)
+				console.log("获取用户信息成功")
+				resolve()
+			} else {
+				console.log("获取用户信息失败，请重新登录")
+				reject()
+			}
+		})
+	})
 }
+
+

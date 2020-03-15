@@ -10,7 +10,7 @@
 		},
 		onShow: function() {
 
-
+			console.log(uni.getStorageInfoSync())
 			console.log('App Show')
 		},
 		onHide: function() {

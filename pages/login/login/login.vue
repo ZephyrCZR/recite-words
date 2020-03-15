@@ -45,8 +45,7 @@
 			wButton,
 		},
 		mounted() {
-			_this = this;
-			//this.isLogin();
+
 		},
 		methods: {
 
@@ -80,8 +79,7 @@
 					phone: this.phone,
 					password: this.password
 				}).then((success) => {
-					console.log('请求成功')
-					console.log(success)
+
 					if (success.data.err_code !== 0) {
 						this.isRotate = false
 						uni.hideLoading();

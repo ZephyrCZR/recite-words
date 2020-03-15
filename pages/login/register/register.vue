@@ -73,10 +73,15 @@
 							title: '验证码已发送，请注意查收'
 						});
 						//保存token
-						
-						uni.setStorageSync('TempToken', res.data.temptoken)
-					 console.log(uni.getStorageSync('TempToken'))	 //不加这个TempToken有时存不进去？？？？？
-
+						if(res.data.temptoken){
+							uni.setStorageSync('TempToken', res.data.temptoken)
+						}else{
+							uni.showToast({
+								icon: 'none',
+								position: 'center',
+								title: '出错啦！请稍后重试'
+							});
+						}						
 					} else {
 						uni.showToast({
 							icon: 'none',

@@ -13,7 +13,7 @@ var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 9));
 
 
 
-var _server = __webpack_require__(/*! network/server.js */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}_vue.default.config.productionTip = false;
+var _logAndReg = __webpack_require__(/*! network/logAndReg.js */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}_vue.default.config.productionTip = false;
 
 // 判断登陆状态，无登录则跳转到登录页, 已登录跳转到首页
 _vue.default.prototype.checkLogin = function () {
@@ -23,7 +23,7 @@ _vue.default.prototype.checkLogin = function () {
 
   if (TOKEN && !UserInfo) {//如果token存在但是用户信息不存在
     console.log("用户信息丢失，尝试重新获取");
-    (0, _server.getUserInfo)();
+    (0, _logAndReg.getUserInfo)();
   }
 
   if (TOKEN == '') {
@@ -119,7 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
 
 
 {
@@ -131,12 +131,13 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   },
   onShow: function onShow() {
 
-
+    console.log(uni.getStorageInfoSync());
     console.log('App Show');
   },
   onHide: function onHide() {
     console.log('App Hide');
   } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 /* 12 */

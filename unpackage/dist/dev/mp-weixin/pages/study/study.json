@@ -1,0 +1,11 @@
+{
+  "navigationBarTextStyle": "black",
+  "disableScroll": true,
+  "usingComponents": {
+    "top-bar": "/pages/study/childComp/TopBar",
+    "word": "/pages/study/childComp/Word",
+    "paraphrase": "/pages/study/childComp/Paraphrase",
+    "control-bar": "/pages/study/childComp/ControlBar",
+    "tab-bar": "/pages/study/childComp/TabBar"
+  }
+}

@@ -24,15 +24,8 @@
       "list": []
     },
     "miniprogram": {
-      "current": 0,
-      "list": [
-        {
-          "name": "词书",
-          "query": "",
-          "id": 0,
-          "pathName": "pages/books/books"
-        }
-      ]
+      "current": -1,
+      "list": []
     }
   }
 }

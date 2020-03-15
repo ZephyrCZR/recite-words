@@ -38,7 +38,7 @@
 .my-tab-bar {
 		position: absolute;
 		z-index: 233;
-		height: 96rpx;
+		height: 98rpx;
 		width: 100%;
 		display: flex;
 		justify-content: space-around;

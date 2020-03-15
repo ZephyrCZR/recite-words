@@ -1,0 +1,8 @@
+
+.top-bar-content {
+	position: absolute;
+	top: 6%;
+	left: 0;
+	padding-left: 30rpx;
+}
+

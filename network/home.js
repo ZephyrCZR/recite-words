@@ -5,11 +5,10 @@ import {
 
 const INFO = uni.getStorageSync('UserInfo')
 console.log(INFO.calendar)
-// console.log(INFO.calendar[0])
 
 //获取词书状态信息
 export function getBookInfo(book_id) {
-	return get('/word/download', {
+	return get('/word/bookinfo', {
 		book_id
 	})
 }

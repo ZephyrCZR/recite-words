@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "par-btn": "/components/bottom/ParBtn"
+  }
+}

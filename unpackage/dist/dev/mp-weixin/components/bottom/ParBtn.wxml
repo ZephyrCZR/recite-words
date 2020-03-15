@@ -1,0 +1,1 @@
+<view data-event-opts="{{[['touchstart',[['tStart',['$event']]]],['touchend',[['tEnd',['$event']]]]]}}" class="{{['par-btn base-mask',(onTouch)?'btn-active':'']}}" bindtouchstart="__e" bindtouchend="__e"><slot></slot></view>

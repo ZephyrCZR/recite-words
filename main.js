@@ -3,7 +3,7 @@ import App from './App'
 
 Vue.config.productionTip = false
 
-	import {getUserInfo} from 'network/server.js'
+	import {getUserInfo} from 'network/logAndReg.js'
 
 // 判断登陆状态，无登录则跳转到登录页, 已登录跳转到首页
 Vue.prototype.checkLogin = function(){
@@ -20,7 +20,7 @@ Vue.prototype.checkLogin = function(){
 		console.log("未登录")
 		uni.redirectTo({
 			url:'/pages/login/login/login'
-		})
+		}) 
 		return false
 	}else{
 		return true

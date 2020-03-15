@@ -1,29 +1,29 @@
 
 .my-button {
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;
-		-webkit-box-pack: center;
-		-webkit-justify-content: center;
-		        justify-content: center;
-		width: 260rpx;
-		height: 150rpx;
-		margin: 0 30rpx;
-		-webkit-box-orient:vertical;
-		-webkit-box-direction:normal;
-		-webkit-flex-direction:column;
-		        flex-direction:column;
-		border-radius: 10rpx;		
-		padding-left: 50rpx;
-		line-height: 60rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	width: 260rpx;
+	height: 150rpx;
+	margin: 0 30rpx;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	border-radius: 10rpx;
+	padding-left: 50rpx;
+	line-height: 60rpx;
 }
 .my-buttons {
-		display: -webkit-box;
-		display: -webkit-flex;
-		display: flex;		
-	  -webkit-box-pack: justify;		
-	  -webkit-justify-content: space-between;		
-	          justify-content: space-between;		
-		width: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	width: 100%;
 }
 

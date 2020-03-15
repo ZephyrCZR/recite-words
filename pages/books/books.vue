@@ -15,7 +15,7 @@
 	import {
 		getServerBookList,
 		addUserBook
-	} from '../../network/server.js'
+	} from '../../network/books.js'
 
 	export default {
 		name: "books",
@@ -80,7 +80,7 @@
 								uni.setStorageSync('ServerBookList', that.booksList)
 						}else{
 							console.log("列表信息丢失")
-						}					
+						}
 
 						uni.showToast({
 							title: '添加成功'
