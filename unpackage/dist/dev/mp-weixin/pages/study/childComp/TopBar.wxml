@@ -1,1 +1,1 @@
-<view class="top-bar-content"><text>{{progress.achieve+"/"+progress.count}}</text></view>
+<view class="top-bar-content"><text>{{options.done+"/"+options.count}}</text></view>

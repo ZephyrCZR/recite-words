@@ -70,7 +70,7 @@
 	}
 	
 	.my-popup-btn {
-		background-color: rgba(167, 134, 107, 0.9);
+		background-color: rgba(167, 134, 107, 0.6);
 		width: 100%;
 		flex: 1;
 		border-radius: 0 0 30rpx 30rpx;

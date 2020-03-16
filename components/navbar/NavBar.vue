@@ -24,11 +24,9 @@
 		},
 		methods: {
 			onTap() {
-				uni.navigateBack({
-					delta: 1,
-					animationType: 'slide-out-bottom',
-					animationDuration: 200
-				});
+				uni.redirectTo({
+					url: '../../pages/index/index'
+				})
 			}
 		}
 	}

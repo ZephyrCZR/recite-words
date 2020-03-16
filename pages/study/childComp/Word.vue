@@ -1,24 +1,24 @@
 <template>
 	<view class="word-content">
 		<view class="word-main">
-			<text class="word-main-ex">{{word}}</text>
+			<text class="word-main-ex">{{options.word}}</text>
 		</view>
 
-		<view class="word-pronounce" v-if="isKK^isChange">
+		<view class="word-pronounce" v-if="options.is_kk^isChange">
 			<!-- 异或门 -->
-			<text class="word-icon base-text-sub base-color-sub" @tap="tapSound">{{soundmark[0].soundtype}}</text>
-			<text class="word-pronounce-ex base-text-sub base-color-sub" @tap="playAudio">/ {{soundmark[0].symbol}} /</text>
+			<text class="word-icon base-text-sub base-color-sub" @tap="tapSound">{{options.soundmark[0].soundtype}}</text>
+			<text class="word-pronounce-ex base-text-sub base-color-sub" @tap="playAudio">/ {{options.soundmark[0].symbol}} /</text>
 
 		</view>
 
 		<view class="word-pronounce" v-else>
-			<text class="word-icon base-text-sub base-color-sub" @tap="tapSound">{{soundmark[1].soundtype}}</text>
-			<text class="word-pronounce-ex base-text-sub base-color-sub" @tap="playAudio">[ {{soundmark[1].symbol}} ]</text>
+			<text class="word-icon base-text-sub base-color-sub" @tap="tapSound">{{options.soundmark[1].soundtype}}</text>
+			<text class="word-pronounce-ex base-text-sub base-color-sub" @tap="playAudio">[ {{options.soundmark[1].symbol}} ]</text>
 
 		</view>
 
 		<view class="word-main-sign">
-			<view class="sign-bar" v-for="index in state" :key="index"></view>
+			<view class="sign-bar" v-for="index in options.state" :key="index"></view>
 		</view>
 
 	</view>
@@ -28,40 +28,16 @@
 	export default {
 		name: 'Word',
 		props: {
-			word: {
-				type: String,
-				default () {
-					return ''
-				}
-			},
-			soundmark: {
-				type: Array,
-				default () {
-					return []
-				}
-			},
-			state: {
-				type: Number,
-				default () {
-					return 0
-				} 
-			},
-			autoPlayAudio: {
-				type: Boolean,
-				default () {
-					return false
-				}
-			},
-			isKK: {
-				type: Boolean,
-				default () {
-					return true
-				}
-			},
-			config:{
-				type:Object,
-				default(){
-					return {}
+			options: {
+				type: Object,
+				default() {
+					return {
+						word: '',
+						soundmark: [],
+						state: 0,
+						is_kk: false,
+						auto_audio: false
+					}
 				}
 			}
 		},
@@ -77,20 +53,20 @@
 			},
 			playAudio() {//播放音频
 				if (!this.isChange) {
-					this.innerAudioContext.src = this.soundmark[0].audio;
+					this.innerAudioContext.src = this.options.soundmark[0].audio;
 				} else {
-					this.innerAudioContext.src = this.soundmark[1].audio;
+					this.innerAudioContext.src = this.options.soundmark[1].audio;
 				}
 				this.innerAudioContext.play(() => {})
 			}
 		},
 		mounted() {//加载音频，若需要自动播放，则自动播放
 			this.innerAudioContext = uni.createInnerAudioContext();
-			this.innerAudioContext.autoplay = this.autoPlayAudio;
-			if (this.isKK) {
-				this.innerAudioContext.src = this.soundmark[0].audio;
+			this.innerAudioContext.autoplay = this.options.auto_audio;
+			if (this.options.is_kk) {
+				this.innerAudioContext.src = this.options.soundmark[0].audio;
 			} else {
-				this.innerAudioContext.src = this.soundmark[1].audio;
+				this.innerAudioContext.src = this.options.soundmark[1].audio;
 			}
 		}
 	}

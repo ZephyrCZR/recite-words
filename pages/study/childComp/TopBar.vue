@@ -1,6 +1,6 @@
 <template>
 	<view class="top-bar-content">
-		<text>{{progress.achieve}}/{{progress.count}}</text>
+		<text>{{options.done}}/{{options.count}}</text>
 	</view>
 </template>
 
@@ -8,14 +8,13 @@
 	export default {
 		name: 'TopBar',
 		props:{
-			progress: {
+			options: {
 				type: Object,					
 				default() {
 					return {}
 				}
 			}			
 		}
-
 	}
 </script>
 

@@ -1,15 +1,26 @@
-import {
-	get,
-	post
-} from "./request";
 const sha256 = require("sha256");
+const baseURL = 'http://192.168.0.105:5230/member'
 
-
+const LAR = function(path, body) {	
+	return new Promise((resolve, reject) => {
+		uni.request({
+			method: 'POST',
+			url: baseURL + path,
+			data: body,
+			success: (res) => {
+				resolve(res)
+			},
+			fail: (err) => {
+				reject(err)
+			}
+		});
+	})
+}
 
 //登录 并获取用户信息表 token
 export function login(options) {
 	const key = sha256(options.password + "zengchun529")
-	return post('/login', {
+	return LAR('/login', {
 		phone: options.phone,
 		password: key
 	})
@@ -20,7 +31,7 @@ export function register(options) {
 	const TEMP_TOKEN = uni.getStorageSync('TempToken')
 	if (TEMP_TOKEN) {
 		const key = sha256(options.password + "zengchun529")
-		return post('/register', {
+		return LAR('/register', {
 			phone: options.phone,
 			password: key,
 			code: options.code,
@@ -36,7 +47,7 @@ export function register(options) {
 
 //获取短信验证码
 export function getMessage(options) {
-	return post('/getmsg', options)
+	return LAR('/getmsg', options)
 }
 
 //修改密码
@@ -44,21 +55,6 @@ export function getMessage(options) {
 // 	return uniReq.post('/home/loaddata')
 // }
 
-//获取用户信息并保存
-export function getUserInfo() {
-	return new Promise((resolve, reject) => {
-		get('/home/getUserInfo').then(suc => {
-			console.log(suc)
-			if (suc.data.uInfo) {
-				uni.setStorageSync('UserInfo', suc.data.uInfo)
-				console.log("获取用户信息成功")
-				resolve()
-			} else {
-				console.log("获取用户信息失败，请重新登录")
-				reject()
-			}
-		})
-	})
-}
+
 
 

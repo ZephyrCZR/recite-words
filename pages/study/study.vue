@@ -1,12 +1,12 @@
 <template>
 	<view class="base-bg-image">
-		<view class="study-mask study-content">
-			<top-bar :progress="progress"></top-bar>
-			<word class="study-word" :word="wordInfo.word" :soundmark="wordInfo.soundmark" :state="1" :config="{}"></word>
-			<Paraphrase :options="wordInfo.paraphrase"></Paraphrase>
+<!-- 		<view class="study-mask study-content">
+			<top-bar :options="topbar"></top-bar>
+			<word :options="word" class="study-word"></word>
+			<Paraphrase :options="paraphrase"></Paraphrase>
 			<control-bar :btnType="btnType" @tapYes="tapYes" @tapNo="tapNo"></control-bar>
 			<tab-bar></tab-bar>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -16,6 +16,8 @@
 	import Paraphrase from './childComp/Paraphrase.vue';
 	import ControlBar from './childComp/ControlBar.vue';
 	import TabBar from './childComp/TabBar.vue'
+
+	import {test} from'./study.js'
 
 	export default {
 		components: {
@@ -27,41 +29,13 @@
 		},
 		data() {
 			return {
-				progress: {//已背单词数achieve/每组单词数count
-					achieve: 0,
-					count: 20
-				}, 
 				btnType: 0, //控制键类型0，1，2
+				// 子组件props统一传参				
 				
-				wordInfo: {  "word": "aw",
-  "soundmark": [
-    {
-      "soundtype": "美",
-      "symbol": "ɔ",
-      "audio": "https://dictionary.blob.core.chinacloudapi.cn/media/audio/tom/cd/77/CD77341EC8795580756C2743D93BE0BE.mp3"
-    },
-    {
-      "soundtype": "英",
-      "symbol": "ɔː",
-      "audio": "https://dictionary.blob.core.chinacloudapi.cn/media/audio/george/cd/77/CD77341EC8795580756C2743D93BE0BE.mp3"
-    }
-  ],
-  "paraphrase": [
-    {
-      "pos": "abbr.",
-      "meaning": "(="
-    },
-    {
-      "pos": "int.",
-      "meaning": "（表示不满、抗议或同情等）呀"
-    },
-    {
-      "pos": "网络",
-      "meaning": "水分活度；水活性；水活度"
-    }
-  ],
-
-}
+				//配置信息
+				topbar: {done: 0,count: 20},  //已背单词数achieve/每组单词数count
+				word: {},
+				paraphrase: []
 			}
 		},
 		methods: {
@@ -71,6 +45,11 @@
 			tapNo() {
 
 			}
+		},
+		mounted() {
+			console.log(this.config)
+			
+			
 		}
 	}
 </script>

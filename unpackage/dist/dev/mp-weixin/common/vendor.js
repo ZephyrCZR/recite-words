@@ -1,6 +1,6 @@
-(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
-
-/***/ 1:
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],[
+/* 0 */,
+/* 1 */
 /*!************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js ***!
   \************************************************************/
@@ -1551,521 +1551,7 @@ var uni$1 = uni;var _default =
 uni$1;exports.default = _default;
 
 /***/ }),
-
-/***/ 14:
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    options.components = Object.assign(components, options.components || {})
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-
-/***/ 15:
-/*!*********************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/logAndReg.js ***!
-  \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.login = login;exports.register = register;exports.getMessage = getMessage;exports.getUserInfo = getUserInfo;var _request = __webpack_require__(/*! ./request */ 16);
-
-
-
-var sha256 = __webpack_require__(/*! sha256 */ 17);
-
-
-
-//登录 并获取用户信息表 token
-function login(options) {
-  var key = sha256(options.password + "zengchun529");
-  return (0, _request.post)('/login', {
-    phone: options.phone,
-    password: key });
-
-}
-
-//注册 并获取用户信息表 token
-function register(options) {
-  var TEMP_TOKEN = uni.getStorageSync('TempToken');
-  if (TEMP_TOKEN) {
-    var key = sha256(options.password + "zengchun529");
-    return (0, _request.post)('/register', {
-      phone: options.phone,
-      password: key,
-      code: options.code,
-      token: TEMP_TOKEN });
-
-  } else {
-    return new Promise(function (resolve, reject) {
-      reject("网络繁忙，请重试"); //其实是没获取到临时token，让用户再获取一次
-    });
-  }
-
-}
-
-//获取短信验证码
-function getMessage(options) {
-  return (0, _request.post)('/getmsg', options);
-}
-
-//修改密码
-// export function resetpassword() {
-// 	return uniReq.post('/home/loaddata')
-// }
-
-//获取用户信息并保存
-function getUserInfo() {
-  return new Promise(function (resolve, reject) {
-    (0, _request.get)('/home/getUserInfo').then(function (suc) {
-      console.log(suc);
-      if (suc.data.uInfo) {
-        uni.setStorageSync('UserInfo', suc.data.uInfo);
-        console.log("获取用户信息成功");
-        resolve();
-      } else {
-        console.log("获取用户信息失败，请重新登录");
-        reject();
-      }
-    });
-  });
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 16:
-/*!*******************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/request.js ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {var TOKEN = uni.getStorageSync('TOKEN');
-if (!TOKEN) TOKEN = '0';
-var baseURL = 'http://192.168.0.105:5230/zrizc';
-
-var post = function post(path, body) {
-  return new Promise(function (resolve, reject) {
-    console.log(baseURL + path);
-    uni.request({
-      method: 'POST',
-      url: baseURL + path,
-      data: body,
-      header: {
-        'Authorization': TOKEN },
-
-      success: function success(res) {
-        resolve(res);
-      },
-      fail: function fail(err) {
-        reject(err);
-      } });
-
-  });
-};
-var get = function get(path, body) {
-  return new Promise(function (resolve, reject) {
-    console.log(baseURL + path);
-    uni.request({
-      method: 'GET',
-      url: baseURL + path,
-      data: body,
-      header: {
-        'Authorization': TOKEN },
-
-      success: function success(res) {
-        resolve(res);
-      },
-      fail: function fail(err) {
-        reject(err);
-      } });
-
-  });
-};
-
-module.exports = { post: post, get: get };
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 17:
-/*!**********************************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/sha256/lib/sha256.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-!function (globals) {
-  'use strict';
-
-  var _imports = {};
-
-  if ( true && module.exports) {//CommonJS
-    _imports.bytesToHex = __webpack_require__(/*! convert-hex */ 18).bytesToHex;
-    _imports.convertString = __webpack_require__(/*! convert-string */ 19);
-    module.exports = sha256;
-  } else {
-    _imports.bytesToHex = globals.convertHex.bytesToHex;
-    _imports.convertString = globals.convertString;
-    globals.sha256 = sha256;
-  }
-
-  /*
-    CryptoJS v3.1.2
-    code.google.com/p/crypto-js
-    (c) 2009-2013 by Jeff Mott. All rights reserved.
-    code.google.com/p/crypto-js/wiki/License
-    */
-
-  // Initialization round constants tables
-  var K = [];
-
-  // Compute constants
-  !function () {
-    function isPrime(n) {
-      var sqrtN = Math.sqrt(n);
-      for (var factor = 2; factor <= sqrtN; factor++) {
-        if (!(n % factor)) return false;
-      }
-
-      return true;
-    }
-
-    function getFractionalBits(n) {
-      return (n - (n | 0)) * 0x100000000 | 0;
-    }
-
-    var n = 2;
-    var nPrime = 0;
-    while (nPrime < 64) {
-      if (isPrime(n)) {
-        K[nPrime] = getFractionalBits(Math.pow(n, 1 / 3));
-        nPrime++;
-      }
-
-      n++;
-    }
-  }();
-
-  var bytesToWords = function bytesToWords(bytes) {
-    var words = [];
-    for (var i = 0, b = 0; i < bytes.length; i++, b += 8) {
-      words[b >>> 5] |= bytes[i] << 24 - b % 32;
-    }
-    return words;
-  };
-
-  var wordsToBytes = function wordsToBytes(words) {
-    var bytes = [];
-    for (var b = 0; b < words.length * 32; b += 8) {
-      bytes.push(words[b >>> 5] >>> 24 - b % 32 & 0xFF);
-    }
-    return bytes;
-  };
-
-  // Reusable object
-  var W = [];
-
-  var processBlock = function processBlock(H, M, offset) {
-    // Working variables
-    var a = H[0],b = H[1],c = H[2],d = H[3];
-    var e = H[4],f = H[5],g = H[6],h = H[7];
-
-    // Computation
-    for (var i = 0; i < 64; i++) {
-      if (i < 16) {
-        W[i] = M[offset + i] | 0;
-      } else {
-        var gamma0x = W[i - 15];
-        var gamma0 = (gamma0x << 25 | gamma0x >>> 7) ^ (
-        gamma0x << 14 | gamma0x >>> 18) ^
-        gamma0x >>> 3;
-
-        var gamma1x = W[i - 2];
-        var gamma1 = (gamma1x << 15 | gamma1x >>> 17) ^ (
-        gamma1x << 13 | gamma1x >>> 19) ^
-        gamma1x >>> 10;
-
-        W[i] = gamma0 + W[i - 7] + gamma1 + W[i - 16];
-      }
-
-      var ch = e & f ^ ~e & g;
-      var maj = a & b ^ a & c ^ b & c;
-
-      var sigma0 = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22);
-      var sigma1 = (e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25);
-
-      var t1 = h + sigma1 + ch + K[i] + W[i];
-      var t2 = sigma0 + maj;
-
-      h = g;
-      g = f;
-      f = e;
-      e = d + t1 | 0;
-      d = c;
-      c = b;
-      b = a;
-      a = t1 + t2 | 0;
-    }
-
-    // Intermediate hash value
-    H[0] = H[0] + a | 0;
-    H[1] = H[1] + b | 0;
-    H[2] = H[2] + c | 0;
-    H[3] = H[3] + d | 0;
-    H[4] = H[4] + e | 0;
-    H[5] = H[5] + f | 0;
-    H[6] = H[6] + g | 0;
-    H[7] = H[7] + h | 0;
-  };
-
-  function sha256(message, options) {;
-    if (message.constructor === String) {
-      message = _imports.convertString.UTF8.stringToBytes(message);
-    }
-
-    var H = [0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
-    0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19];
-
-    var m = bytesToWords(message);
-    var l = message.length * 8;
-
-    m[l >> 5] |= 0x80 << 24 - l % 32;
-    m[(l + 64 >> 9 << 4) + 15] = l;
-
-    for (var i = 0; i < m.length; i += 16) {
-      processBlock(H, m, i);
-    }
-
-    var digestbytes = wordsToBytes(H);
-    return options && options.asBytes ? digestbytes :
-    options && options.asString ? _imports.convertString.bytesToString(digestbytes) :
-    _imports.bytesToHex(digestbytes);
-  }
-
-  sha256.x2 = function (message, options) {
-    return sha256(sha256(message, { asBytes: true }), options);
-  };
-
-}(void 0);
-
-/***/ }),
-
-/***/ 18:
-/*!****************************************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/convert-hex/convert-hex.js ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-!function (globals) {
-  'use strict';
-
-  var convertHex = {
-    bytesToHex: function bytesToHex(bytes) {
-      /*if (typeof bytes.byteLength != 'undefined') {
-                                              var newBytes = []
-                                               if (typeof bytes.buffer != 'undefined')
-                                                bytes = new DataView(bytes.buffer)
-                                              else
-                                                bytes = new DataView(bytes)
-                                               for (var i = 0; i < bytes.byteLength; ++i) {
-                                                newBytes.push(bytes.getUint8(i))
-                                              }
-                                              bytes = newBytes
-                                            }*/
-
-
-      return arrBytesToHex(bytes);
-    },
-    hexToBytes: function hexToBytes(hex) {
-      if (hex.length % 2 === 1) throw new Error("hexToBytes can't have a string with an odd number of characters.");
-      if (hex.indexOf('0x') === 0) hex = hex.slice(2);
-      return hex.match(/../g).map(function (x) {return parseInt(x, 16);});
-    }
-
-
-
-    // PRIVATE
-  };
-  function arrBytesToHex(bytes) {
-    return bytes.map(function (x) {return padLeft(x.toString(16), 2);}).join('');
-  }
-
-  function padLeft(orig, len) {
-    if (orig.length > len) return orig;
-    return Array(len - orig.length + 1).join('0') + orig;
-  }
-
-
-  if ( true && module.exports) {//CommonJS
-    module.exports = convertHex;
-  } else {
-    globals.convertHex = convertHex;
-  }
-
-}(void 0);
-
-/***/ }),
-
-/***/ 19:
-/*!**********************************************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/convert-string/convert-string.js ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-!function (globals) {
-  'use strict';
-
-  var convertString = {
-    bytesToString: function bytesToString(bytes) {
-      return bytes.map(function (x) {return String.fromCharCode(x);}).join('');
-    },
-    stringToBytes: function stringToBytes(str) {
-      return str.split('').map(function (x) {return x.charCodeAt(0);});
-    }
-
-
-    //http://hossa.in/2012/07/20/utf-8-in-javascript.html
-  };convertString.UTF8 = {
-    bytesToString: function bytesToString(bytes) {
-      return decodeURIComponent(escape(convertString.bytesToString(bytes)));
-    },
-    stringToBytes: function stringToBytes(str) {
-      return convertString.stringToBytes(unescape(encodeURIComponent(str)));
-    } };
-
-
-  if ( true && module.exports) {//CommonJS
-    module.exports = convertString;
-  } else {
-    globals.convertString = convertString;
-  }
-
-}(void 0);
-
-/***/ }),
-
-/***/ 2:
+/* 2 */
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -8094,8 +7580,7 @@ internalMixin(Vue);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
 
 /***/ }),
-
-/***/ 3:
+/* 3 */
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
   \***********************************/
@@ -8125,82 +7610,7 @@ module.exports = g;
 
 
 /***/ }),
-
-/***/ 34:
-/*!****************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/common/utils.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.expTest = expTest;exports.dateFormat = dateFormat; //正则匹配，type：phone，password 
-function expTest(type, string) {
-  console.log(type);
-  var exp = new RegExp();
-  if (type == 'phone') {
-    exp = new RegExp("^1(3|4|5|7|8)\\d{9}$");
-  }
-  if (type == 'password') {
-    exp = new RegExp("^[a-zA-Z]\\w{5,17}$");
-  }
-  return exp.test(string);
-}
-
-//格式化时间戳
-function dateFormat(time) {
-  var date = new Date(time);
-  var arr = [];
-  arr.push(date.getFullYear());
-  arr.push(date.getMonth() + 1);
-  arr.push(date.getDate());
-  return arr.join('-');
-}
-
-/***/ }),
-
-/***/ 35:
-/*!****************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/home.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getBookInfo = getBookInfo;exports.dailyInit = dailyInit;exports.clockIn = clockIn;var _request = __webpack_require__(/*! ./request */ 16);
-
-
-
-
-var INFO = uni.getStorageSync('UserInfo');
-console.log(INFO.calendar);
-
-//获取词书状态信息
-function getBookInfo(book_id) {
-  return (0, _request.get)('/word/bookinfo', {
-    book_id: book_id });
-
-}
-
-//每日初始化，并且获取用户信息表
-function dailyInit() {
-  return (0, _request.post)('/home/init', {
-    _id: INFO._id,
-    calendar: INFO.calendar[0] });
-
-}
-
-//打卡
-function clockIn() {
-  return (0, _request.get)('/home/clock', {
-    user_id: INFO._id });
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 4:
+/* 4 */
 /*!***********************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages.json ***!
   \***********************************************************/
@@ -8211,8 +7621,7 @@ function clockIn() {
 
 
 /***/ }),
-
-/***/ 5:
+/* 5 */
 /*!*******************************************************!*\
   !*** ./node_modules/@dcloudio/uni-stat/dist/index.js ***!
   \*******************************************************/
@@ -9098,8 +8507,7 @@ main();
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-
-/***/ 6:
+/* 6 */
 /*!******************************************************!*\
   !*** ./node_modules/@dcloudio/uni-stat/package.json ***!
   \******************************************************/
@@ -9109,21 +8517,1827 @@ main();
 module.exports = {"_from":"@dcloudio/uni-stat@next","_id":"@dcloudio/uni-stat@2.0.0-26420200313001","_inBundle":false,"_integrity":"sha512-7dPuazTiDmUyRcw+WW+UlWGKH0eeCUB+p0P4pJVKEHjpdXnXgvDQCSdJk764NH99TfsUycnuxecP5oHckVa88g==","_location":"/@dcloudio/uni-stat","_phantomChildren":{},"_requested":{"type":"tag","registry":true,"raw":"@dcloudio/uni-stat@next","name":"@dcloudio/uni-stat","escapedName":"@dcloudio%2funi-stat","scope":"@dcloudio","rawSpec":"next","saveSpec":null,"fetchSpec":"next"},"_requiredBy":["#USER","/","/@dcloudio/vue-cli-plugin-uni"],"_resolved":"https://registry.npmjs.org/@dcloudio/uni-stat/-/uni-stat-2.0.0-26420200313001.tgz","_shasum":"a006e329e033cd412accfa635f8933dbb822a9c3","_spec":"@dcloudio/uni-stat@next","_where":"/Users/guoshengqiang/Documents/dcloud-plugins/release/uniapp-cli","author":"","bugs":{"url":"https://github.com/dcloudio/uni-app/issues"},"bundleDependencies":false,"deprecated":false,"description":"","devDependencies":{"@babel/core":"^7.5.5","@babel/preset-env":"^7.5.5","eslint":"^6.1.0","rollup":"^1.19.3","rollup-plugin-babel":"^4.3.3","rollup-plugin-clear":"^2.0.7","rollup-plugin-commonjs":"^10.0.2","rollup-plugin-copy":"^3.1.0","rollup-plugin-eslint":"^7.0.0","rollup-plugin-json":"^4.0.0","rollup-plugin-node-resolve":"^5.2.0","rollup-plugin-replace":"^2.2.0","rollup-plugin-uglify":"^6.0.2"},"files":["dist","package.json","LICENSE"],"gitHead":"b1fdbafab5dd4673cff64188a5203d0c947e4f50","homepage":"https://github.com/dcloudio/uni-app#readme","license":"Apache-2.0","main":"dist/index.js","name":"@dcloudio/uni-stat","repository":{"type":"git","url":"git+https://github.com/dcloudio/uni-app.git","directory":"packages/uni-stat"},"scripts":{"build":"NODE_ENV=production rollup -c rollup.config.js","dev":"NODE_ENV=development rollup -w -c rollup.config.js"},"version":"2.0.0-26420200313001"};
 
 /***/ }),
+/* 7 */
+/*!****************************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages.json?{"type":"style"} ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ 60:
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "disableScroll": true }, "pages/study/study": { "navigationBarTextStyle": "black", "disableScroll": true }, "pages/login/login/login": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" }, "pages/login/register/register": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" }, "pages/books/books": { "navigationBarTextStyle": "black", "backgroundColor": "#ff0000" } }, "globalStyle": { "navigationStyle": "custom" } };exports.default = _default;
+
+/***/ }),
+/* 8 */
+/*!***************************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages.json?{"type":"stat"} ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "appid": "__UNI__7823060" };exports.default = _default;
+
+/***/ }),
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    options.components = Object.assign(components, options.components || {})
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */
+/*!*********************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages/index/index.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.init = init;exports.clock = clock;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 22));var _utils = __webpack_require__(/*! ../../common/utils.js */ 25);
+
+
+
+
+
+
+var _server = __webpack_require__(/*! ../../network/server.js */ 26);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+
+
+
+
+
+// 获取今天日期 yyyy-mm-dd
+var today = (0, _utils.dateFormat)(Date.now());
+
+//尝试初始化用户记录表
+var tryInitRecord = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(that, UserInfo) {var length, calendar, index, uInfo;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+
+            //防止UserInfo.calendar为null而报错
+            length = UserInfo.calendar ? UserInfo.calendar.length : 0;
+
+            calendar = false;if (!(
+            length > 0)) {_context.next = 8;break;} //判断用户信息表中是否有记录表	
+            index = UserInfo.calendar.length - 1;
+            calendar = UserInfo.calendar[index]; //获取最后一张记录表
+            //如果该表是今日的记录表，设置签到组件状态（凌晨0-4点无法签到）
+            if (!(calendar.date === today)) {_context.next = 8;break;}
+            that.isClock = calendar.clock;return _context.abrupt("return");case 8:_context.next = 10;return (
+
+
+
+
+
+
+              (0, _server.dailyInit)(calendar));case 10:uInfo = _context.sent;
+            that.isClock = uInfo.isClock;
+            console.log("今日初始化完成");
+            (0, _utils.setUInfo)(uInfo);case 14:case "end":return _context.stop();}}}, _callee, this);}));return function tryInitRecord(_x, _x2) {return _ref.apply(this, arguments);};}();
+
+
+//判断用户信息中，有没有选定的词书，如果没有，要求添加词书；如果有，判断该词书状态信息表是否存在，如果没有，发送请求获取。 
+var checkBook = /*#__PURE__*/function () {var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2(that, UserInfo) {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (!
+
+            UserInfo.book_id) {_context2.next = 5;break;}_context2.next = 3;return (
+
+              (0, _utils.getBInfo)());case 3:_context2.next = 6;break;case 5:
+            //如果没有已选中的词书，设置this.noBook为true，弹出要求添加词书
+            that.noBook = true;case 6:case "end":return _context2.stop();}}}, _callee2, this);}));return function checkBook(_x3, _x4) {return _ref2.apply(this, arguments);};}();
+
+
+
+//统计词书信息
+var statistics = /*#__PURE__*/function () {var _ref3 = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(that) {var BookInfo, book, learn, review, i, word;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+
+
+              (0, _utils.getBInfo)());case 2:BookInfo = _context3.sent;if (
+
+            BookInfo) {_context3.next = 5;break;}return _context3.abrupt("return");case 5:
+
+
+            book = BookInfo.book;
+            //识别分类单词的状态
+            learn = 0; //未背诵的				
+            review = 0; //需要复习的
+
+            i = 0;case 9:if (!(i < book.length)) {_context3.next = 20;break;}
+            word = book[i];if (!(
+            word.state === 0)) {_context3.next = 14;break;}
+            learn++;return _context3.abrupt("continue", 17);case 14:if (!(
+
+
+            word.state === 1 && word.next_date <= today)) {_context3.next = 17;break;}
+            review++;return _context3.abrupt("continue", 17);case 17:i++;_context3.next = 9;break;case 20:
+
+
+
+            that.book_state.learn = learn;
+            that.book_state.review = review;case 22:case "end":return _context3.stop();}}}, _callee3, this);}));return function statistics(_x5) {return _ref3.apply(this, arguments);};}();function
+
+
+init(_x6) {return _init.apply(this, arguments);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//签到
+function _init() {_init = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4(that) {var UserInfo;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (0, _utils.getUInfo)();case 2:UserInfo = _context4.sent;if (UserInfo) {_context4.next = 5;break;}return _context4.abrupt("return");case 5:_context4.next = 7;return tryInitRecord(that, UserInfo);case 7:_context4.next = 9;return checkBook(that, UserInfo);case 9:_context4.next = 11;return statistics(that);case 11:case "end":return _context4.stop();}}}, _callee4, this);}));return _init.apply(this, arguments);}function clock() {return _clock.apply(this, arguments);}function _clock() {_clock = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var uInfo;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
+              (0, _server.clockIn)());case 2:uInfo = _context5.sent;_context5.next = 5;return (
+
+              (0, _utils.setUInfo)(uInfo));case 5:return _context5.abrupt("return");case 6:case "end":return _context5.stop();}}}, _callee5, this);}));return _clock.apply(this, arguments);}
+
+/***/ }),
+/* 22 */
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ 23);
+
+
+/***/ }),
+/* 23 */
+/*!************************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+// This method of obtaining a reference to the global object needs to be
+// kept identical to the way it is obtained in runtime.js
+var g = (function() {
+  return this || (typeof self === "object" && self);
+})() || Function("return this")();
+
+// Use `getOwnPropertyNames` because not all browsers support calling
+// `hasOwnProperty` on the global `self` object in a worker. See #183.
+var hadRuntime = g.regeneratorRuntime &&
+  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
+
+// Save the old regeneratorRuntime in case it needs to be restored later.
+var oldRuntime = hadRuntime && g.regeneratorRuntime;
+
+// Force reevalutation of runtime.js.
+g.regeneratorRuntime = undefined;
+
+module.exports = __webpack_require__(/*! ./runtime */ 24);
+
+if (hadRuntime) {
+  // Restore the original runtime.
+  g.regeneratorRuntime = oldRuntime;
+} else {
+  // Remove the global property added by runtime.js.
+  try {
+    delete g.regeneratorRuntime;
+  } catch(e) {
+    g.regeneratorRuntime = undefined;
+  }
+}
+
+
+/***/ }),
+/* 24 */
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+!(function(global) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  var inModule = typeof module === "object";
+  var runtime = global.regeneratorRuntime;
+  if (runtime) {
+    if (inModule) {
+      // If regeneratorRuntime is defined globally and we're in a module,
+      // make the exports object identical to regeneratorRuntime.
+      module.exports = runtime;
+    }
+    // Don't bother evaluating the rest of this file if the runtime was
+    // already defined globally.
+    return;
+  }
+
+  // Define the runtime globally (as expected by generated code) as either
+  // module.exports (if we're in a module) or a new, empty object.
+  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  runtime.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  runtime.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  runtime.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  runtime.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  runtime.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
+
+    return runtime.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        if (delegate.iterator.return) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  runtime.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  runtime.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+})(
+  // In sloppy mode, unbound `this` refers to the global object, fallback to
+  // Function constructor if we're in global strict mode. That is sadly a form
+  // of indirect eval which violates Content Security Policy.
+  (function() {
+    return this || (typeof self === "object" && self);
+  })() || Function("return this")()
+);
+
+
+/***/ }),
+/* 25 */
+/*!****************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/common/utils.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.expTest = expTest;exports.dateFormat = dateFormat;exports.getUInfo = getUInfo;exports.setUInfo = setUInfo;exports.getBInfo = getBInfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 22));var _server = __webpack_require__(/*! ../network/server.js */ 26);
+
+
+var _study = __webpack_require__(/*! ../network/study.js */ 66);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+
+//正则匹配，type：phone，password 
+function expTest(type, string) {
+  var exp = new RegExp();
+  if (type == 'phone') {
+    exp = new RegExp("^1(3|4|5|7|8)\\d{9}$");
+  }
+  if (type == 'password') {
+    exp = new RegExp("^[a-zA-Z]\\w{5,17}$");
+  }
+  return exp.test(string);
+}
+
+//格式化时间戳
+function dateFormat(time) {
+  var date = new Date(time);
+  var arr = [];
+  arr.push(date.getFullYear());
+  arr.push(date.getMonth() + 1);
+  arr.push(date.getDate());
+  return arr.join('-');
+}
+
+//尝试获取用户信息，如果没有，发送网络请求获取
+function getUInfo() {return _getUInfo.apply(this, arguments);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//将用户信息存入本地
+function _getUInfo() {_getUInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var net,UserInfo,_args2 = arguments;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:net = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : false;UserInfo = false;if (!net) {//尝试从本地获取用户信息
+              UserInfo = uni.getStorageSync('UserInfo');} //如果没有用户信息表，则发送请求重新获取用户信息表
+            if (UserInfo) {_context2.next = 8;break;}console.log("没有用户信息表, 开始尝试从服务器获取");_context2.next = 7;return tryGetUserInfoFromNet();case 7:UserInfo = _context2.sent;case 8:return _context2.abrupt("return", UserInfo);case 9:case "end":return _context2.stop();}}}, _callee2, this);}));return _getUInfo.apply(this, arguments);}function setUInfo(_x) {return _setUInfo.apply(this, arguments);}
+
+
+
+
+
+
+
+
+
+
+
+//尝试从网络获取用户信息
+function _setUInfo() {_setUInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(uInfo) {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0: // 将用户信息存入本地,并检测是否存入成功
+            if (uInfo) {console.log("存入用户信息");console.log(uInfo);uni.setStorageSync('UserInfo', uInfo);} else {console.log(uInfo); //如果存入失败，尝试重新获取用户信息（保险机制）
+              console.log("没有获取到用户信息表, 开始尝试从服务器获取");tryGetUserInfoFromNet();}case 1:case "end":return _context3.stop();}}}, _callee3, this);}));return _setUInfo.apply(this, arguments);}var tryGetUserInfoFromNet = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var UserInfo;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (0, _server.getUserInfo)();case 2:UserInfo = _context.sent;if (
+            UserInfo) {_context.next = 8;break;}
+            console.log("获取用户信息失败，请重新登录"); //基本不可能走到这里
+            uni.removeStorageSync('TOKEN'); //我怀疑是你的token有问题（开始甩锅）
+            uni.redirectTo({
+              url: '/pages/login/login/login.vue' });return _context.abrupt("return");case 8:
+
+
+
+            uni.setStorageSync('UserInfo', UserInfo);return _context.abrupt("return",
+
+            UserInfo);case 10:case "end":return _context.stop();}}}, _callee, this);}));return function tryGetUserInfoFromNet() {return _ref.apply(this, arguments);};}();
+
+
+//尝试获取本地词书状态信息，如果没有，发送网络请求获取
+function getBInfo() {return _getBInfo.apply(this, arguments);}function _getBInfo() {_getBInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var uInfo, BookInfo, _BookInfo;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+
+              getUInfo());case 2:uInfo = _context4.sent;if (
+            uInfo.book_id) {_context4.next = 5;break;}return _context4.abrupt("return");case 5:
+
+
+
+            //尝试从本地缓存获取词书信息	
+            BookInfo = uni.getStorageSync('BookInfo');
+
+            //如果没有词书信息，则发送请求重新获取
+            if (BookInfo) {_context4.next = 17;break;}
+            console.log("没有词书信息, 开始尝试从服务器获取");_context4.next = 10;return (
+              (0, _study.getBookInfo)(uInfo.book_id));case 10:_BookInfo = _context4.sent;if (
+
+            _BookInfo) {_context4.next = 16;break;}
+            console.log("获取词书信息失败，请检查您的网络状态"); //开始甩锅
+            uni.removeStorageSync('TOKEN'); //顺便把你token给扬了
+            uni.redirectTo({
+              url: '/pages/login/login/login.vue' });return _context4.abrupt("return");case 16:
+
+
+
+            uni.setStorageSync('BookInfo', _BookInfo);case 17:return _context4.abrupt("return",
+
+            BookInfo);case 18:case "end":return _context4.stop();}}}, _callee4, this);}));return _getBInfo.apply(this, arguments);}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 26 */
+/*!******************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/server.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.dailyInit = dailyInit;exports.clockIn = clockIn;exports.getUserInfo = getUserInfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 22));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var request = __webpack_require__(/*! ./request */ 27);
+
+//每日初始化，并且获取用户信息表
+function dailyInit(_x) {return _dailyInit.apply(this, arguments);}
+
+
+
+
+
+//打卡
+function _dailyInit() {_dailyInit = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(calendar) {var response;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!calendar) {calendar = { calendar: false };}_context.next = 3;return request('POST', '/server/init', calendar);case 3:response = _context.sent;return _context.abrupt("return", response.uInfo);case 5:case "end":return _context.stop();}}}, _callee, this);}));return _dailyInit.apply(this, arguments);}function clockIn() {return _clockIn.apply(this, arguments);}
+
+
+
+
+//获取用户信息
+function _clockIn() {_clockIn = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var response;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return request('GET', '/server/clock');case 2:response = _context2.sent;return _context2.abrupt("return", response.uInfo);case 4:case "end":return _context2.stop();}}}, _callee2, this);}));return _clockIn.apply(this, arguments);}function getUserInfo() {return _getUserInfo.apply(this, arguments);}function _getUserInfo() {_getUserInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var response;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+              request('GET', '/server/getuinfo'));case 2:response = _context3.sent;if (!
+            response) {_context3.next = 5;break;}return _context3.abrupt("return",
+            response.uInfo);case 5:case "end":return _context3.stop();}}}, _callee3, this);}));return _getUserInfo.apply(this, arguments);}
+
+/***/ }),
+/* 27 */
+/*!*******************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/request.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {var baseURL = 'http://192.168.0.105:5230/zrizc';
+
+module.exports = function (method, path, body) {
+  var TOKEN = uni.getStorageSync('TOKEN');
+
+  if (!TOKEN) {
+    console.log("未检测到Token，请重新登录");
+    uni.redirectTo({
+      url: '/pages/login/login/login.vue' });
+
+    return;
+  }
+
+  return new Promise(function (resolve, reject) {
+    console.log(baseURL + path);
+    uni.request({
+      method: method,
+      url: baseURL + path,
+      data: body,
+      header: {
+        'Authorization': TOKEN },
+
+      success: function success(response) {
+        if (response.data.err_code === 0) {//判断数据是否成功返回
+          resolve(response.data);
+        }
+        reject('ERROR');
+      },
+      fail: function fail(err) {
+        reject(err);
+      } });
+
+  });
+};
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */
+/*!*********************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages/study/study.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// import {dateFormat} from '../../common/utils.js'
+// //必须在线
+// //1.判断必要条件：用户信息表，词书信息表
+// const UserInfo = uni.getStorageSync('UserInfo')
+// let BookInfo = uni.getStorageSync('BookInfo')
+// if (!UserInfo) {
+// 	//如果没有用户信息表，则发送请求重新获取用户信息表
+// 	console.log("没有用户信息表")
+// }
+// if (!BookInfo) {
+// 	//如果没有词书信息表，则发送请求重新获取词书信息表
+// 	console.log("没有词书信息表")
+// }
+
+// //2.获取用户参数
+// const config = UserInfo.config
+
+// //3.获取今日的记录表(凌晨4点之前都算作前一天)
+// let record = UserInfo.calendar[UserInfo.calendar.length - 1] 
+// if(!record.date === dateFormat(Date.now() - 4*60*1000)){
+// 	//如果最后一张记录表不是今天的，则发送网络请求获取新的记录表
+// }
+
+// //4.获取管理器信息，用于临时保存随机选项信息，并记录当前组完成的单词数
+// let Controller = uni.getStorageSync('Controller')
+// if (!Controller) {
+// 	const sample = []
+// 	const counter = 0
+// 	Controller = {
+// 		sample,
+// 		counter
+// 	}
+// 	uni.setStorageSync('Controller', {
+// 		sample,
+// 		counter
+// 	})
+// }
+
+// //5.获取词书信息，分拣数据
+// 	classify() {
+// 				//获取本地词书信息
+// 				const book = uni.getStorageSync('BOOKINFO').book
+// 				if(!book){
+// 					return
+// 				}
+// 				// 获取今天日期 yyyy-mm-dd
+// 				const today = dateFormat(Date.now())
+
+// 				//识别分类单词的状态
+// 				let learn = [] //未背诵的
+// 				let doing = [] //背过但是未达到掌握的，等待复习
+// 				let review = [] //需要复习的
+// 				let done = [] //已掌握的
+
+// 				for (let i = 0; i < book.length; i++) {
+// 					const word = book[i]
+// 					if (word.state === 0) {
+// 						learn.push(word)
+// 						continue;
+// 					}
+// 					if (word.state === 1) {
+// 						doing.push(word)
+// 						if (word.next_date <= today) { //如果达到复习的日期
+// 							review.push(word)
+// 						}
+// 						continue;
+// 					}
+// 					if (word.state === 2) {
+// 						done.push(word)
+// 						continue
+// 					}
+// 				}
+// 				// console.log(learn)
+// 				// console.log(doing)
+// 				// console.log(review)
+// 				// console.log(done)
+// 				this.book_state.learn = learn.length
+// 				this.book_state.review = review.length
+// 			},
+
+// //5.获取单词队列
+// let queue = uni.getStorageSync('Queue')
+// if(!queue){
+// 	//如果单词队列不存在，发送网络请求获取10个单词的详细信息
+// }
+
+
+// //获取记录表
+
+// //检查临时记录
+// //检查用户词书表
+
+
+// //设置topbar组件参数
+// function setTopbar(that) {
+// 	that.topbar = {
+// 		done: Controller.counter,
+// 		count: config.count
+// 	}
+// }
+
+// //设置word组件参数
+// function setWord(that) {
+
+// }
+
+// //设置paraphrase组件参数
+// function setParaphrase(that) {
+
+// }
+
+
+/***/ }),
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */
+/*!*********************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/logAndReg.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.login = login;exports.register = register;exports.getMessage = getMessage;var sha256 = __webpack_require__(/*! sha256 */ 46);
+var baseURL = 'http://192.168.0.105:5230/member';
+
+var LAR = function LAR(path, body) {
+  return new Promise(function (resolve, reject) {
+    uni.request({
+      method: 'POST',
+      url: baseURL + path,
+      data: body,
+      success: function success(res) {
+        resolve(res);
+      },
+      fail: function fail(err) {
+        reject(err);
+      } });
+
+  });
+};
+
+//登录 并获取用户信息表 token
+function login(options) {
+  var key = sha256(options.password + "zengchun529");
+  return LAR('/login', {
+    phone: options.phone,
+    password: key });
+
+}
+
+//注册 并获取用户信息表 token
+function register(options) {
+  var TEMP_TOKEN = uni.getStorageSync('TempToken');
+  if (TEMP_TOKEN) {
+    var key = sha256(options.password + "zengchun529");
+    return LAR('/register', {
+      phone: options.phone,
+      password: key,
+      code: options.code,
+      token: TEMP_TOKEN });
+
+  } else {
+    return new Promise(function (resolve, reject) {
+      reject("网络繁忙，请重试"); //其实是没获取到临时token，让用户再获取一次
+    });
+  }
+
+}
+
+//获取短信验证码
+function getMessage(options) {
+  return LAR('/getmsg', options);
+}
+
+//修改密码
+// export function resetpassword() {
+// 	return uniReq.post('/home/loaddata')
+// }
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 46 */
+/*!**********************************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/sha256/lib/sha256.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+!function (globals) {
+  'use strict';
+
+  var _imports = {};
+
+  if ( true && module.exports) {//CommonJS
+    _imports.bytesToHex = __webpack_require__(/*! convert-hex */ 47).bytesToHex;
+    _imports.convertString = __webpack_require__(/*! convert-string */ 48);
+    module.exports = sha256;
+  } else {
+    _imports.bytesToHex = globals.convertHex.bytesToHex;
+    _imports.convertString = globals.convertString;
+    globals.sha256 = sha256;
+  }
+
+  /*
+    CryptoJS v3.1.2
+    code.google.com/p/crypto-js
+    (c) 2009-2013 by Jeff Mott. All rights reserved.
+    code.google.com/p/crypto-js/wiki/License
+    */
+
+  // Initialization round constants tables
+  var K = [];
+
+  // Compute constants
+  !function () {
+    function isPrime(n) {
+      var sqrtN = Math.sqrt(n);
+      for (var factor = 2; factor <= sqrtN; factor++) {
+        if (!(n % factor)) return false;
+      }
+
+      return true;
+    }
+
+    function getFractionalBits(n) {
+      return (n - (n | 0)) * 0x100000000 | 0;
+    }
+
+    var n = 2;
+    var nPrime = 0;
+    while (nPrime < 64) {
+      if (isPrime(n)) {
+        K[nPrime] = getFractionalBits(Math.pow(n, 1 / 3));
+        nPrime++;
+      }
+
+      n++;
+    }
+  }();
+
+  var bytesToWords = function bytesToWords(bytes) {
+    var words = [];
+    for (var i = 0, b = 0; i < bytes.length; i++, b += 8) {
+      words[b >>> 5] |= bytes[i] << 24 - b % 32;
+    }
+    return words;
+  };
+
+  var wordsToBytes = function wordsToBytes(words) {
+    var bytes = [];
+    for (var b = 0; b < words.length * 32; b += 8) {
+      bytes.push(words[b >>> 5] >>> 24 - b % 32 & 0xFF);
+    }
+    return bytes;
+  };
+
+  // Reusable object
+  var W = [];
+
+  var processBlock = function processBlock(H, M, offset) {
+    // Working variables
+    var a = H[0],b = H[1],c = H[2],d = H[3];
+    var e = H[4],f = H[5],g = H[6],h = H[7];
+
+    // Computation
+    for (var i = 0; i < 64; i++) {
+      if (i < 16) {
+        W[i] = M[offset + i] | 0;
+      } else {
+        var gamma0x = W[i - 15];
+        var gamma0 = (gamma0x << 25 | gamma0x >>> 7) ^ (
+        gamma0x << 14 | gamma0x >>> 18) ^
+        gamma0x >>> 3;
+
+        var gamma1x = W[i - 2];
+        var gamma1 = (gamma1x << 15 | gamma1x >>> 17) ^ (
+        gamma1x << 13 | gamma1x >>> 19) ^
+        gamma1x >>> 10;
+
+        W[i] = gamma0 + W[i - 7] + gamma1 + W[i - 16];
+      }
+
+      var ch = e & f ^ ~e & g;
+      var maj = a & b ^ a & c ^ b & c;
+
+      var sigma0 = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22);
+      var sigma1 = (e << 26 | e >>> 6) ^ (e << 21 | e >>> 11) ^ (e << 7 | e >>> 25);
+
+      var t1 = h + sigma1 + ch + K[i] + W[i];
+      var t2 = sigma0 + maj;
+
+      h = g;
+      g = f;
+      f = e;
+      e = d + t1 | 0;
+      d = c;
+      c = b;
+      b = a;
+      a = t1 + t2 | 0;
+    }
+
+    // Intermediate hash value
+    H[0] = H[0] + a | 0;
+    H[1] = H[1] + b | 0;
+    H[2] = H[2] + c | 0;
+    H[3] = H[3] + d | 0;
+    H[4] = H[4] + e | 0;
+    H[5] = H[5] + f | 0;
+    H[6] = H[6] + g | 0;
+    H[7] = H[7] + h | 0;
+  };
+
+  function sha256(message, options) {;
+    if (message.constructor === String) {
+      message = _imports.convertString.UTF8.stringToBytes(message);
+    }
+
+    var H = [0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
+    0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19];
+
+    var m = bytesToWords(message);
+    var l = message.length * 8;
+
+    m[l >> 5] |= 0x80 << 24 - l % 32;
+    m[(l + 64 >> 9 << 4) + 15] = l;
+
+    for (var i = 0; i < m.length; i += 16) {
+      processBlock(H, m, i);
+    }
+
+    var digestbytes = wordsToBytes(H);
+    return options && options.asBytes ? digestbytes :
+    options && options.asString ? _imports.convertString.bytesToString(digestbytes) :
+    _imports.bytesToHex(digestbytes);
+  }
+
+  sha256.x2 = function (message, options) {
+    return sha256(sha256(message, { asBytes: true }), options);
+  };
+
+}(void 0);
+
+/***/ }),
+/* 47 */
+/*!****************************************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/convert-hex/convert-hex.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+!function (globals) {
+  'use strict';
+
+  var convertHex = {
+    bytesToHex: function bytesToHex(bytes) {
+      /*if (typeof bytes.byteLength != 'undefined') {
+                                              var newBytes = []
+                                               if (typeof bytes.buffer != 'undefined')
+                                                bytes = new DataView(bytes.buffer)
+                                              else
+                                                bytes = new DataView(bytes)
+                                               for (var i = 0; i < bytes.byteLength; ++i) {
+                                                newBytes.push(bytes.getUint8(i))
+                                              }
+                                              bytes = newBytes
+                                            }*/
+
+
+      return arrBytesToHex(bytes);
+    },
+    hexToBytes: function hexToBytes(hex) {
+      if (hex.length % 2 === 1) throw new Error("hexToBytes can't have a string with an odd number of characters.");
+      if (hex.indexOf('0x') === 0) hex = hex.slice(2);
+      return hex.match(/../g).map(function (x) {return parseInt(x, 16);});
+    }
+
+
+
+    // PRIVATE
+  };
+  function arrBytesToHex(bytes) {
+    return bytes.map(function (x) {return padLeft(x.toString(16), 2);}).join('');
+  }
+
+  function padLeft(orig, len) {
+    if (orig.length > len) return orig;
+    return Array(len - orig.length + 1).join('0') + orig;
+  }
+
+
+  if ( true && module.exports) {//CommonJS
+    module.exports = convertHex;
+  } else {
+    globals.convertHex = convertHex;
+  }
+
+}(void 0);
+
+/***/ }),
+/* 48 */
+/*!**********************************************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/convert-string/convert-string.js ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+!function (globals) {
+  'use strict';
+
+  var convertString = {
+    bytesToString: function bytesToString(bytes) {
+      return bytes.map(function (x) {return String.fromCharCode(x);}).join('');
+    },
+    stringToBytes: function stringToBytes(str) {
+      return str.split('').map(function (x) {return x.charCodeAt(0);});
+    }
+
+
+    //http://hossa.in/2012/07/20/utf-8-in-javascript.html
+  };convertString.UTF8 = {
+    bytesToString: function bytesToString(bytes) {
+      return decodeURIComponent(escape(convertString.bytesToString(bytes)));
+    },
+    stringToBytes: function stringToBytes(str) {
+      return convertString.stringToBytes(unescape(encodeURIComponent(str)));
+    } };
+
+
+  if ( true && module.exports) {//CommonJS
+    module.exports = convertString;
+  } else {
+    globals.convertString = convertString;
+  }
+
+}(void 0);
+
+/***/ }),
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */
+/*!*********************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages/books/books.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.addbook = addbook;exports.renderSBInfo = renderSBInfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 22));var _study = __webpack_require__(/*! ../../network/study.js */ 66);
+
+
+
+
+var _utils = __webpack_require__(/*! ../../common/utils.js */ 25);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function
+
+
+
+addbook(_x, _x2) {return _addbook.apply(this, arguments);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//获取书库信息
+function _addbook() {_addbook = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(that, book_name) {var uInfo;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:uni.showLoading({ title: '添加中……', mask: true });_context3.next = 3;return (0, _study.addUserBook)(book_name);case 3:uInfo = _context3.sent;console.log("book.js uinfo"); //更新用户信息
+            _context3.next = 7;return (0, _utils.setUInfo)(uInfo);case 7: // 查找书库中,对应的书并删除
+            that.booksList.forEach(function (cate) {for (var i = 0; i < cate.list.length; i++) {var book = cate.list[i];if (book.book_name === book_name) {cate.list.splice(i, 1);}}}); //重置用户词书列表						
+            that.booksList[0].list = uInfo.book_list; //更新保存书库信息到本地	
+            _context3.next = 11;return setSBInfo(that.booksList);case 11:uni.showToast({ title: '添加成功' });uni.hideLoading();case 13:case "end":return _context3.stop();}}}, _callee3, this);}));return _addbook.apply(this, arguments);}function renderSBInfo(_x3) {return _renderSBInfo.apply(this, arguments);}
+
+//尝试将书库信息存入本地
+function _renderSBInfo() {_renderSBInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4(that) {return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return getSBInfo();case 2:that.booksList = _context4.sent;case 3:case "end":return _context4.stop();}}}, _callee4, this);}));return _renderSBInfo.apply(this, arguments);}var setSBInfo = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(booksList) {var _booksList;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!
+
+            booksList) {_context.next = 4;break;}
+            uni.setStorageSync('ServerBookList', booksList);_context.next = 8;break;case 4:
+
+            //如果存入失败，尝试重新获取书库信息
+            console.log("没有获取到书库信息表, 开始尝试从服务器获取");_context.next = 7;return (
+              (0, _study.getServerBookList)(true));case 7:_booksList = _context.sent;case 8:
+
+            if (!booksList) {
+              console.log('ERROR');
+            }case 9:case "end":return _context.stop();}}}, _callee, this);}));return function setSBInfo(_x4) {return _ref.apply(this, arguments);};}();
+
+
+//尝试获取书库信息
+var getSBInfo = /*#__PURE__*/function () {var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var booksList;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+            //尝试从本地获取书库信息
+            booksList = uni.getStorageSync('ServerBookList');if (
+            booksList) {_context2.next = 6;break;}
+            //尝试重新获取书库信息
+            console.log("没有获取到书库信息表, 开始尝试从服务器获取");_context2.next = 5;return (
+              (0, _study.getServerBookList)(true));case 5:booksList = _context2.sent;case 6:return _context2.abrupt("return",
+
+            booksList);case 7:case "end":return _context2.stop();}}}, _callee2, this);}));return function getSBInfo() {return _ref2.apply(this, arguments);};}();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 66 */
 /*!*****************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/books.js ***!
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/study.js ***!
   \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getServerBookList = getServerBookList;exports.addUserBook = addUserBook;var _request = __webpack_require__(/*! ./request */ 16);
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getServerBookList = getServerBookList;exports.addUserBook = addUserBook;exports.getBookInfo = getBookInfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 22));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var request = __webpack_require__(/*! ./request */ 27);
 
 
-
-var uBooksList = uni.getStorageSync('UserInfo').book_list;
-var BookTypeList = [{
+var BookType = [{
   type: '我的',
   list: [] },
 
@@ -9158,102 +10372,81 @@ var BookTypeList = [{
 
 
 //获取系统书库列表
-function getServerBookList() {
-  return new Promise(function (resolve) {
-    //判断本地缓存
-    var booksList = uni.getStorageSync('ServerBookList');
-    if (booksList) {
-      resolve();
+function getServerBookList() {return _getServerBookList.apply(this, arguments);}
 
-    } else {
-      //发送网络请求获取词书列表信息
-      (0, _request.get)('/server/getserverbooks').then(function (res) {
-        console.log(res);
-        //遍历请求结果，过滤用户已有的词书并分类数据
-        res.data.bookList.forEach(function (book) {
-          if (!checkUserBook(uBooksList, book.book_name)) {//判断用户是否拥有该词书
-            //进行分类
-            BookTypeList.forEach(function (category) {
-              if (book.book_type === category.type) {
-                category.list.push(book);
-              }
-            });
-          }
-        });
-        //获取用户词书信息				
-        BookTypeList[0].list = uBooksList;
 
-        //保存到本地
-        uni.setStorageSync('ServerBookList', BookTypeList);
-        console.log(BookTypeList);
-        resolve();
-      });
-    }
-  });
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //添加词书
-function addUserBook(book_name) {
-  return new Promise(function (resolve) {
-    console.log(uBooksList);
+function _getServerBookList() {_getServerBookList = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var net,ServerBookList,uBooksList,response,_args = arguments;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:net = _args.length > 0 && _args[0] !== undefined ? _args[0] : false;if (net) {_context.next = 5;break;} //判断本地缓存
+            ServerBookList = uni.getStorageSync('ServerBookList');if (!ServerBookList) {_context.next = 5;break;}return _context.abrupt("return");case 5: //获取用户图书列表信息
+            uBooksList = uni.getStorageSync('UserInfo').book_list; //发送网络请求获取词书列表信息
+            _context.next = 8;return request('GET', '/server/getserverbooks');case 8:response = _context.sent; //遍历请求结果，过滤用户已有的词书并分类数据
+            response.bookList.forEach(function (book) {if (!checkUserBook(uBooksList, book.book_name)) {//判断用户是否拥有该词书
+                //进行分类
+                BookType.forEach(function (category) {if (book.book_type === category.type) {category.list.push(book);}});}}); //获取用户词书信息				
+            BookType[0].list = uBooksList ? uBooksList : []; //保存到本地
+            uni.setStorageSync('ServerBookList', BookType);console.log(BookType);return _context.abrupt("return", BookType);case 14:case "end":return _context.stop();}}}, _callee, this);}));return _getServerBookList.apply(this, arguments);}function addUserBook(_x) {return _addUserBook.apply(this, arguments);}
 
-    //判断该词书是否已经存在用户词书列表里（后端也有判断的）
-    if (uBooksList && !checkUserBook(uBooksList, book_name)) {
-      (0, _request.get)('/word/addbook', {
-        'book_name': book_name }).
-      then(function (res) {
 
-        resolve(res);
-      });
-    } else {
-      resolve(false);
-    }
-  });
-}
+
+
+
+
+
+//获取词书状态信息
+function _addUserBook() {_addUserBook = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2(book_name) {var uBooksList, response;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0: //获取用户图书列表信息
+            uBooksList = uni.getStorageSync('UserInfo').book_list; //判断该词书是否已经存在用户词书列表里（后端也有判断的）
+            if (!(uBooksList && checkUserBook(uBooksList, book_name))) {_context2.next = 3;break;}return _context2.abrupt("return", false);case 3:_context2.next = 5;return request('GET', '/study/addbook', { 'book_name': book_name });case 5:response = _context2.sent;return _context2.abrupt("return", response.uInfo);case 7:case "end":return _context2.stop();}}}, _callee2, this);}));return _addUserBook.apply(this, arguments);}function getBookInfo(_x2) {return _getBookInfo.apply(this, arguments);}
+
 
 
 
 
 //判断该词书是否已经存在用户词书列表里（后端也有判断的）		
-function checkUserBook(uBooksList, book_name) {
+function _getBookInfo() {_getBookInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(book_id) {var response;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return request('GET', '/study/bookinfo', { book_id: book_id });case 2:response = _context3.sent;return _context3.abrupt("return", response.book_info);case 4:case "end":return _context3.stop();}}}, _callee3, this);}));return _getBookInfo.apply(this, arguments);}var checkUserBook = function checkUserBook(List, book_name) {
   var flag = false;
-  if (uBooksList) {
-    uBooksList.forEach(function (el) {
+  if (List) {
+    List.forEach(function (el) {
       if (el.book_name === book_name) {
         flag = true;
       }
     });
   }
-
   return flag;
-}
+};
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
-/***/ }),
-
-/***/ 7:
-/*!****************************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages.json?{"type":"style"} ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/study/study": { "navigationBarTextStyle": "black", "disableScroll": true }, "pages/index/index": { "disableScroll": true }, "pages/login/login/login": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" }, "pages/login/register/register": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" }, "pages/books/books": { "navigationBarTextStyle": "black", "backgroundColor": "#ff0000" } }, "globalStyle": { "navigationStyle": "custom" } };exports.default = _default;
-
-/***/ }),
-
-/***/ 8:
-/*!***************************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages.json?{"type":"stat"} ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "appid": "__UNI__7823060" };exports.default = _default;
-
 /***/ })
-
-}]);
+]]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

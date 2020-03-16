@@ -90,9 +90,11 @@
 						});
 						return false
 					}
-					uni.setStorageSync('UserInfo', success.data.userInfo)
+					
 					uni.setStorageSync('TOKEN', success.data.token)
-
+					uni.setStorageSync('UserInfo', success.data.uInfo)
+					console.log(success.data.token)
+					
 					uni.showToast({
 						duration: 2000,
 						icon: 'success',

@@ -24,9 +24,14 @@
 	import Logo from '../childComp/Logo.vue';
 	import wInput from 'components/watch-login/watch-input.vue';
 	import wButton from 'components/watch-login/watch-button.vue';
-	
-	import {expTest} from 'common/utils.js'
-	import {register,getMessage} from 'network/logAndReg.js'
+
+	import {
+		expTest
+	} from 'common/utils.js'
+	import {
+		register,
+		getMessage
+	} from 'network/logAndReg.js'
 
 	export default {
 		components: {
@@ -43,7 +48,7 @@
 				isRotate: false, //是否加载旋转
 			}
 		},
-	
+
 		methods: {
 			isShowAgree() {
 				//是否选择协议
@@ -52,7 +57,7 @@
 
 			getVerCode() {
 				//获取验证码
-				if (!expTest('phone',this.phone)) {
+				if (!expTest('phone', this.phone)) {
 					uni.showToast({
 						icon: 'none',
 						position: 'center',
@@ -73,15 +78,15 @@
 							title: '验证码已发送，请注意查收'
 						});
 						//保存token
-						if(res.data.temptoken){
+						if (res.data.temptoken) {
 							uni.setStorageSync('TempToken', res.data.temptoken)
-						}else{
+						} else {
 							uni.showToast({
 								icon: 'none',
 								position: 'center',
 								title: '出错啦！请稍后重试'
 							});
-						}						
+						}
 					} else {
 						uni.showToast({
 							icon: 'none',
@@ -99,10 +104,10 @@
 					});
 				})
 			},
-			
-	/**
-	 * 新用户注册
-	 */
+
+			/**
+			 * 新用户注册
+			 */
 			startReg() {
 				if (this.isRotate) {
 					//判断是否加载中，避免重复点击请求
@@ -116,7 +121,7 @@
 					});
 					return false;
 				}
-				if (!expTest('phone',this.phone)) {
+				if (!expTest('phone', this.phone)) {
 					uni.showToast({
 						icon: 'none',
 						position: 'center',
@@ -124,7 +129,7 @@
 					});
 					return false;
 				}
-				if (!expTest('password',this.password)) {
+				if (!expTest('password', this.password)) {
 					uni.showToast({
 						icon: 'none',
 						position: 'center',
@@ -132,7 +137,7 @@
 					});
 					return false;
 				}
-				
+
 				if (this.code.length !== 4) {
 					uni.showToast({
 						icon: 'none',
@@ -152,9 +157,9 @@
 
 				register(payload).then((success) => {
 					console.log(success)
-					
-					
-					if(success.data.err_code !== 0){
+
+
+					if (success.data.err_code !== 0) {
 						uni.showToast({
 							icon: 'none',
 							position: 'center',
@@ -162,27 +167,30 @@
 						});
 						this.isRotate = false
 						return false
-					}					
-					if(!success.data.token){
+					}
+					if (!success.data.token) {
 						// 获取不到用户信息,让用户重新登录
 						uni.redirectTo({
-							url:'/pages/login/login/login'
+							url: '/pages/login/login/login'
 						})
 					}
-					//注册成功：
-				
+
+					//注册成功：				
 					uni.setStorageSync('TOKEN', success.data.token)
-				
+					uni.setStorageSync('UserInfo',success.data.uInfo)
+					
 					uni.showToast({
 						icon: 'success',
 						position: 'center',
 						title: "注册成功！",
 						mask: true,
-						
 						complete: () => {
-							uni.redirectTo({
-								url: '/pages/index/index'
-							})
+							setTimeout(() => {
+								console.log(uni.getStorageInfoSync())
+								uni.redirectTo({
+									url: '/pages/index/index'
+								})
+							}, 1000)
 						}
 					});
 

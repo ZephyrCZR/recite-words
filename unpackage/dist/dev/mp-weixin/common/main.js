@@ -7,44 +7,19 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni, createApp) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
+/* WEBPACK VAR INJECTION */(function(createApp) {__webpack_require__(/*! uni-pages */ 4);__webpack_require__(/*! @dcloudio/uni-stat */ 5);
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 9));
+var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 
-
-
-var _logAndReg = __webpack_require__(/*! network/logAndReg.js */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}_vue.default.config.productionTip = false;
-
-// 判断登陆状态，无登录则跳转到登录页, 已登录跳转到首页
-_vue.default.prototype.checkLogin = function () {
-  console.log("调用了checkLogin方法");
-  var TOKEN = uni.getStorageSync('TOKEN');
-  var UserInfo = uni.getStorageSync('UserInfo');
-
-  if (TOKEN && !UserInfo) {//如果token存在但是用户信息不存在
-    console.log("用户信息丢失，尝试重新获取");
-    (0, _logAndReg.getUserInfo)();
-  }
-
-  if (TOKEN == '') {
-    console.log("未登录");
-    uni.redirectTo({
-      url: '/pages/login/login/login' });
-
-    return false;
-  } else {
-    return true;
-  }
-};
+_vue.default.config.productionTip = false;
 
 _App.default.mpType = 'app';
 
 var app = new _vue.default(_objectSpread({},
-
 _App.default));
 
 createApp(app).$mount();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"]))
 
 /***/ }),
 /* 1 */,
@@ -120,19 +95,22 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
-
-
 {
   onLaunch: function onLaunch() {
-    //登录状态
-    this.checkLogin();
     console.log('App Launch');
 
+    // 判断登陆状态，无登录则跳转到登录页, 已登录跳转到首页
+    if (!uni.getStorageSync('TOKEN')) {
+      console.log("未登录");
+      uni.redirectTo({
+        url: '/pages/login/login/login' });
+
+    }
   },
   onShow: function onShow() {
-
-    console.log(uni.getStorageInfoSync());
     console.log('App Show');
+
+    console.log(uni.getStorageInfoSync()); //打印Storage信息
   },
   onHide: function onHide() {
     console.log('App Hide');
