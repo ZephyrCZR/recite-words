@@ -28,7 +28,7 @@ export function login(options) {
 
 //注册 并获取用户信息表 token
 export function register(options) {
-	const TEMP_TOKEN = uni.getStorageSync('TempToken')
+	const TEMP_TOKEN = uni.getStorageSync('TEMP_TOKEN')
 	if (TEMP_TOKEN) {
 		const key = sha256(options.password + "zengchun529")
 		return LAR('/register', {

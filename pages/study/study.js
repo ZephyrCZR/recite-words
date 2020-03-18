@@ -1,19 +1,40 @@
-// import {dateFormat} from '../../common/utils.js'
-// //必须在线
-// //1.判断必要条件：用户信息表，词书信息表
-// const UserInfo = uni.getStorageSync('UserInfo')
-// let BookInfo = uni.getStorageSync('BookInfo')
-// if (!UserInfo) {
-// 	//如果没有用户信息表，则发送请求重新获取用户信息表
-// 	console.log("没有用户信息表")
-// }
-// if (!BookInfo) {
-// 	//如果没有词书信息表，则发送请求重新获取词书信息表
-// 	console.log("没有词书信息表")
+// import {dateFormat, getUInfo, getBInfo} from '../../common/utils.js'
+// //在线版（鉴于小程序无法持久化存储数据，只能做成在线版，app端另行适配）
+// //1.获取用户信息表、词书信息表、用户配置
+// const getDatas = async function(){
+// 	const UserInfo = await getUInfo()
+// 	let BookInfo = await getBInfo()
+// 	const config = UserInfo.config
 // }
 
-// //2.获取用户参数
-// const config = UserInfo.config
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // //3.获取今日的记录表(凌晨4点之前都算作前一天)
 // let record = UserInfo.calendar[UserInfo.calendar.length - 1] 

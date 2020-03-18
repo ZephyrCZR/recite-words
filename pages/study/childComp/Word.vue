@@ -32,8 +32,8 @@
 				type: Object,
 				default() {
 					return {
-						word: '',
-						soundmark: [],
+						word: 'hello',
+						soundmark: [{"soundtype":"美","symbol":"rɪˈkrutmənt","audio":"https://dictionary.blob.core.chinacloudapi.cn/media/audio/tom/15/0f/150FE9E687005122E736241BA691EDA3.mp3"},{"soundtype":"英","symbol":"rɪˈkruːtmənt","audio":"https://dictionary.blob.core.chinacloudapi.cn/media/audio/george/15/0f/150FE9E687005122E736241BA691EDA3.mp3"}],
 						state: 0,
 						is_kk: false,
 						auto_audio: false

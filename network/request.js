@@ -5,9 +5,6 @@ module.exports = function(method, path, body) {
 
 	if (!TOKEN) {
 		console.log("未检测到Token，请重新登录")
-		uni.redirectTo({
-			url: '/pages/login/login/login.vue'
-		})
 		return
 	}
 

@@ -8664,137 +8664,1116 @@ function normalizeComponent (
 
 
 /***/ }),
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */
-/*!*********************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages/index/index.js ***!
-  \*********************************************************************/
+/* 15 */
+/*!***************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/store/index.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.init = init;exports.clock = clock;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 22));var _utils = __webpack_require__(/*! ../../common/utils.js */ 25);
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 16));
+
+var _actions = _interopRequireDefault(__webpack_require__(/*! ./actions */ 17));
+var _mutations = _interopRequireDefault(__webpack_require__(/*! ./mutations */ 27));
+var _getters = _interopRequireDefault(__webpack_require__(/*! ./getters */ 28));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+_vue.default.use(_vuex.default);
+
+var store = new _vuex.default.Store({
+  state: {
+    user: { //用户基本信息
+      nickname: 'MEOW用户',
+      coin: 0,
+      avatar: '' },
+
+    config: {}, //用户配置
+    calendars: [], //每日学习记录
+    books_list: [], //用户拥有的图书
+
+    book_id: '', //用户选定的图书id		
+    book_info: false, //用户选定的图书信息
+
+    sys_lib: [] //系统书库信息
+  },
+  actions: _actions.default,
+  mutations: _mutations.default,
+  getters: _getters.default });var _default =
 
 
-
-
-
-
-var _server = __webpack_require__(/*! ../../network/server.js */ 26);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
-
-
-
-
-
-// 获取今天日期 yyyy-mm-dd
-var today = (0, _utils.dateFormat)(Date.now());
-
-//尝试初始化用户记录表
-var tryInitRecord = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(that, UserInfo) {var length, calendar, index, uInfo;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-
-            //防止UserInfo.calendar为null而报错
-            length = UserInfo.calendar ? UserInfo.calendar.length : 0;
-
-            calendar = false;if (!(
-            length > 0)) {_context.next = 8;break;} //判断用户信息表中是否有记录表	
-            index = UserInfo.calendar.length - 1;
-            calendar = UserInfo.calendar[index]; //获取最后一张记录表
-            //如果该表是今日的记录表，设置签到组件状态（凌晨0-4点无法签到）
-            if (!(calendar.date === today)) {_context.next = 8;break;}
-            that.isClock = calendar.clock;return _context.abrupt("return");case 8:_context.next = 10;return (
-
-
-
-
-
-
-              (0, _server.dailyInit)(calendar));case 10:uInfo = _context.sent;
-            that.isClock = uInfo.isClock;
-            console.log("今日初始化完成");
-            (0, _utils.setUInfo)(uInfo);case 14:case "end":return _context.stop();}}}, _callee, this);}));return function tryInitRecord(_x, _x2) {return _ref.apply(this, arguments);};}();
-
-
-//判断用户信息中，有没有选定的词书，如果没有，要求添加词书；如果有，判断该词书状态信息表是否存在，如果没有，发送请求获取。 
-var checkBook = /*#__PURE__*/function () {var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2(that, UserInfo) {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (!
-
-            UserInfo.book_id) {_context2.next = 5;break;}_context2.next = 3;return (
-
-              (0, _utils.getBInfo)());case 3:_context2.next = 6;break;case 5:
-            //如果没有已选中的词书，设置this.noBook为true，弹出要求添加词书
-            that.noBook = true;case 6:case "end":return _context2.stop();}}}, _callee2, this);}));return function checkBook(_x3, _x4) {return _ref2.apply(this, arguments);};}();
-
-
-
-//统计词书信息
-var statistics = /*#__PURE__*/function () {var _ref3 = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(that) {var BookInfo, book, learn, review, i, word;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
-
-
-              (0, _utils.getBInfo)());case 2:BookInfo = _context3.sent;if (
-
-            BookInfo) {_context3.next = 5;break;}return _context3.abrupt("return");case 5:
-
-
-            book = BookInfo.book;
-            //识别分类单词的状态
-            learn = 0; //未背诵的				
-            review = 0; //需要复习的
-
-            i = 0;case 9:if (!(i < book.length)) {_context3.next = 20;break;}
-            word = book[i];if (!(
-            word.state === 0)) {_context3.next = 14;break;}
-            learn++;return _context3.abrupt("continue", 17);case 14:if (!(
-
-
-            word.state === 1 && word.next_date <= today)) {_context3.next = 17;break;}
-            review++;return _context3.abrupt("continue", 17);case 17:i++;_context3.next = 9;break;case 20:
-
-
-
-            that.book_state.learn = learn;
-            that.book_state.review = review;case 22:case "end":return _context3.stop();}}}, _callee3, this);}));return function statistics(_x5) {return _ref3.apply(this, arguments);};}();function
-
-
-init(_x6) {return _init.apply(this, arguments);}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//签到
-function _init() {_init = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4(that) {var UserInfo;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (0, _utils.getUInfo)();case 2:UserInfo = _context4.sent;if (UserInfo) {_context4.next = 5;break;}return _context4.abrupt("return");case 5:_context4.next = 7;return tryInitRecord(that, UserInfo);case 7:_context4.next = 9;return checkBook(that, UserInfo);case 9:_context4.next = 11;return statistics(that);case 11:case "end":return _context4.stop();}}}, _callee4, this);}));return _init.apply(this, arguments);}function clock() {return _clock.apply(this, arguments);}function _clock() {_clock = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var uInfo;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
-              (0, _server.clockIn)());case 2:uInfo = _context5.sent;_context5.next = 5;return (
-
-              (0, _utils.setUInfo)(uInfo));case 5:return _context5.abrupt("return");case 6:case "end":return _context5.stop();}}}, _callee5, this);}));return _clock.apply(this, arguments);}
+store;exports.default = _default;
 
 /***/ }),
-/* 22 */
+/* 16 */
+/*!********************************************!*\
+  !*** ./node_modules/vuex/dist/vuex.esm.js ***!
+  \********************************************/
+/*! exports provided: Store, install, mapState, mapMutations, mapGetters, mapActions, createNamespacedHelpers, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapState", function() { return mapState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapMutations", function() { return mapMutations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapGetters", function() { return mapGetters; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
+/**
+ * vuex v3.0.1
+ * (c) 2017 Evan You
+ * @license MIT
+ */
+var applyMixin = function (Vue) {
+  var version = Number(Vue.version.split('.')[0]);
+
+  if (version >= 2) {
+    Vue.mixin({ beforeCreate: vuexInit });
+  } else {
+    // override init and inject vuex init procedure
+    // for 1.x backwards compatibility.
+    var _init = Vue.prototype._init;
+    Vue.prototype._init = function (options) {
+      if ( options === void 0 ) options = {};
+
+      options.init = options.init
+        ? [vuexInit].concat(options.init)
+        : vuexInit;
+      _init.call(this, options);
+    };
+  }
+
+  /**
+   * Vuex init hook, injected into each instances init hooks list.
+   */
+
+  function vuexInit () {
+    var options = this.$options;
+    // store injection
+    if (options.store) {
+      this.$store = typeof options.store === 'function'
+        ? options.store()
+        : options.store;
+    } else if (options.parent && options.parent.$store) {
+      this.$store = options.parent.$store;
+    }
+  }
+};
+
+var devtoolHook =
+  typeof window !== 'undefined' &&
+  window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+
+function devtoolPlugin (store) {
+  if (!devtoolHook) { return }
+
+  store._devtoolHook = devtoolHook;
+
+  devtoolHook.emit('vuex:init', store);
+
+  devtoolHook.on('vuex:travel-to-state', function (targetState) {
+    store.replaceState(targetState);
+  });
+
+  store.subscribe(function (mutation, state) {
+    devtoolHook.emit('vuex:mutation', mutation, state);
+  });
+}
+
+/**
+ * Get the first item that pass the test
+ * by second argument function
+ *
+ * @param {Array} list
+ * @param {Function} f
+ * @return {*}
+ */
+/**
+ * Deep copy the given object considering circular structure.
+ * This function caches all nested objects and its copies.
+ * If it detects circular structure, use cached copy to avoid infinite loop.
+ *
+ * @param {*} obj
+ * @param {Array<Object>} cache
+ * @return {*}
+ */
+
+
+/**
+ * forEach for object
+ */
+function forEachValue (obj, fn) {
+  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
+}
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+function isPromise (val) {
+  return val && typeof val.then === 'function'
+}
+
+function assert (condition, msg) {
+  if (!condition) { throw new Error(("[vuex] " + msg)) }
+}
+
+var Module = function Module (rawModule, runtime) {
+  this.runtime = runtime;
+  this._children = Object.create(null);
+  this._rawModule = rawModule;
+  var rawState = rawModule.state;
+  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
+};
+
+var prototypeAccessors$1 = { namespaced: { configurable: true } };
+
+prototypeAccessors$1.namespaced.get = function () {
+  return !!this._rawModule.namespaced
+};
+
+Module.prototype.addChild = function addChild (key, module) {
+  this._children[key] = module;
+};
+
+Module.prototype.removeChild = function removeChild (key) {
+  delete this._children[key];
+};
+
+Module.prototype.getChild = function getChild (key) {
+  return this._children[key]
+};
+
+Module.prototype.update = function update (rawModule) {
+  this._rawModule.namespaced = rawModule.namespaced;
+  if (rawModule.actions) {
+    this._rawModule.actions = rawModule.actions;
+  }
+  if (rawModule.mutations) {
+    this._rawModule.mutations = rawModule.mutations;
+  }
+  if (rawModule.getters) {
+    this._rawModule.getters = rawModule.getters;
+  }
+};
+
+Module.prototype.forEachChild = function forEachChild (fn) {
+  forEachValue(this._children, fn);
+};
+
+Module.prototype.forEachGetter = function forEachGetter (fn) {
+  if (this._rawModule.getters) {
+    forEachValue(this._rawModule.getters, fn);
+  }
+};
+
+Module.prototype.forEachAction = function forEachAction (fn) {
+  if (this._rawModule.actions) {
+    forEachValue(this._rawModule.actions, fn);
+  }
+};
+
+Module.prototype.forEachMutation = function forEachMutation (fn) {
+  if (this._rawModule.mutations) {
+    forEachValue(this._rawModule.mutations, fn);
+  }
+};
+
+Object.defineProperties( Module.prototype, prototypeAccessors$1 );
+
+var ModuleCollection = function ModuleCollection (rawRootModule) {
+  // register root module (Vuex.Store options)
+  this.register([], rawRootModule, false);
+};
+
+ModuleCollection.prototype.get = function get (path) {
+  return path.reduce(function (module, key) {
+    return module.getChild(key)
+  }, this.root)
+};
+
+ModuleCollection.prototype.getNamespace = function getNamespace (path) {
+  var module = this.root;
+  return path.reduce(function (namespace, key) {
+    module = module.getChild(key);
+    return namespace + (module.namespaced ? key + '/' : '')
+  }, '')
+};
+
+ModuleCollection.prototype.update = function update$1 (rawRootModule) {
+  update([], this.root, rawRootModule);
+};
+
+ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
+    var this$1 = this;
+    if ( runtime === void 0 ) runtime = true;
+
+  if (true) {
+    assertRawModule(path, rawModule);
+  }
+
+  var newModule = new Module(rawModule, runtime);
+  if (path.length === 0) {
+    this.root = newModule;
+  } else {
+    var parent = this.get(path.slice(0, -1));
+    parent.addChild(path[path.length - 1], newModule);
+  }
+
+  // register nested modules
+  if (rawModule.modules) {
+    forEachValue(rawModule.modules, function (rawChildModule, key) {
+      this$1.register(path.concat(key), rawChildModule, runtime);
+    });
+  }
+};
+
+ModuleCollection.prototype.unregister = function unregister (path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+  if (!parent.getChild(key).runtime) { return }
+
+  parent.removeChild(key);
+};
+
+function update (path, targetModule, newModule) {
+  if (true) {
+    assertRawModule(path, newModule);
+  }
+
+  // update target module
+  targetModule.update(newModule);
+
+  // update nested modules
+  if (newModule.modules) {
+    for (var key in newModule.modules) {
+      if (!targetModule.getChild(key)) {
+        if (true) {
+          console.warn(
+            "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
+            'manual reload is needed'
+          );
+        }
+        return
+      }
+      update(
+        path.concat(key),
+        targetModule.getChild(key),
+        newModule.modules[key]
+      );
+    }
+  }
+}
+
+var functionAssert = {
+  assert: function (value) { return typeof value === 'function'; },
+  expected: 'function'
+};
+
+var objectAssert = {
+  assert: function (value) { return typeof value === 'function' ||
+    (typeof value === 'object' && typeof value.handler === 'function'); },
+  expected: 'function or object with "handler" function'
+};
+
+var assertTypes = {
+  getters: functionAssert,
+  mutations: functionAssert,
+  actions: objectAssert
+};
+
+function assertRawModule (path, rawModule) {
+  Object.keys(assertTypes).forEach(function (key) {
+    if (!rawModule[key]) { return }
+
+    var assertOptions = assertTypes[key];
+
+    forEachValue(rawModule[key], function (value, type) {
+      assert(
+        assertOptions.assert(value),
+        makeAssertionMessage(path, key, type, value, assertOptions.expected)
+      );
+    });
+  });
+}
+
+function makeAssertionMessage (path, key, type, value, expected) {
+  var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
+  if (path.length > 0) {
+    buf += " in module \"" + (path.join('.')) + "\"";
+  }
+  buf += " is " + (JSON.stringify(value)) + ".";
+  return buf
+}
+
+var Vue; // bind on install
+
+var Store = function Store (options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #731
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  if (true) {
+    assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
+    assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
+    assert(this instanceof Store, "Store must be called with the new operator.");
+  }
+
+  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
+  var strict = options.strict; if ( strict === void 0 ) strict = false;
+
+  var state = options.state; if ( state === void 0 ) state = {};
+  if (typeof state === 'function') {
+    state = state() || {};
+  }
+
+  // store internal state
+  this._committing = false;
+  this._actions = Object.create(null);
+  this._actionSubscribers = [];
+  this._mutations = Object.create(null);
+  this._wrappedGetters = Object.create(null);
+  this._modules = new ModuleCollection(options);
+  this._modulesNamespaceMap = Object.create(null);
+  this._subscribers = [];
+  this._watcherVM = new Vue();
+
+  // bind commit and dispatch to self
+  var store = this;
+  var ref = this;
+  var dispatch = ref.dispatch;
+  var commit = ref.commit;
+  this.dispatch = function boundDispatch (type, payload) {
+    return dispatch.call(store, type, payload)
+  };
+  this.commit = function boundCommit (type, payload, options) {
+    return commit.call(store, type, payload, options)
+  };
+
+  // strict mode
+  this.strict = strict;
+
+  // init root module.
+  // this also recursively registers all sub-modules
+  // and collects all module getters inside this._wrappedGetters
+  installModule(this, state, [], this._modules.root);
+
+  // initialize the store vm, which is responsible for the reactivity
+  // (also registers _wrappedGetters as computed properties)
+  resetStoreVM(this, state);
+
+  // apply plugins
+  plugins.forEach(function (plugin) { return plugin(this$1); });
+
+  if (Vue.config.devtools) {
+    devtoolPlugin(this);
+  }
+};
+
+var prototypeAccessors = { state: { configurable: true } };
+
+prototypeAccessors.state.get = function () {
+  return this._vm._data.$$state
+};
+
+prototypeAccessors.state.set = function (v) {
+  if (true) {
+    assert(false, "Use store.replaceState() to explicit replace store state.");
+  }
+};
+
+Store.prototype.commit = function commit (_type, _payload, _options) {
+    var this$1 = this;
+
+  // check object-style commit
+  var ref = unifyObjectStyle(_type, _payload, _options);
+    var type = ref.type;
+    var payload = ref.payload;
+    var options = ref.options;
+
+  var mutation = { type: type, payload: payload };
+  var entry = this._mutations[type];
+  if (!entry) {
+    if (true) {
+      console.error(("[vuex] unknown mutation type: " + type));
+    }
+    return
+  }
+  this._withCommit(function () {
+    entry.forEach(function commitIterator (handler) {
+      handler(payload);
+    });
+  });
+  this._subscribers.forEach(function (sub) { return sub(mutation, this$1.state); });
+
+  if (
+     true &&
+    options && options.silent
+  ) {
+    console.warn(
+      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
+      'Use the filter functionality in the vue-devtools'
+    );
+  }
+};
+
+Store.prototype.dispatch = function dispatch (_type, _payload) {
+    var this$1 = this;
+
+  // check object-style dispatch
+  var ref = unifyObjectStyle(_type, _payload);
+    var type = ref.type;
+    var payload = ref.payload;
+
+  var action = { type: type, payload: payload };
+  var entry = this._actions[type];
+  if (!entry) {
+    if (true) {
+      console.error(("[vuex] unknown action type: " + type));
+    }
+    return
+  }
+
+  this._actionSubscribers.forEach(function (sub) { return sub(action, this$1.state); });
+
+  return entry.length > 1
+    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
+    : entry[0](payload)
+};
+
+Store.prototype.subscribe = function subscribe (fn) {
+  return genericSubscribe(fn, this._subscribers)
+};
+
+Store.prototype.subscribeAction = function subscribeAction (fn) {
+  return genericSubscribe(fn, this._actionSubscribers)
+};
+
+Store.prototype.watch = function watch (getter, cb, options) {
+    var this$1 = this;
+
+  if (true) {
+    assert(typeof getter === 'function', "store.watch only accepts a function.");
+  }
+  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
+};
+
+Store.prototype.replaceState = function replaceState (state) {
+    var this$1 = this;
+
+  this._withCommit(function () {
+    this$1._vm._data.$$state = state;
+  });
+};
+
+Store.prototype.registerModule = function registerModule (path, rawModule, options) {
+    if ( options === void 0 ) options = {};
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if (true) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+    assert(path.length > 0, 'cannot register the root module by using registerModule.');
+  }
+
+  this._modules.register(path, rawModule);
+  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
+  // reset store to update getters...
+  resetStoreVM(this, this.state);
+};
+
+Store.prototype.unregisterModule = function unregisterModule (path) {
+    var this$1 = this;
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if (true) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+  }
+
+  this._modules.unregister(path);
+  this._withCommit(function () {
+    var parentState = getNestedState(this$1.state, path.slice(0, -1));
+    Vue.delete(parentState, path[path.length - 1]);
+  });
+  resetStore(this);
+};
+
+Store.prototype.hotUpdate = function hotUpdate (newOptions) {
+  this._modules.update(newOptions);
+  resetStore(this, true);
+};
+
+Store.prototype._withCommit = function _withCommit (fn) {
+  var committing = this._committing;
+  this._committing = true;
+  fn();
+  this._committing = committing;
+};
+
+Object.defineProperties( Store.prototype, prototypeAccessors );
+
+function genericSubscribe (fn, subs) {
+  if (subs.indexOf(fn) < 0) {
+    subs.push(fn);
+  }
+  return function () {
+    var i = subs.indexOf(fn);
+    if (i > -1) {
+      subs.splice(i, 1);
+    }
+  }
+}
+
+function resetStore (store, hot) {
+  store._actions = Object.create(null);
+  store._mutations = Object.create(null);
+  store._wrappedGetters = Object.create(null);
+  store._modulesNamespaceMap = Object.create(null);
+  var state = store.state;
+  // init all modules
+  installModule(store, state, [], store._modules.root, true);
+  // reset vm
+  resetStoreVM(store, state, hot);
+}
+
+function resetStoreVM (store, state, hot) {
+  var oldVm = store._vm;
+
+  // bind store public getters
+  store.getters = {};
+  var wrappedGetters = store._wrappedGetters;
+  var computed = {};
+  forEachValue(wrappedGetters, function (fn, key) {
+    // use computed to leverage its lazy-caching mechanism
+    computed[key] = function () { return fn(store); };
+    Object.defineProperty(store.getters, key, {
+      get: function () { return store._vm[key]; },
+      enumerable: true // for local getters
+    });
+  });
+
+  // use a Vue instance to store the state tree
+  // suppress warnings just in case the user has added
+  // some funky global mixins
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  store._vm = new Vue({
+    data: {
+      $$state: state
+    },
+    computed: computed
+  });
+  Vue.config.silent = silent;
+
+  // enable strict mode for new vm
+  if (store.strict) {
+    enableStrictMode(store);
+  }
+
+  if (oldVm) {
+    if (hot) {
+      // dispatch changes in all subscribed watchers
+      // to force getter re-evaluation for hot reloading.
+      store._withCommit(function () {
+        oldVm._data.$$state = null;
+      });
+    }
+    Vue.nextTick(function () { return oldVm.$destroy(); });
+  }
+}
+
+function installModule (store, rootState, path, module, hot) {
+  var isRoot = !path.length;
+  var namespace = store._modules.getNamespace(path);
+
+  // register in namespace map
+  if (module.namespaced) {
+    store._modulesNamespaceMap[namespace] = module;
+  }
+
+  // set state
+  if (!isRoot && !hot) {
+    var parentState = getNestedState(rootState, path.slice(0, -1));
+    var moduleName = path[path.length - 1];
+    store._withCommit(function () {
+      Vue.set(parentState, moduleName, module.state);
+    });
+  }
+
+  var local = module.context = makeLocalContext(store, namespace, path);
+
+  module.forEachMutation(function (mutation, key) {
+    var namespacedType = namespace + key;
+    registerMutation(store, namespacedType, mutation, local);
+  });
+
+  module.forEachAction(function (action, key) {
+    var type = action.root ? key : namespace + key;
+    var handler = action.handler || action;
+    registerAction(store, type, handler, local);
+  });
+
+  module.forEachGetter(function (getter, key) {
+    var namespacedType = namespace + key;
+    registerGetter(store, namespacedType, getter, local);
+  });
+
+  module.forEachChild(function (child, key) {
+    installModule(store, rootState, path.concat(key), child, hot);
+  });
+}
+
+/**
+ * make localized dispatch, commit, getters and state
+ * if there is no namespace, just use root ones
+ */
+function makeLocalContext (store, namespace, path) {
+  var noNamespace = namespace === '';
+
+  var local = {
+    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if ( true && !store._actions[type]) {
+          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      return store.dispatch(type, payload)
+    },
+
+    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if ( true && !store._mutations[type]) {
+          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      store.commit(type, payload, options);
+    }
+  };
+
+  // getters and state object must be gotten lazily
+  // because they will be changed by vm update
+  Object.defineProperties(local, {
+    getters: {
+      get: noNamespace
+        ? function () { return store.getters; }
+        : function () { return makeLocalGetters(store, namespace); }
+    },
+    state: {
+      get: function () { return getNestedState(store.state, path); }
+    }
+  });
+
+  return local
+}
+
+function makeLocalGetters (store, namespace) {
+  var gettersProxy = {};
+
+  var splitPos = namespace.length;
+  Object.keys(store.getters).forEach(function (type) {
+    // skip if the target getter is not match this namespace
+    if (type.slice(0, splitPos) !== namespace) { return }
+
+    // extract local getter type
+    var localType = type.slice(splitPos);
+
+    // Add a port to the getters proxy.
+    // Define as getter property because
+    // we do not want to evaluate the getters in this time.
+    Object.defineProperty(gettersProxy, localType, {
+      get: function () { return store.getters[type]; },
+      enumerable: true
+    });
+  });
+
+  return gettersProxy
+}
+
+function registerMutation (store, type, handler, local) {
+  var entry = store._mutations[type] || (store._mutations[type] = []);
+  entry.push(function wrappedMutationHandler (payload) {
+    handler.call(store, local.state, payload);
+  });
+}
+
+function registerAction (store, type, handler, local) {
+  var entry = store._actions[type] || (store._actions[type] = []);
+  entry.push(function wrappedActionHandler (payload, cb) {
+    var res = handler.call(store, {
+      dispatch: local.dispatch,
+      commit: local.commit,
+      getters: local.getters,
+      state: local.state,
+      rootGetters: store.getters,
+      rootState: store.state
+    }, payload, cb);
+    if (!isPromise(res)) {
+      res = Promise.resolve(res);
+    }
+    if (store._devtoolHook) {
+      return res.catch(function (err) {
+        store._devtoolHook.emit('vuex:error', err);
+        throw err
+      })
+    } else {
+      return res
+    }
+  });
+}
+
+function registerGetter (store, type, rawGetter, local) {
+  if (store._wrappedGetters[type]) {
+    if (true) {
+      console.error(("[vuex] duplicate getter key: " + type));
+    }
+    return
+  }
+  store._wrappedGetters[type] = function wrappedGetter (store) {
+    return rawGetter(
+      local.state, // local state
+      local.getters, // local getters
+      store.state, // root state
+      store.getters // root getters
+    )
+  };
+}
+
+function enableStrictMode (store) {
+  store._vm.$watch(function () { return this._data.$$state }, function () {
+    if (true) {
+      assert(store._committing, "Do not mutate vuex store state outside mutation handlers.");
+    }
+  }, { deep: true, sync: true });
+}
+
+function getNestedState (state, path) {
+  return path.length
+    ? path.reduce(function (state, key) { return state[key]; }, state)
+    : state
+}
+
+function unifyObjectStyle (type, payload, options) {
+  if (isObject(type) && type.type) {
+    options = payload;
+    payload = type;
+    type = type.type;
+  }
+
+  if (true) {
+    assert(typeof type === 'string', ("Expects string as the type, but found " + (typeof type) + "."));
+  }
+
+  return { type: type, payload: payload, options: options }
+}
+
+function install (_Vue) {
+  if (Vue && _Vue === Vue) {
+    if (true) {
+      console.error(
+        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+      );
+    }
+    return
+  }
+  Vue = _Vue;
+  applyMixin(Vue);
+}
+
+var mapState = normalizeNamespace(function (namespace, states) {
+  var res = {};
+  normalizeMap(states).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedState () {
+      var state = this.$store.state;
+      var getters = this.$store.getters;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
+        if (!module) {
+          return
+        }
+        state = module.context.state;
+        getters = module.context.getters;
+      }
+      return typeof val === 'function'
+        ? val.call(this, state, getters)
+        : state[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+var mapMutations = normalizeNamespace(function (namespace, mutations) {
+  var res = {};
+  normalizeMap(mutations).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedMutation () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      var commit = this.$store.commit;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
+        if (!module) {
+          return
+        }
+        commit = module.context.commit;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [commit].concat(args))
+        : commit.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+var mapGetters = normalizeNamespace(function (namespace, getters) {
+  var res = {};
+  normalizeMap(getters).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    val = namespace + val;
+    res[key] = function mappedGetter () {
+      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
+        return
+      }
+      if ( true && !(val in this.$store.getters)) {
+        console.error(("[vuex] unknown getter: " + val));
+        return
+      }
+      return this.$store.getters[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+var mapActions = normalizeNamespace(function (namespace, actions) {
+  var res = {};
+  normalizeMap(actions).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedAction () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      var dispatch = this.$store.dispatch;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
+        if (!module) {
+          return
+        }
+        dispatch = module.context.dispatch;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [dispatch].concat(args))
+        : dispatch.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+var createNamespacedHelpers = function (namespace) { return ({
+  mapState: mapState.bind(null, namespace),
+  mapGetters: mapGetters.bind(null, namespace),
+  mapMutations: mapMutations.bind(null, namespace),
+  mapActions: mapActions.bind(null, namespace)
+}); };
+
+function normalizeMap (map) {
+  return Array.isArray(map)
+    ? map.map(function (key) { return ({ key: key, val: key }); })
+    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
+}
+
+function normalizeNamespace (fn) {
+  return function (namespace, map) {
+    if (typeof namespace !== 'string') {
+      map = namespace;
+      namespace = '';
+    } else if (namespace.charAt(namespace.length - 1) !== '/') {
+      namespace += '/';
+    }
+    return fn(namespace, map)
+  }
+}
+
+function getModuleByNamespace (store, helper, namespace) {
+  var module = store._modulesNamespaceMap[namespace];
+  if ( true && !module) {
+    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
+  }
+  return module
+}
+
+var index_esm = {
+  Store: Store,
+  install: install,
+  version: '3.0.1',
+  mapState: mapState,
+  mapMutations: mapMutations,
+  mapGetters: mapGetters,
+  mapActions: mapActions,
+  createNamespacedHelpers: createNamespacedHelpers
+};
+
+
+/* harmony default export */ __webpack_exports__["default"] = (index_esm);
+
+
+/***/ }),
+/* 17 */
+/*!*****************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/store/actions.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 18));var _mutationTypes = __webpack_require__(/*! ./mutation-types */ 21);
+
+
+
+
+
+
+var _utils = __webpack_require__(/*! ../common/utils.js */ 22);
+
+
+
+var _assistant = __webpack_require__(/*! ./assistant.js */ 26);
+
+
+
+
+
+
+
+var _server = __webpack_require__(/*! ../network/server */ 23);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
+
+
+
+
+
+
+
+{
+
+  //初始化用户信息
+  initUserInfo: function () {var _initUserInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(context) {var userInfo, length, calendar, today, newUersInfo;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                (0, _assistant.getUserInfo)());case 2:userInfo = _context.sent;
+
+              //判断是否需要更新每日记录表calendar
+
+              //防止userInfo.calendar为null而报错
+              length = userInfo.calendar ? userInfo.calendar.length : 0;
+
+              calendar = false;
+              //获取今天日期 yyyy-mm-dd
+              today = (0, _utils.dateFormat)(Date.now() - 4 * 60 * 60 * 1000); //慢四个小时
+              /*
+              判断用户信息表中是否有学习记录表，如果有学习记录表且该表是今日的记录表，
+              （系统返回的calendar.date全都慢4四个小时）
+              */
+              //如果用户信息中是否有学习记录表，获取最后一张记录表
+              if (length > 0) {
+                calendar = userInfo.calendar[length - 1];
+              }
+              //如果没有学习记录表，或者最后一张学习记录表不是今天的，向服务器获取新的记录表
+              if (!(length === 0 || calendar.date !== today)) {_context.next = 15;break;}_context.next = 10;return (
+
+                (0, _server.netDailyInit)(calendar));case 10:newUersInfo = _context.sent;_context.next = 13;return (
+
+                (0, _assistant.saveUserInfo)(newUersInfo));case 13:
+              userInfo = newUersInfo;
+
+              console.log("今日初始化完成");case 15:
+
+
+              context.commit(_mutationTypes.UPDATE_USER_INFO, userInfo);return _context.abrupt("return",
+              '用户信息初始化完成');case 17:case "end":return _context.stop();}}}, _callee, this);}));function initUserInfo(_x) {return _initUserInfo.apply(this, arguments);}return initUserInfo;}(),
+
+
+
+  //初始化词书信息
+  initBookInfo: function () {var _initBookInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2(context) {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.t0 =
+
+              context;_context2.t1 = _mutationTypes.UPDATE_BOOK_INFO;_context2.next = 4;return (0, _assistant.getBookInfo)();case 4:_context2.t2 = _context2.sent;_context2.t0.commit.call(_context2.t0, _context2.t1, _context2.t2);return _context2.abrupt("return",
+              '词书信息初始化完成');case 7:case "end":return _context2.stop();}}}, _callee2, this);}));function initBookInfo(_x2) {return _initBookInfo.apply(this, arguments);}return initBookInfo;}(),
+
+
+
+  //初始化书库信息
+  initLibInfo: function () {var _initLibInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(context) {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.t0 =
+              context;_context3.t1 = _mutationTypes.UPDATE_Lib_INFO;_context3.next = 4;return (0, _assistant.getLibInfo)();case 4:_context3.t2 = _context3.sent;_context3.t0.commit.call(_context3.t0, _context3.t1, _context3.t2);return _context3.abrupt("return",
+              '书库信息初始化完成');case 7:case "end":return _context3.stop();}}}, _callee3, this);}));function initLibInfo(_x3) {return _initLibInfo.apply(this, arguments);}return initLibInfo;}(),
+
+
+
+  //签到
+  clock: function () {var _clock = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4(context) {var userInfo;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+                (0, _server.netClockIn)());case 2:userInfo = _context4.sent;_context4.next = 5;return (
+
+                (0, _assistant.saveUserInfo)(userInfo));case 5:
+              // 更新M币数量
+              context.commit(_mutationTypes.CLOCK_IN, userInfo);case 6:case "end":return _context4.stop();}}}, _callee4, this);}));function clock(_x4) {return _clock.apply(this, arguments);}return clock;}(),
+
+
+
+  //添加词书
+  addBook: function () {var _addBook = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5(context, book_name) {var userInfo;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
+
+                (0, _server.netAddUserBook)(book_name));case 2:userInfo = _context5.sent;_context5.next = 5;return (
+
+                (0, _assistant.saveUserInfo)(userInfo));case 5:
+              context.commit(_mutationTypes.UPDATE_USER_INFO, userInfo);case 6:case "end":return _context5.stop();}}}, _callee5, this);}));function addBook(_x5, _x6) {return _addBook.apply(this, arguments);}return addBook;}() };exports.default = _default;
+
+/***/ }),
+/* 18 */
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 23);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 19);
 
 
 /***/ }),
-/* 23 */
+/* 19 */
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -8825,7 +9804,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 24);
+module.exports = __webpack_require__(/*! ./runtime */ 20);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -8841,7 +9820,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 24 */
+/* 20 */
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -9572,7 +10551,31 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 25 */
+/* 21 */
+/*!************************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/store/mutation-types.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.UPDATE_COIN = exports.CLOCK_IN = exports.UPDATE_Lib_INFO = exports.UPDATE_BOOK_INFO = exports.UPDATE_USER_INFO = void 0; //更新用户信息
+var UPDATE_USER_INFO = 'init_user_info';
+
+//更新词书信息
+exports.UPDATE_USER_INFO = UPDATE_USER_INFO;var UPDATE_BOOK_INFO = 'init_book_info';
+
+//更新书库信息
+exports.UPDATE_BOOK_INFO = UPDATE_BOOK_INFO;var UPDATE_Lib_INFO = 'init_lib_info';
+
+//签到
+exports.UPDATE_Lib_INFO = UPDATE_Lib_INFO;var CLOCK_IN = 'clock_in';
+
+//更新M币数量
+exports.CLOCK_IN = CLOCK_IN;var UPDATE_COIN = 'update_coin';exports.UPDATE_COIN = UPDATE_COIN;
+
+/***/ }),
+/* 22 */
 /*!****************************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/common/utils.js ***!
   \****************************************************************/
@@ -9580,12 +10583,7 @@ if (hadRuntime) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.expTest = expTest;exports.dateFormat = dateFormat;exports.getUInfo = getUInfo;exports.setUInfo = setUInfo;exports.getBInfo = getBInfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 22));var _server = __webpack_require__(/*! ../network/server.js */ 26);
-
-
-var _study = __webpack_require__(/*! ../network/study.js */ 66);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
-
-//正则匹配，type：phone，password 
+Object.defineProperty(exports, "__esModule", { value: true });exports.expTest = expTest;exports.dateFormat = dateFormat; //正则匹配，type：phone，password 
 function expTest(type, string) {
   var exp = new RegExp();
   if (type == 'phone') {
@@ -9607,85 +10605,8 @@ function dateFormat(time) {
   return arr.join('-');
 }
 
-//尝试获取用户信息，如果没有，发送网络请求获取
-function getUInfo() {return _getUInfo.apply(this, arguments);}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//将用户信息存入本地
-function _getUInfo() {_getUInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var net,UserInfo,_args2 = arguments;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:net = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : false;UserInfo = false;if (!net) {//尝试从本地获取用户信息
-              UserInfo = uni.getStorageSync('UserInfo');} //如果没有用户信息表，则发送请求重新获取用户信息表
-            if (UserInfo) {_context2.next = 8;break;}console.log("没有用户信息表, 开始尝试从服务器获取");_context2.next = 7;return tryGetUserInfoFromNet();case 7:UserInfo = _context2.sent;case 8:return _context2.abrupt("return", UserInfo);case 9:case "end":return _context2.stop();}}}, _callee2, this);}));return _getUInfo.apply(this, arguments);}function setUInfo(_x) {return _setUInfo.apply(this, arguments);}
-
-
-
-
-
-
-
-
-
-
-
-//尝试从网络获取用户信息
-function _setUInfo() {_setUInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(uInfo) {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0: // 将用户信息存入本地,并检测是否存入成功
-            if (uInfo) {console.log("存入用户信息");console.log(uInfo);uni.setStorageSync('UserInfo', uInfo);} else {console.log(uInfo); //如果存入失败，尝试重新获取用户信息（保险机制）
-              console.log("没有获取到用户信息表, 开始尝试从服务器获取");tryGetUserInfoFromNet();}case 1:case "end":return _context3.stop();}}}, _callee3, this);}));return _setUInfo.apply(this, arguments);}var tryGetUserInfoFromNet = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var UserInfo;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (0, _server.getUserInfo)();case 2:UserInfo = _context.sent;if (
-            UserInfo) {_context.next = 8;break;}
-            console.log("获取用户信息失败，请重新登录"); //基本不可能走到这里
-            uni.removeStorageSync('TOKEN'); //我怀疑是你的token有问题（开始甩锅）
-            uni.redirectTo({
-              url: '/pages/login/login/login.vue' });return _context.abrupt("return");case 8:
-
-
-
-            uni.setStorageSync('UserInfo', UserInfo);return _context.abrupt("return",
-
-            UserInfo);case 10:case "end":return _context.stop();}}}, _callee, this);}));return function tryGetUserInfoFromNet() {return _ref.apply(this, arguments);};}();
-
-
-//尝试获取本地词书状态信息，如果没有，发送网络请求获取
-function getBInfo() {return _getBInfo.apply(this, arguments);}function _getBInfo() {_getBInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var uInfo, BookInfo, _BookInfo;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
-
-              getUInfo());case 2:uInfo = _context4.sent;if (
-            uInfo.book_id) {_context4.next = 5;break;}return _context4.abrupt("return");case 5:
-
-
-
-            //尝试从本地缓存获取词书信息	
-            BookInfo = uni.getStorageSync('BookInfo');
-
-            //如果没有词书信息，则发送请求重新获取
-            if (BookInfo) {_context4.next = 17;break;}
-            console.log("没有词书信息, 开始尝试从服务器获取");_context4.next = 10;return (
-              (0, _study.getBookInfo)(uInfo.book_id));case 10:_BookInfo = _context4.sent;if (
-
-            _BookInfo) {_context4.next = 16;break;}
-            console.log("获取词书信息失败，请检查您的网络状态"); //开始甩锅
-            uni.removeStorageSync('TOKEN'); //顺便把你token给扬了
-            uni.redirectTo({
-              url: '/pages/login/login/login.vue' });return _context4.abrupt("return");case 16:
-
-
-
-            uni.setStorageSync('BookInfo', _BookInfo);case 17:return _context4.abrupt("return",
-
-            BookInfo);case 18:case "end":return _context4.stop();}}}, _callee4, this);}));return _getBInfo.apply(this, arguments);}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
 /***/ }),
-/* 26 */
+/* 23 */
 /*!******************************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/server.js ***!
   \******************************************************************/
@@ -9693,29 +10614,48 @@ function getBInfo() {return _getBInfo.apply(this, arguments);}function _getBInfo
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.dailyInit = dailyInit;exports.clockIn = clockIn;exports.getUserInfo = getUserInfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 22));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var request = __webpack_require__(/*! ./request */ 27);
+Object.defineProperty(exports, "__esModule", { value: true });exports.netDailyInit = netDailyInit;exports.netClockIn = netClockIn;exports.netGetUserInfo = netGetUserInfo;exports.netGetServerBookList = netGetServerBookList;exports.netAddUserBook = netAddUserBook;exports.netGetBookInfo = netGetBookInfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var request = __webpack_require__(/*! ./request */ 24);
 
 //每日初始化，并且获取用户信息表
-function dailyInit(_x) {return _dailyInit.apply(this, arguments);}
+function netDailyInit(_x) {return _netDailyInit.apply(this, arguments);}
 
 
 
 
 
 //打卡
-function _dailyInit() {_dailyInit = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(calendar) {var response;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!calendar) {calendar = { calendar: false };}_context.next = 3;return request('POST', '/server/init', calendar);case 3:response = _context.sent;return _context.abrupt("return", response.uInfo);case 5:case "end":return _context.stop();}}}, _callee, this);}));return _dailyInit.apply(this, arguments);}function clockIn() {return _clockIn.apply(this, arguments);}
+function _netDailyInit() {_netDailyInit = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(calendar) {var response;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!calendar) {calendar = { calendar: false };}_context.next = 3;return request('POST', '/server/init', calendar);case 3:response = _context.sent;return _context.abrupt("return", response.uInfo);case 5:case "end":return _context.stop();}}}, _callee, this);}));return _netDailyInit.apply(this, arguments);}function netClockIn() {return _netClockIn.apply(this, arguments);}
 
 
 
 
 //获取用户信息
-function _clockIn() {_clockIn = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var response;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return request('GET', '/server/clock');case 2:response = _context2.sent;return _context2.abrupt("return", response.uInfo);case 4:case "end":return _context2.stop();}}}, _callee2, this);}));return _clockIn.apply(this, arguments);}function getUserInfo() {return _getUserInfo.apply(this, arguments);}function _getUserInfo() {_getUserInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var response;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
-              request('GET', '/server/getuinfo'));case 2:response = _context3.sent;if (!
-            response) {_context3.next = 5;break;}return _context3.abrupt("return",
-            response.uInfo);case 5:case "end":return _context3.stop();}}}, _callee3, this);}));return _getUserInfo.apply(this, arguments);}
+function _netClockIn() {_netClockIn = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var response;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return request('GET', '/server/clock');case 2:response = _context2.sent;return _context2.abrupt("return", response.uInfo);case 4:case "end":return _context2.stop();}}}, _callee2, this);}));return _netClockIn.apply(this, arguments);}function netGetUserInfo() {return _netGetUserInfo.apply(this, arguments);}
+
+
+
+
+//获取系统书库列表
+function _netGetUserInfo() {_netGetUserInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var response;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return request('GET', '/server/getuinfo');case 2:response = _context3.sent;return _context3.abrupt("return", response.uInfo);case 4:case "end":return _context3.stop();}}}, _callee3, this);}));return _netGetUserInfo.apply(this, arguments);}function netGetServerBookList() {return _netGetServerBookList.apply(this, arguments);}
+
+
+
+
+//添加词书
+function _netGetServerBookList() {_netGetServerBookList = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var response;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return request('GET', '/server/getserverbooks');case 2:response = _context4.sent;return _context4.abrupt("return", response.bookList);case 4:case "end":return _context4.stop();}}}, _callee4, this);}));return _netGetServerBookList.apply(this, arguments);}function netAddUserBook(_x2) {return _netAddUserBook.apply(this, arguments);}
+
+
+
+
+
+
+//获取词书状态信息
+function _netAddUserBook() {_netAddUserBook = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5(book_name) {var response;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return request('GET', '/study/addbook', { 'book_name': book_name });case 2:response = _context5.sent;return _context5.abrupt("return", response.uInfo);case 4:case "end":return _context5.stop();}}}, _callee5, this);}));return _netAddUserBook.apply(this, arguments);}function netGetBookInfo(_x3) {return _netGetBookInfo.apply(this, arguments);}function _netGetBookInfo() {_netGetBookInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6(book_id) {var response;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:_context6.next = 2;return (
+              request('GET', '/study/bookinfo', { book_id: book_id }));case 2:response = _context6.sent;return _context6.abrupt("return",
+            response.book_info);case 4:case "end":return _context6.stop();}}}, _callee6, this);}));return _netGetBookInfo.apply(this, arguments);}
 
 /***/ }),
-/* 27 */
+/* 24 */
 /*!*******************************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/request.js ***!
   \*******************************************************************/
@@ -9730,9 +10670,6 @@ module.exports = function (method, path, body) {
 
   if (!TOKEN) {
     console.log("未检测到Token，请重新登录");
-    uni.redirectTo({
-      url: '/pages/login/login/login.vue' });
-
     return;
   }
 
@@ -9760,7 +10697,282 @@ module.exports = function (method, path, body) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 28 */,
+/* 25 */,
+/* 26 */
+/*!*******************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/store/assistant.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getUserInfo = getUserInfo;exports.saveUserInfo = saveUserInfo;exports.getBookInfo = getBookInfo;exports.saveSysLib = saveSysLib;exports.getLibInfo = getLibInfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 18));
+
+
+
+
+var _server = __webpack_require__(/*! ../network/server */ 23);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+
+
+
+
+
+
+
+//尝试获取用户信息，如果没有，发送网络请求获取 参数为true时，直接从服务器获取数据
+function getUserInfo() {return _getUserInfo.apply(this, arguments);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//将用户信息存入本地
+function _getUserInfo() {_getUserInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var net,userInfo,_args2 = arguments;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:net = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : false;userInfo = false;if (!net) {//尝试从本地获取用户信息
+              userInfo = uni.getStorageSync('USER_INFO');} //如果没有用户信息表，则发送请求重新获取用户信息表
+            if (userInfo) {_context2.next = 8;break;}console.log("没有用户信息表, 开始尝试从服务器获取");_context2.next = 7;return tryGetUserInfoFromNet();case 7:userInfo = _context2.sent;case 8:return _context2.abrupt("return", userInfo);case 9:case "end":return _context2.stop();}}}, _callee2, this);}));return _getUserInfo.apply(this, arguments);}function saveUserInfo(_x) {return _saveUserInfo.apply(this, arguments);}
+
+
+
+
+
+
+
+
+
+//尝试获取本地词书状态信息，如果没有，发送网络请求获取
+function _saveUserInfo() {_saveUserInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(userInfo) {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0: // 如果有数据，将用户信息存入本地
+            if (userInfo) {uni.setStorageSync('USER_INFO', userInfo);} else {//如果没有数据，尝试重新获取用户信息（保险机制）
+              console.log("没有获取到用户信息表, 开始尝试从服务器获取");tryGetUserInfoFromNet();}case 1:case "end":return _context3.stop();}}}, _callee3, this);}));return _saveUserInfo.apply(this, arguments);}function getBookInfo() {return _getBookInfo.apply(this, arguments);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//将书库信息存入本地缓存
+function _getBookInfo() {_getBookInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var userInfo, bookInfo;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return getUserInfo();case 2:userInfo = _context4.sent;if (userInfo.book_id) {_context4.next = 5;break;}return _context4.abrupt("return");case 5: //尝试从本地缓存获取词书信息	
+            bookInfo = uni.getStorageSync('BOOK_INFO'); //如果没有词书信息，则发送请求重新获取
+            if (bookInfo) {_context4.next = 17;break;}console.log("没有词书信息, 开始尝试从服务器获取");_context4.next = 10;return (0, _server.netGetBookInfo)(userInfo.book_id);case 10:bookInfo = _context4.sent;if (bookInfo) {_context4.next = 16;break;}console.log("获取词书信息失败，请检查您的网络状态"); //开始甩锅
+            uni.removeStorageSync('TOKEN'); //顺便把你token给扬了
+            uni.redirectTo({ url: '/pages/login/login/login.vue' });return _context4.abrupt("return");case 16:uni.setStorageSync('BOOK_INFO', bookInfo);case 17:return _context4.abrupt("return", bookInfo);case 18:case "end":return _context4.stop();}}}, _callee4, this);}));return _getBookInfo.apply(this, arguments);}function saveSysLib(_x2) {return _saveSysLib.apply(this, arguments);} //获取书库信息
+function _saveSysLib() {_saveSysLib = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5(booksList) {return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:uni.setStorageSync('SYS_LIB', booksList);case 1:case "end":return _context5.stop();}}}, _callee5, this);}));return _saveSysLib.apply(this, arguments);}function getLibInfo() {return _getLibInfo.apply(this, arguments);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*==================================================*/
+//尝试从网络获取用户信息
+function _getLibInfo() {_getLibInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var booksList;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0: //尝试从本地获取书库信息
+            booksList = uni.getStorageSync('SYS_LIB');if (booksList) {_context6.next = 7;break;} //尝试从服务器获取书库信息
+            console.log("没有获取到书库信息表, 开始尝试从服务器获取"); //从服务器获取服务器提供的所有图书的列表
+            _context6.next = 5;return (0, _server.netGetServerBookList)();case 5:booksList = _context6.sent;saveSysLib(booksList);case 7:return _context6.abrupt("return", booksList);case 8:case "end":return _context6.stop();}}}, _callee6, this);}));return _getLibInfo.apply(this, arguments);}var tryGetUserInfoFromNet = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var userInfo;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (0, _server.netGetUserInfo)();case 2:userInfo = _context.sent;if (userInfo) {_context.next = 8;break;}
+            console.log("获取用户信息失败，请重新登录"); //基本不可能走到这里
+            uni.removeStorageSync('TOKEN'); //我怀疑是你的token有问题（开始甩锅）
+            uni.redirectTo({
+              url: '/pages/login/login/login.vue' });return _context.abrupt("return");case 8:
+
+
+
+            uni.setStorageSync('USER_INFO', userInfo);return _context.abrupt("return",
+
+            userInfo);case 10:case "end":return _context.stop();}}}, _callee, this);}));return function tryGetUserInfoFromNet() {return _ref.apply(this, arguments);};}();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 27 */
+/*!*******************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/store/mutations.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _mutationTypes = __webpack_require__(/*! ./mutation-types */ 21);var _UPDATE_USER_INFO$UPD;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default = (_UPDATE_USER_INFO$UPD = {}, _defineProperty(_UPDATE_USER_INFO$UPD,
+
+
+
+
+
+
+
+
+
+
+_mutationTypes.UPDATE_USER_INFO, function (state, payload) {
+  state.user.nickname = payload.nickname;
+  state.user.coin = payload.coin;
+  state.user.avatar = payload.avatar;
+  state.config = payload.config;
+  state.calendars = payload.calendar;
+  state.books_list = payload.book_list;
+  state.book_id = payload.book_id;
+}), _defineProperty(_UPDATE_USER_INFO$UPD,
+
+
+_mutationTypes.UPDATE_BOOK_INFO, function (state, payload) {
+  state.book_info = payload; //用户选定的图书信息
+}), _defineProperty(_UPDATE_USER_INFO$UPD,
+
+
+_mutationTypes.UPDATE_Lib_INFO, function (state, payload) {
+  state.sys_lib = payload; //系统书库信息
+}), _defineProperty(_UPDATE_USER_INFO$UPD,
+
+
+_mutationTypes.CLOCK_IN, function (state, payload) {
+  state.calendars = payload.calendar;
+  state.user.coin = payload.coin;
+}), _defineProperty(_UPDATE_USER_INFO$UPD,
+
+
+_mutationTypes.UPDATE_COIN, function (state, payload) {
+  state.user.coin = payload;
+}), _UPDATE_USER_INFO$UPD);exports.default = _default;
+
+/***/ }),
+/* 28 */
+/*!*****************************************************************!*\
+  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/store/getters.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _utils = __webpack_require__(/*! ../common/utils.js */ 22);var _default =
+
+
+
+{
+  //index
+  //头像
+  avatar: function avatar(state) {
+    return state.user.avatar;
+  },
+
+  //词书的单词状态统计数量
+  bookState: function bookState(state) {
+    var book_state = { learn: 0, review: 0
+      //获取单词列表
+    };console.log(!state.book_info);
+    if (!state.book_info) {
+      return book_state;
+    }
+    var wordsList = state.book_info.book;
+
+    var learn = 0; //未背诵的				
+    var review = 0; //需要复习的	
+    var today = (0, _utils.dateFormat)(Date.now());
+    for (var i = 0; i < wordsList.length; i++) {
+      var word = wordsList[i];
+      if (word.state === 0) {
+        learn++;
+        continue;
+      }
+      if (word.state === 1 && word.next_date <= today) {
+        review++;
+        continue;
+      }
+    }
+    book_state.learn = learn;
+    book_state.review = review;
+    return book_state;
+  },
+
+  //是否已签到
+  isClock: function isClock(state) {
+    var is_clock = true;
+    var calendar = state.calendars;
+    var length = calendar ? calendar.length : 0;
+    //获取今天日期 yyyy-mm-dd
+    var today = (0, _utils.dateFormat)(Date.now() - 4 * 60 * 60 * 1000); //慢四个小时
+    //如果最后一张记录表的日期是今天的，设置isClock状态
+    if (length > 0 && state.calendars[length - 1].date === today) {
+      is_clock = state.calendars[length - 1].clock;
+    }
+    return is_clock;
+  },
+
+  //book
+  sysLib: function sysLib(state) {
+    var bookType =
+    [{ type: '我的', list: [] },
+    { type: '大学', list: [] },
+    { type: '出国', list: [] },
+    { type: '高中', list: [] },
+    { type: '初中', list: [] },
+    { type: '小学', list: [] },
+    { type: '实用', list: [] },
+    { type: '其它', list: [] }];
+    //遍历请求结果，过滤用户已有的词书并分类数据
+    state.sys_lib.forEach(function (book) {
+      if (!checkUserBook(state.books_list, book.book_name)) {//判断用户是否拥有该词书
+        //进行分类
+        bookType.forEach(function (category) {
+          if (book.book_type === category.type) {
+            category.list.push(book);
+          }
+        });
+      }
+    });
+    //获取用户词书信息				
+    bookType[0].list = state.books_list;
+    return bookType;
+  } };
+
+
+
+//判断该词书是否已经存在用户词书列表里（后端也有判断的）		
+exports.default = _default;var checkUserBook = function checkUserBook(List, book_name) {
+  var flag = false;
+  if (List) {
+    List.forEach(function (el) {
+      if (el.book_name === book_name) {
+        flag = true;
+      }
+    });
+  }
+  return flag;
+};
+
+/***/ }),
 /* 29 */,
 /* 30 */,
 /* 31 */,
@@ -9768,7 +10980,14 @@ module.exports = function (method, path, body) {
 /* 33 */,
 /* 34 */,
 /* 35 */,
-/* 36 */
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */
 /*!*********************************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages/study/study.js ***!
   \*********************************************************************/
@@ -9776,22 +10995,43 @@ module.exports = function (method, path, body) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-// import {dateFormat} from '../../common/utils.js'
-// //必须在线
-// //1.判断必要条件：用户信息表，词书信息表
-// const UserInfo = uni.getStorageSync('UserInfo')
-// let BookInfo = uni.getStorageSync('BookInfo')
-// if (!UserInfo) {
-// 	//如果没有用户信息表，则发送请求重新获取用户信息表
-// 	console.log("没有用户信息表")
-// }
-// if (!BookInfo) {
-// 	//如果没有词书信息表，则发送请求重新获取词书信息表
-// 	console.log("没有词书信息表")
+// import {dateFormat, getUInfo, getBInfo} from '../../common/utils.js'
+// //在线版（鉴于小程序无法持久化存储数据，只能做成在线版，app端另行适配）
+// //1.获取用户信息表、词书信息表、用户配置
+// const getDatas = async function(){
+// 	const UserInfo = await getUInfo()
+// 	let BookInfo = await getBInfo()
+// 	const config = UserInfo.config
 // }
 
-// //2.获取用户参数
-// const config = UserInfo.config
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // //3.获取今日的记录表(凌晨4点之前都算作前一天)
 // let record = UserInfo.calendar[UserInfo.calendar.length - 1] 
@@ -9889,15 +11129,15 @@ module.exports = function (method, path, body) {
 
 
 /***/ }),
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
 /* 44 */,
-/* 45 */
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */
 /*!*********************************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/logAndReg.js ***!
   \*********************************************************************/
@@ -9905,7 +11145,7 @@ module.exports = function (method, path, body) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.login = login;exports.register = register;exports.getMessage = getMessage;var sha256 = __webpack_require__(/*! sha256 */ 46);
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.login = login;exports.register = register;exports.getMessage = getMessage;var sha256 = __webpack_require__(/*! sha256 */ 53);
 var baseURL = 'http://192.168.0.105:5230/member';
 
 var LAR = function LAR(path, body) {
@@ -9935,7 +11175,7 @@ function login(options) {
 
 //注册 并获取用户信息表 token
 function register(options) {
-  var TEMP_TOKEN = uni.getStorageSync('TempToken');
+  var TEMP_TOKEN = uni.getStorageSync('TEMP_TOKEN');
   if (TEMP_TOKEN) {
     var key = sha256(options.password + "zengchun529");
     return LAR('/register', {
@@ -9964,7 +11204,7 @@ function getMessage(options) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 46 */
+/* 53 */
 /*!**********************************************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/sha256/lib/sha256.js ***!
   \**********************************************************************************/
@@ -9978,8 +11218,8 @@ function getMessage(options) {
   var _imports = {};
 
   if ( true && module.exports) {//CommonJS
-    _imports.bytesToHex = __webpack_require__(/*! convert-hex */ 47).bytesToHex;
-    _imports.convertString = __webpack_require__(/*! convert-string */ 48);
+    _imports.bytesToHex = __webpack_require__(/*! convert-hex */ 54).bytesToHex;
+    _imports.convertString = __webpack_require__(/*! convert-string */ 55);
     module.exports = sha256;
   } else {
     _imports.bytesToHex = globals.convertHex.bytesToHex;
@@ -10127,7 +11367,7 @@ function getMessage(options) {
 }(void 0);
 
 /***/ }),
-/* 47 */
+/* 54 */
 /*!****************************************************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/convert-hex/convert-hex.js ***!
   \****************************************************************************************/
@@ -10184,7 +11424,7 @@ function getMessage(options) {
 }(void 0);
 
 /***/ }),
-/* 48 */
+/* 55 */
 /*!**********************************************************************************************!*\
   !*** D:/Zephyr/Desktop/wordsapp_font/my_words/node_modules/convert-string/convert-string.js ***!
   \**********************************************************************************************/
@@ -10221,231 +11461,6 @@ function getMessage(options) {
   }
 
 }(void 0);
-
-/***/ }),
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */
-/*!*********************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/pages/books/books.js ***!
-  \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.addbook = addbook;exports.renderSBInfo = renderSBInfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 22));var _study = __webpack_require__(/*! ../../network/study.js */ 66);
-
-
-
-
-var _utils = __webpack_require__(/*! ../../common/utils.js */ 25);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function
-
-
-
-addbook(_x, _x2) {return _addbook.apply(this, arguments);}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//获取书库信息
-function _addbook() {_addbook = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(that, book_name) {var uInfo;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:uni.showLoading({ title: '添加中……', mask: true });_context3.next = 3;return (0, _study.addUserBook)(book_name);case 3:uInfo = _context3.sent;console.log("book.js uinfo"); //更新用户信息
-            _context3.next = 7;return (0, _utils.setUInfo)(uInfo);case 7: // 查找书库中,对应的书并删除
-            that.booksList.forEach(function (cate) {for (var i = 0; i < cate.list.length; i++) {var book = cate.list[i];if (book.book_name === book_name) {cate.list.splice(i, 1);}}}); //重置用户词书列表						
-            that.booksList[0].list = uInfo.book_list; //更新保存书库信息到本地	
-            _context3.next = 11;return setSBInfo(that.booksList);case 11:uni.showToast({ title: '添加成功' });uni.hideLoading();case 13:case "end":return _context3.stop();}}}, _callee3, this);}));return _addbook.apply(this, arguments);}function renderSBInfo(_x3) {return _renderSBInfo.apply(this, arguments);}
-
-//尝试将书库信息存入本地
-function _renderSBInfo() {_renderSBInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4(that) {return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return getSBInfo();case 2:that.booksList = _context4.sent;case 3:case "end":return _context4.stop();}}}, _callee4, this);}));return _renderSBInfo.apply(this, arguments);}var setSBInfo = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(booksList) {var _booksList;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!
-
-            booksList) {_context.next = 4;break;}
-            uni.setStorageSync('ServerBookList', booksList);_context.next = 8;break;case 4:
-
-            //如果存入失败，尝试重新获取书库信息
-            console.log("没有获取到书库信息表, 开始尝试从服务器获取");_context.next = 7;return (
-              (0, _study.getServerBookList)(true));case 7:_booksList = _context.sent;case 8:
-
-            if (!booksList) {
-              console.log('ERROR');
-            }case 9:case "end":return _context.stop();}}}, _callee, this);}));return function setSBInfo(_x4) {return _ref.apply(this, arguments);};}();
-
-
-//尝试获取书库信息
-var getSBInfo = /*#__PURE__*/function () {var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var booksList;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-            //尝试从本地获取书库信息
-            booksList = uni.getStorageSync('ServerBookList');if (
-            booksList) {_context2.next = 6;break;}
-            //尝试重新获取书库信息
-            console.log("没有获取到书库信息表, 开始尝试从服务器获取");_context2.next = 5;return (
-              (0, _study.getServerBookList)(true));case 5:booksList = _context2.sent;case 6:return _context2.abrupt("return",
-
-            booksList);case 7:case "end":return _context2.stop();}}}, _callee2, this);}));return function getSBInfo() {return _ref2.apply(this, arguments);};}();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 66 */
-/*!*****************************************************************!*\
-  !*** D:/Zephyr/Desktop/wordsapp_font/my_words/network/study.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getServerBookList = getServerBookList;exports.addUserBook = addUserBook;exports.getBookInfo = getBookInfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 22));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var request = __webpack_require__(/*! ./request */ 27);
-
-
-var BookType = [{
-  type: '我的',
-  list: [] },
-
-{
-  type: '大学',
-  list: [] },
-
-{
-  type: '出国',
-  list: [] },
-
-{
-  type: '高中',
-  list: [] },
-
-{
-  type: '初中',
-  list: [] },
-
-{
-  type: '小学',
-  list: [] },
-
-{
-  type: '实用',
-  list: [] },
-
-{
-  type: '其它',
-  list: [] }];
-
-
-
-//获取系统书库列表
-function getServerBookList() {return _getServerBookList.apply(this, arguments);}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//添加词书
-function _getServerBookList() {_getServerBookList = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var net,ServerBookList,uBooksList,response,_args = arguments;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:net = _args.length > 0 && _args[0] !== undefined ? _args[0] : false;if (net) {_context.next = 5;break;} //判断本地缓存
-            ServerBookList = uni.getStorageSync('ServerBookList');if (!ServerBookList) {_context.next = 5;break;}return _context.abrupt("return");case 5: //获取用户图书列表信息
-            uBooksList = uni.getStorageSync('UserInfo').book_list; //发送网络请求获取词书列表信息
-            _context.next = 8;return request('GET', '/server/getserverbooks');case 8:response = _context.sent; //遍历请求结果，过滤用户已有的词书并分类数据
-            response.bookList.forEach(function (book) {if (!checkUserBook(uBooksList, book.book_name)) {//判断用户是否拥有该词书
-                //进行分类
-                BookType.forEach(function (category) {if (book.book_type === category.type) {category.list.push(book);}});}}); //获取用户词书信息				
-            BookType[0].list = uBooksList ? uBooksList : []; //保存到本地
-            uni.setStorageSync('ServerBookList', BookType);console.log(BookType);return _context.abrupt("return", BookType);case 14:case "end":return _context.stop();}}}, _callee, this);}));return _getServerBookList.apply(this, arguments);}function addUserBook(_x) {return _addUserBook.apply(this, arguments);}
-
-
-
-
-
-
-
-//获取词书状态信息
-function _addUserBook() {_addUserBook = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2(book_name) {var uBooksList, response;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0: //获取用户图书列表信息
-            uBooksList = uni.getStorageSync('UserInfo').book_list; //判断该词书是否已经存在用户词书列表里（后端也有判断的）
-            if (!(uBooksList && checkUserBook(uBooksList, book_name))) {_context2.next = 3;break;}return _context2.abrupt("return", false);case 3:_context2.next = 5;return request('GET', '/study/addbook', { 'book_name': book_name });case 5:response = _context2.sent;return _context2.abrupt("return", response.uInfo);case 7:case "end":return _context2.stop();}}}, _callee2, this);}));return _addUserBook.apply(this, arguments);}function getBookInfo(_x2) {return _getBookInfo.apply(this, arguments);}
-
-
-
-
-
-//判断该词书是否已经存在用户词书列表里（后端也有判断的）		
-function _getBookInfo() {_getBookInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(book_id) {var response;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return request('GET', '/study/bookinfo', { book_id: book_id });case 2:response = _context3.sent;return _context3.abrupt("return", response.book_info);case 4:case "end":return _context3.stop();}}}, _callee3, this);}));return _getBookInfo.apply(this, arguments);}var checkUserBook = function checkUserBook(List, book_name) {
-  var flag = false;
-  if (List) {
-    List.forEach(function (el) {
-      if (el.book_name === book_name) {
-        flag = true;
-      }
-    });
-  }
-  return flag;
-};
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ })
 ]]);

@@ -79,7 +79,7 @@
 						});
 						//保存token
 						if (res.data.temptoken) {
-							uni.setStorageSync('TempToken', res.data.temptoken)
+							uni.setStorageSync('TEMP_TOKEN', res.data.temptoken)
 						} else {
 							uni.showToast({
 								icon: 'none',
@@ -177,7 +177,8 @@
 
 					//注册成功：				
 					uni.setStorageSync('TOKEN', success.data.token)
-					uni.setStorageSync('UserInfo',success.data.uInfo)
+					uni.setStorageSync('USER_INFO',success.data.uInfo)
+					uni.removeStorage('TEMP_TOKEN')
 					
 					uni.showToast({
 						icon: 'success',

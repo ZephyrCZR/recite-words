@@ -92,7 +92,7 @@
 					}
 					
 					uni.setStorageSync('TOKEN', success.data.token)
-					uni.setStorageSync('UserInfo', success.data.uInfo)
+					uni.setStorageSync('USER_INFO', success.data.uInfo)
 					console.log(success.data.token)
 					
 					uni.showToast({

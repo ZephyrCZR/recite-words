@@ -1,5 +1,11 @@
 <script>
+	import {
+		mapActions
+	} from 'vuex'
 	export default {
+		methods:{
+			...mapActions(['initUserInfo', 'initBookInfo','initLibInfo'])
+		},
 		onLaunch: function() {
 			console.log('App Launch')
 

@@ -1,7 +1,7 @@
 <template>
 	<view class="">
 		<nav-bar></nav-bar>
-		<book-swiper @selectBook="selectBook" @removeBook="removeBook" class="book-swiper" :booksList="booksList"></book-swiper>
+		<book-swiper @selectBook="selectBook" @removeBook="removeBook" class="book-swiper" :booksList="sysLib"></book-swiper>
 		<bottom-modal v-if="showModal" @confirm="tapConfirm" @cancel="tapCancel"></bottom-modal>
 
 	</view>
@@ -12,7 +12,13 @@
 	import NavBar from '../../components/navbar/NavBar.vue'
 	import BookSwiper from './childComp/BookSwiper.vue'
 	import BottomModal from './childComp/BottomModal.vue'
-	import {addbook, renderSBInfo} from './books.js'
+	// import {addbook, renderSBInfo} from './books.js'
+	
+	import {
+		mapActions,
+		mapGetters
+	} from 'vuex'
+	
 	export default {
 		name: "books",
 		components: {
@@ -22,11 +28,15 @@
 		},
 		data() {
 			return {
-				booksList: [],
 				showModal: false
 			}
 		},
+		computed: {
+			...mapGetters(['sysLib'])
+		},
 		methods: {
+			...mapActions(['initLibInfo','addBook']),
+			
 			removeBook() {
 				this.showModal = true
 			},
@@ -40,19 +50,27 @@
 					title: '删除的功能还未添加'
 				});
 			},
-
+			
 			selectBook(book_name) {
-				addbook(this, book_name)
+				uni.showLoading({
+						title: '添加中……',
+						mask: true
+					});
+				this.addBook(book_name).then(() => {
+					uni.hideLoading();
+					uni.showToast({
+						title: '添加成功'
+					});					
+				})				
 			}
 
 		},
 		created() {
-			//渲染书库信息
-			
-				renderSBInfo(this)
+			//获取书库信息
+			this.initLibInfo()
 		},
 		mounted(){
-			console.log(this.booksList)
+			console.log(this.sysLib)
 		}
 	}
 </script>

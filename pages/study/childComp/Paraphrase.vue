@@ -1,6 +1,6 @@
 <template>
 	<view class="par-content">
-		<view class="par-btn">
+		<view class="par-btn" v-if="isBtn">
 			<par-btn class="par-btn-itme" v-for="(item, index) in options" :key="index">
 				<template>
 					<view class="par-btn-content" @tap="tapOption(index)">
@@ -11,9 +11,13 @@
 			</par-btn>			
 		</view>
 		
-		<view class="">
-			
+		<view class="par-hint" v-else>
+			<view class="par-hint-item" v-for="(item, index) in options" :key="index">
+				<text class="word-pos base-text-thin base-color-sub">{{item.pos}}</text>
+				<text class="word-par base-text-sub base-color-primary">{{item.meaning}}</text>
+			</view>
 		</view>
+
 	</view>
 </template>
 
@@ -32,6 +36,11 @@
 				}
 			}
 		},
+		data(){
+			return {
+				isBtn: false
+			}			
+		},
 		methods:{
 			tapOption(index){
 				console.log(index)
@@ -41,6 +50,21 @@
 </script>
 
 <style>
+	.par-hint{
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		flex-direction: column;
+	}
+	.par-hint-item{
+		display: flex;
+		justify-content: center;
+		/* align-items: center; */
+		flex-direction: column;
+	}
+	
+	
+	
 	.word-par {
 		line-height: 46rpx;
 	}
@@ -69,7 +93,12 @@
 		/* background-color: hotpink; */
 	}
 
-	.parcontent {
-
+	.par-content {
+	/* background-color: #007AFF; */
+	height: 480rpx;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	}
 </style>
