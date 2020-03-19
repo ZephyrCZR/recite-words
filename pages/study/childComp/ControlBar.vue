@@ -1,27 +1,27 @@
 <template>
 	<view class="control-content">
-		<view class="con-btn-type" v-if="btnType === 0">
-			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 1}" @tap="tapYes" @touchstart="touchStar"
-			 @touchend="touchEnd" :data-id=1>
+		<view class="con-btn-type" v-if="btnType.page? (btnType.step === 0 || btnType.step === 2) : false">
+			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 1}" 
+			:data-id=1 @tap="tapNo" @touchstart="touchStar" @touchend="touchEnd">
 				<text class="word-text base-text-sub base-color-primary">看答案</text>
 				<view class="word-point"></view>
 			</view>
 		</view>
-		<view class="con-btn-type" v-else-if="btnType === 1">
-			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 1}" @tap="tapYes" @touchstart="touchStar"
-			 @touchend="touchEnd" :data-id=1>
+		<view class="con-btn-type" v-if="btnType.page? (btnType.step === 1 || btnType.step === 3) : false">
+			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 1}"
+			:data-id=1 @tap="tapYes" @touchstart="touchStar" @touchend="touchEnd">
 				<text class="word-text base-text-sub base-color-primary">认识</text>
 				<view class="word-point"></view>
 			</view>
-			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 0}" @tap="tapNo" @touchstart="touchStar"
-			 @touchend="touchEnd" :data-id=0>
+			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 0}"
+			:data-id=0 @tap="tapNo" @touchstart="touchStar" @touchend="touchEnd">
 				<text class="word-text base-text-sub base-color-primary">不认识</text>
 				<view class="word-point"></view>
 			</view>
 		</view>
-		<view class="con-btn-type" v-else-if="btnType === 2">
-			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 1}" @tap="tapYes" @touchstart="touchStar"
-			 @touchend="touchEnd" :data-id=1>
+		<view class="con-btn-type" v-if="btnType.page === 0">
+			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 1}" 
+			:data-id=1 @tap="tapNext" @touchstart="touchStar" @touchend="touchEnd" >
 				<text class="word-text base-text-sub base-color-primary">下一词</text>
 				<view class="word-point"></view>
 			</view>
@@ -32,13 +32,10 @@
 <script>
 	export default {
 		name: 'ControlBar',
-		props: {
-			btnType: {
-				type: Number,
-				default () {
-					return 0
-				}
-			}
+		computed:{
+			btnType(){
+				return this.$store.getters.btnType
+			}			
 		},
 		data() {
 			return {
@@ -52,6 +49,9 @@
 			tapNo() {
 				this.$emit('tapNo')
 			},
+			tapNext(){
+				this.$emit('tapNext')
+			},
 			touchStar(e) {
 				this.onTouch = e.currentTarget.dataset.id
 			},
@@ -64,6 +64,9 @@
 </script>
 
 <style>
+	.word-text{
+		font-weight: bold;
+	}
 	.con-btn-active {
 		background-color: rgba(30, 30, 30, 0.3);
 	}

@@ -1,20 +1,21 @@
 <template>
 	<view class="top-bar-content">
-		<text>{{options.done}}/{{options.count}}</text>
+		<text>{{count}}/{{numbers}}</text>
 	</view>
 </template>
 
 <script>
 	export default {
 		name: 'TopBar',
-		props:{
-			options: {
-				type: Object,					
-				default() {
-					return {}
-				}
-			}			
-		}
+		computed: {
+			count() {
+				return this.$store.getters.count
+			},
+			numbers() {
+				return this.$store.getters.numbers
+			}
+
+		},
 	}
 </script>
 

@@ -1,45 +1,41 @@
 <template>
 	<view class="word-content">
-		<view class="word-main">
-			<text class="word-main-ex">{{options.word}}</text>
+		<view class="word-main" v-if="word.page === 3">
+			<text class="word-main-icon base-color-primary icon-sound-filling iconfont" @tap="playAudio"></text>
+		</view>
+		<view class="word-main" v-else>
+			<text class="word-main-ex">{{word.word}}</text>
 		</view>
 
-		<view class="word-pronounce" v-if="options.is_kk^isChange">
+		<view class="word-pronounce" v-if="word.is_kk^isChange">
 			<!-- 异或门 -->
-			<text class="word-icon base-text-sub base-color-sub" @tap="tapSound">{{options.soundmark[0].soundtype}}</text>
-			<text class="word-pronounce-ex base-text-sub base-color-sub" @tap="playAudio">/ {{options.soundmark[0].symbol}} /</text>
+			<text class="word-icon base-text-sub base-color-sub" @tap="tapSound">{{word.soundmark[0].soundtype}}</text>
+			<text class="word-pronounce-ex base-text-sub base-color-sub" @tap="playAudio">/ {{word.soundmark[0].symbol}} /</text>
 
 		</view>
 
 		<view class="word-pronounce" v-else>
-			<text class="word-icon base-text-sub base-color-sub" @tap="tapSound">{{options.soundmark[1].soundtype}}</text>
-			<text class="word-pronounce-ex base-text-sub base-color-sub" @tap="playAudio">[ {{options.soundmark[1].symbol}} ]</text>
+			<text class="word-icon base-text-sub base-color-sub" @tap="tapSound">{{word.soundmark[1].soundtype}}</text>
+			<text class="word-pronounce-ex base-text-sub base-color-sub" @tap="playAudio">[ {{word.soundmark[1].symbol}} ]</text>
 
 		</view>
 
 		<view class="word-main-sign">
-			<view class="sign-bar" v-for="index in options.state" :key="index"></view>
+			<view class="sign-bar" v-for="index in word.step" :key="index"></view>
 		</view>
 
 	</view>
 </template>
 
 <script>
+	import {
+		mapGetters
+	} from 'vuex'
+	
 	export default {
 		name: 'Word',
-		props: {
-			options: {
-				type: Object,
-				default() {
-					return {
-						word: 'hello',
-						soundmark: [{"soundtype":"美","symbol":"rɪˈkrutmənt","audio":"https://dictionary.blob.core.chinacloudapi.cn/media/audio/tom/15/0f/150FE9E687005122E736241BA691EDA3.mp3"},{"soundtype":"英","symbol":"rɪˈkruːtmənt","audio":"https://dictionary.blob.core.chinacloudapi.cn/media/audio/george/15/0f/150FE9E687005122E736241BA691EDA3.mp3"}],
-						state: 0,
-						is_kk: false,
-						auto_audio: false
-					}
-				}
-			}
+		computed:{
+			...mapGetters(['word'])
 		},
 		data() {
 			return {
@@ -53,20 +49,20 @@
 			},
 			playAudio() {//播放音频
 				if (!this.isChange) {
-					this.innerAudioContext.src = this.options.soundmark[0].audio;
+					this.innerAudioContext.src = this.word.soundmark[0].audio;
 				} else {
-					this.innerAudioContext.src = this.options.soundmark[1].audio;
+					this.innerAudioContext.src = this.word.soundmark[1].audio;
 				}
 				this.innerAudioContext.play(() => {})
 			}
 		},
 		mounted() {//加载音频，若需要自动播放，则自动播放
 			this.innerAudioContext = uni.createInnerAudioContext();
-			this.innerAudioContext.autoplay = this.options.auto_audio;
-			if (this.options.is_kk) {
-				this.innerAudioContext.src = this.options.soundmark[0].audio;
+			this.innerAudioContext.autoplay = this.word.auto_audio;
+			if (this.word.is_kk) {
+				this.innerAudioContext.src = this.word.soundmark[0].audio;
 			} else {
-				this.innerAudioContext.src = this.options.soundmark[1].audio;
+				this.innerAudioContext.src = this.word.soundmark[1].audio;
 			}
 		}
 	}
@@ -100,6 +96,10 @@
 	.word-main-ex {
 		font-size: 90rpx;
 		font-weight: 600;
+	}
+
+	.word-main-icon {
+		font-size: 180rpx;
 	}
 
 	.word-main {

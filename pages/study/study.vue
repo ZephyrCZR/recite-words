@@ -1,10 +1,10 @@
 <template>
 	<view class="base-bg-image">
 		<view class="study-mask study-content">
-			<top-bar :options="topbar"></top-bar>
+			<top-bar></top-bar>
 			<word :options="word" class="study-word"></word>
 			<Paraphrase :options="paraphrase"></Paraphrase>
-			<control-bar :btnType="btnType" @tapYes="tapYes" @tapNo="tapNo"></control-bar>
+			<control-bar :btnType="btnType" @tapYes="tapYes" @tapNo="tapNo" @tapNext="tapNext"></control-bar>
 			<tab-bar></tab-bar>
 		</view>
 	</view>
@@ -17,7 +17,10 @@
 	import ControlBar from './childComp/ControlBar.vue';
 	import TabBar from './childComp/TabBar.vue'
 
-	import {test} from'./study.js'
+	import {
+		mapActions,
+		mapGetters
+	} from 'vuex'
 
 	export default {
 		components: {
@@ -47,15 +50,33 @@
 			}
 		},
 		methods: {
+			...mapActions(['initQueues','getCurrentCount','getCurrentWord','changePage','isCorrect', 'isistake']),
 			tapYes() {
-
+				this.isCorrect().then(() => {
+					this.getCurrentWord()
+				})
+				
 			},
 			tapNo() {
-
+				this.isistake().then(() => {
+					this.changePage(0)
+				})
+				
+			},
+			tapNext() {
+				this.getCurrentWord()
 			}
 		},
+		created() {
+			this.initQueues()
+			this.getCurrentCount()
+			this.getCurrentWord().then(() => {
+				console.log(this.$store.state)
+			})
+			
+		},
 		mounted() {
-			console.log(this.config)
+			// console.log(this.config)
 			
 			
 		}
@@ -76,7 +97,7 @@
 	}
 
 	.study-mask {
-		backdrop-filter: blur(100rpx);
-		background-color: rgba(255, 255, 255, 0.6);
+		backdrop-filter: blur(50rpx);
+		background-color: rgba(255, 255, 255, 0.3);
 	}
 </style>

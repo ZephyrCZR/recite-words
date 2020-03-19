@@ -25,6 +25,9 @@
 	font-size: 90rpx;
 	font-weight: 600;
 }
+.word-main-icon {
+	font-size: 180rpx;
+}
 .word-main {
 	display: -webkit-box;
 	display: -webkit-flex;

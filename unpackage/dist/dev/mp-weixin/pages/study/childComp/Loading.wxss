@@ -1,0 +1,34 @@
+
+.cuIcon-loading1 {
+	color: #333333;
+	font-size: 140rpx;
+}
+
+/* 旋转动画 */
+.rotate_loop {
+	-webkit-transition-property: -webkit-transform;
+	-webkit-transition-duration: 1s;
+	-moz-transition-property: -moz-transform;
+	-moz-transition-duration: 1s;
+	-webkit-animation: rotate 1s linear infinite;
+	animation: rotate 1s linear infinite;
+}
+@-webkit-keyframes rotate {
+from {
+		-webkit-transform: rotate(0deg)
+}
+to {
+		-webkit-transform: rotate(360deg)
+}
+}
+@keyframes rotate {
+from {
+		-webkit-transform: rotate(0deg);
+		        transform: rotate(0deg)
+}
+to {
+		-webkit-transform: rotate(359deg);
+		        transform: rotate(359deg)
+}
+}
+

@@ -1,1 +1,1 @@
-<view class="top-bar-content"><text>{{options.done+"/"+options.count}}</text></view>
+<view class="top-bar-content"><text>{{count+"/"+numbers}}</text></view>

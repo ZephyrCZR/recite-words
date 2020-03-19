@@ -14,7 +14,7 @@ const store = new Vuex.Store({
 			coin: 0,
 			avatar: ''			
 		},
-		config: {},//用户配置
+		config: {numbers: 20,auto_audio:false,is_kk:false,is_hold:false},//用户配置
 		calendars: [],//每日学习记录
 		books_list: [], //用户拥有的图书
 		
@@ -22,6 +22,14 @@ const store = new Vuex.Store({
 		book_info: false,//用户选定的图书信息
 				
 		sys_lib: [], //系统书库信息
+		
+		page: 1, //0：答案页，1：选择页，2：遮挡页，3：音频页
+		counter: 0, //计数器
+		queue: [], //正在学习的单词队列	
+		currentWord: {marker:{},paraphrase:[]}, //当前单词
+		errorWordA:{marker:{},paraphrase:[]},
+		errorWordB:{marker:{},paraphrase:[]}
+		
   },
   actions,
   mutations,

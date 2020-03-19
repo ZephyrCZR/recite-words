@@ -3,7 +3,7 @@ import {
 } from '../common/utils.js'
 
 export default {
-	//index
+	//page/index
 	//头像
 	avatar(state) {
 		return state.user.avatar
@@ -52,7 +52,8 @@ export default {
 		return is_clock
 	},
 	
-	//book
+	//page/book
+	//图书列表
 	sysLib(state) {
 		let bookType =
 		 [{type: '我的',list: []},
@@ -77,15 +78,97 @@ export default {
 		//获取用户词书信息				
 		bookType[0].list = state.books_list
 		return bookType		
-	}	
+	},
+	
+	//page/study
+	count(state) {
+		return state.counter
+	},
+	numbers(state) {
+		return state.config.numbers
+	},
+	
+	word(state) {
+		let options = {}		
+		options.auto_audio = state.config.auto_audio
+		options.is_kk = state.config.is_kk
+		let word = state.currentWord
+		options.word = word.word
+		options.step = word.marker.step
+		options.soundmark = word.soundmark
+		options.page = state.page
+		return options
+	},
+	paraphrase(state) {
+		let options = {}		
+		let right = state.currentWord.paraphrase[0]	
+		let wrong_a = state.errorWordA.paraphrase[0]	
+		let wrong_b = state.errorWordB.paraphrase[0]	
+		
+		const rand = Number.parseInt(Math.random()*10%3)
+		
+		let paraphrase = []
+		if(rand === 0) {
+			paraphrase = [right,wrong_a,wrong_b]
+		}else if(rand === 1) {
+			paraphrase = [wrong_a,right,wrong_b]
+		}else{
+			paraphrase = [wrong_a,wrong_b,right]
+		}
+
+		options.rand = rand
+		options.choices = paraphrase
+		options.step = state.currentWord.marker.step
+		options.page = state.page
+		
+		let arr = state.currentWord.paraphrase
+		arr.pop()
+		arr.length = 3
+		options.right = arr
+		
+		return options
+	},
+	
+	btnType(state){
+		
+		
+		return {'page':state.page,'step':state.currentWord.marker.step}
+	}
+	
+	//学习界面数据
+	// studyData(state) {
+	// 	let data = {}
+	// 	//1.获取正在学习的单词队列,计数器
+	// 	let queue = state.queue
+	// 	let counter = state.counter
+		
+		
+		
+		
+		
+	// }
+	
+	// btnType
+	// topbar
+	// word
+	// paraphrase
+	
 }
 
 
+
+
+
+
+
+
+
+/*=====================私有方法========================*/
 //判断该词书是否已经存在用户词书列表里（后端也有判断的）		
-const checkUserBook = function(List, book_name) {
+const checkUserBook = function(list, book_name) {
 	let flag = false
-	if (List) {
-		List.forEach((el) => {
+	if (list) {
+		list.forEach((el) => {
 			if (el.book_name === book_name) {
 				flag = true
 			}
@@ -93,3 +176,4 @@ const checkUserBook = function(List, book_name) {
 	}
 	return flag
 }
+

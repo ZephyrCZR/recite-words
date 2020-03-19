@@ -1,4 +1,10 @@
 
+.trueColor{
+	background-color: rgba(85, 255, 127, 0.2);
+}
+.falseColor{
+	background-color: rgba(255, 85, 0, 0.2);
+}
 .par-hint{
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -46,7 +52,10 @@
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
 	        justify-content: center;
-	padding-left: 30rpx;
+	box-sizing: border-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .par-btn-itme {
 	margin-bottom: 20rpx;
@@ -65,10 +74,8 @@
 	width: 100%;
 	padding: 0 30rpx;
 	box-sizing: border-box;
-	/* background-color: hotpink; */
 }
 .par-content {
-/* background-color: #007AFF; */
 height: 480rpx;
 display: -webkit-box;
 display: -webkit-flex;

@@ -46,7 +46,7 @@
 			...mapGetters(['avatar','bookState', 'isClock'])
 		},
 		methods: {
-			...mapActions(['initUserInfo', 'initBookInfo','clock']),
+			...mapActions(['initUserInfo', 'initBookInfo','initQueues','clock']),
 
 			//签到
 			clockIn() {
@@ -77,7 +77,9 @@
 				this.initUserInfo().then(() => {
 					this.noBook = !this.$store.state.book_id
 				})
-				this.initBookInfo()
+				this.initBookInfo().then(() => {
+					this.initQueues()
+				})
 			}
 	
 		},

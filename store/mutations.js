@@ -4,6 +4,10 @@ import {
 	UPDATE_Lib_INFO,
 	CLOCK_IN,
 	UPDATE_COIN,
+	UPDATE_QUEUE,
+	SET_CURRENT_WORD,
+	SET_CURRENT_COUNT,
+	SET_CURRENT_PAGE
 } from "./mutation-types"
 
 
@@ -13,7 +17,10 @@ export default {
 		state.user.nickname = payload.nickname
 		state.user.coin = payload.coin
 		state.user.avatar = payload.avatar
-		state.config = payload.config
+		state.config.numbers= payload.config.numbers
+		state.config.auto_audio= payload.config.auto_audio
+		state.config.is_kk= payload.config.is_kk
+		state.config.is_hold= payload.config.is_hold
 		state.calendars = payload.calendar
 		state.books_list = payload.book_list
 		state.book_id = payload.book_id		
@@ -39,4 +46,28 @@ export default {
 	[UPDATE_COIN](state, payload) {
 		state.user.coin = payload
 	},
+	
+	//更新单词队列
+	[UPDATE_QUEUE](state, payload) {
+		state.queue = payload
+	},
+	
+	//设置当前单词
+	[SET_CURRENT_WORD](state, payload){
+		state.currentWord = payload[0]
+		state.errorWordA = payload[1]
+		state.errorWordB = payload[2]
+ 	},
+	
+	//设置当前计数器
+	[SET_CURRENT_COUNT](state, payload){
+		state.counter = payload
+	},
+	
+	//设置当前显示的页面
+	[SET_CURRENT_PAGE](state, payload){
+		state.page = null
+		state.page = payload
+	}
+	
 }

@@ -27,9 +27,7 @@ export async function netGetServerBookList() {
 
 //添加词书
 export async function netAddUserBook(book_name) {
-	const response = await request('GET', '/study/addbook', {
-		'book_name': book_name
-	})
+	const response = await request('GET', '/study/addbook', {book_name})
 	return response.uInfo
 }
 
@@ -37,4 +35,11 @@ export async function netAddUserBook(book_name) {
 export async function netGetBookInfo(book_id) {
 	const response = await request('GET', '/study/bookinfo', {book_id})
 	return response.book_info
+}
+
+//获取单词等待队列
+export async function netGetWaitingWords(wordsIdArr) {	
+	const response = await request('POST', '/study/getwords', wordsIdArr)
+	console.log(response.wordsInfoArr)
+	return response.wordsInfoArr
 }

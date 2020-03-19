@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
-    "par-btn": "/components/bottom/ParBtn"
+    "par-btn": "/components/bottom/ParBtn",
+    "loading": "/pages/study/childComp/Loading"
   }
 }
