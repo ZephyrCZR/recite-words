@@ -24,3 +24,6 @@ export const SET_CURRENT_DONE  = 'set_current_done'
 
 //设置当前显示页面
 export const SET_CURRENT_PAGE = 'set_current_page'
+
+//锁
+export const LOCK = 'lock'

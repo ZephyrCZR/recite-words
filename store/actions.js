@@ -1,4 +1,5 @@
 import {
+	LOCK,
 	UPDATE_USER_INFO,
 	UPDATE_BOOK_INFO,
 	UPDATE_Lib_INFO,
@@ -6,7 +7,7 @@ import {
 	UPDATE_QUEUE,
 	SET_CURRENT_WORD,
 	SET_CURRENT_DONE,
-	SET_CURRENT_PAGE
+	SET_CURRENT_PAGE,
 } from "./mutation-types"
 
 import {
@@ -34,6 +35,9 @@ import {
 	 } from '../network/server'
 
 export default {
+	lock(context, bool){
+		context.commit(LOCK, bool)
+	},
 	
 	//初始化用户信息
 	async initUserInfo(context) {
@@ -221,7 +225,7 @@ export default {
 	
 	
 	//更改当前显示的页面
-	async changePage(context, page){
+	changePage(context, page){
 		context.commit(SET_CURRENT_PAGE, page) 
 	},
 	

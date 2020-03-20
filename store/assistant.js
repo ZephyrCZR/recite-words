@@ -10,7 +10,7 @@ import {
 	netGetServerBookList,
 	netAddUserBook,
 	netGetBookInfo,
-	netGetWaitingWords,
+	netGetWords,
 	uploadData
 	} from '../network/server'
 	
@@ -120,7 +120,7 @@ export async function getWaiting(wordsIdArr = [],net = false) {
 	if(!net) {
 		words = uni.getStorageSync('WAITING')
 	}else{
-		words = await netGetWaitingWords(wordsIdArr)
+		words = await netGetWords(wordsIdArr)
 		
 		//添加marker对象
 		words.forEach((word) => {
@@ -189,6 +189,28 @@ export async function upload(){
 	return await uploadData(await getBookInfo())	
 }
 
+//从服务器/本地获取待复习单词队列
+export async function getReviews(){
+	let words = []
+	if(!net) {
+		words = uni.getStorageSync('REVIEWS')
+	}else{
+		words = await netGetWords(wordsIdArr)
+		
+		//添加marker对象
+		words.forEach((word) => {
+			word.marker = {}
+			word.marker.step = 0 //阶段
+			word.marker.noshow = 0 //连续没出现回合每次+1
+			word.marker.error = 0 //连续错误的次数每次错误+2，最高6分
+			word.marker.score = 3 //决定出场的顺序，初始3分，出现过一次之后按照score = noshow + error计算
+		})		
+		
+	}	
+	return words	
+}
+
+
 
 //通用版保存到本地的方法，无再次从服务器获取数据的保险机制，只保证存入的数据不为空（同步）
 export function saveToLocal(storageName, data) {
@@ -222,13 +244,3 @@ const tryGetUserInfoFromNet = async function() {
 
 
 
-
-// export async function getData(storageName) {
-// 	//尝试从本地获取
-// 	let data = uni.getStorageSync(storageName)
-// 	if(!data){
-// 		//尝试从服务器获取
-// 		data = await netGetWaitingWords(wordsIdArr)
-		
-// 	}
-// }

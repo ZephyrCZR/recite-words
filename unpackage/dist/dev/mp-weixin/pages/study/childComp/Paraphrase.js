@@ -161,8 +161,19 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
     Loading: Loading },
 
   computed: _objectSpread({},
-  (0, _vuex.mapGetters)({
-    options: 'paraphrase' })),
+  (0, _vuex.mapGetters)(['isLock']), {
+
+    options: function options() {
+      var _this = this;
+      if (this.isLock) {//如果lock为true，返回变化之前的值
+        return _this.hold;
+      } else {
+        //当lock为false，保存变化之前的值
+        _this.hold = this.$store.getters.paraphrase;
+        return this.$store.getters.paraphrase;
+      }
+
+    } }),
 
 
   data: function data() {
@@ -171,11 +182,14 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
       isFalse: -1,
       isShow: true,
       timer: null,
-      sortTimer: null };
+      sortTimer: null,
+      hold: null,
+      lock_s: false };
 
   },
+
   methods: _objectSpread({},
-  (0, _vuex.mapActions)(['changePage', 'isCorrect', 'isMistake', 'getCurrentWord']), {
+  (0, _vuex.mapActions)(['changePage', 'isCorrect', 'isMistake', 'getCurrentWord', 'lock']), {
     tapOption: function tapOption(index) {
       var _this = this;
       console.log(index);
@@ -198,13 +212,21 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
         //如果选择正确
         _this.sortTimer = setTimeout(function () {
 
+          _this.lock(true); //加锁
+
           _this.isCorrect().then(function () {
+
             if (preStep === 0) {
               _this.changePage(0);
               _this.updateData();
+              _this.lock(false); //解锁
             } else {
               _this.changePage(1);
-              _this.getCurrentWord();
+              _this.getCurrentWord().then(function () {
+
+                _this.lock(false); //解锁
+
+              });
               _this.updateData();
               _this.setTimer();
             }

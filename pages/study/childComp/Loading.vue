@@ -1,6 +1,6 @@
 <template>
 	<transition>
-		<view @tap="onTap" class="rotate_loop">
+		<view class="rotate_loop">
 			<text class="cuIcon cuIcon-loading1"></text>
 		</view>
 	</transition>
@@ -8,12 +8,7 @@
 
 <script>
 	export default {
-		name: 'Loading',
-		methods: {
-			onTap() {				
-				this.$emit('showAnswer')
-			},			
-		}
+		name: 'Loading'
 	}
 </script>
 

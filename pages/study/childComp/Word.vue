@@ -28,21 +28,27 @@
 </template>
 
 <script>
-	import {
-		mapGetters
-	} from 'vuex'
-	
 	export default {
 		name: 'Word',
 		computed:{
-			...mapGetters(['word'])
-			
+			word() {
+				let	_this = this
+				if(this.$store.getters.isLock){ //如果lock为true，返回变化之前的值
+					return _this.hold
+				}else{
+					//当lock为false，保存变化之前的值
+					_this.hold = this.$store.getters.word
+					return this.$store.getters.word
+				}
+				
+			}
 			
 		},
 		data() {
 			return {
 				isChange: false,
-				innerAudioContext: null
+				innerAudioContext: null,
+				hold: null
 			}
 		},
 		methods: {

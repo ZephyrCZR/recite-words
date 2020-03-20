@@ -151,13 +151,25 @@ var _default =
 {
   name: 'ControlBar',
   computed: {
+
     btnType: function btnType() {
-      return this.$store.getters.btnType;
+      var _this = this;
+      if (this.$store.getters.isLock) {//如果lock为true，返回变化之前的值
+        console.log("hold住了");
+        return _this.hold;
+      } else {
+        //当lock为false，保存变化之前的值
+        _this.hold = this.$store.getters.btnType;
+        console.log("没hold住");
+        return this.$store.getters.btnType;
+      }
+
     } },
 
   data: function data() {
     return {
-      onTouch: -1 };
+      onTouch: -1,
+      hold: null };
 
   },
   methods: {

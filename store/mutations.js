@@ -1,4 +1,5 @@
 import {
+	LOCK,
 	UPDATE_USER_INFO,
 	UPDATE_BOOK_INFO,
 	UPDATE_Lib_INFO,
@@ -68,6 +69,11 @@ export default {
 	[SET_CURRENT_PAGE](state, payload){
 		state.page = null
 		state.page = payload
+	},
+	
+	//锁
+	[LOCK](state, payload){
+		state.lock = payload
 	}
 	
 }

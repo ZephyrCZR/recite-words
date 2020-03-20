@@ -41,11 +41,22 @@
 		components: {
 			ParBtn,
 			Loading
-		},
+		},		
 		computed: {
-			...mapGetters({
-				options: 'paraphrase'
-			}),
+			...mapGetters(['isLock']),
+			
+			options() {
+				let	_this = this
+				if(this.isLock){ //如果lock为true，返回变化之前的值
+					return _this.hold
+				}else{
+					//当lock为false，保存变化之前的值
+					_this.hold = this.$store.getters.paraphrase
+					return this.$store.getters.paraphrase
+				}
+	
+			}
+			
 		},
 		data() {
 			return {
@@ -53,11 +64,14 @@
 				isFalse: -1,
 				isShow: true,
 				timer: null,
-				sortTimer: null
+				sortTimer: null,
+				hold: null,
+				lock_s: false
 			}
 		},
+		
 		methods: {
-			...mapActions(['changePage', 'isCorrect', 'isMistake', 'getCurrentWord']),
+			...mapActions(['changePage', 'isCorrect', 'isMistake', 'getCurrentWord','lock']),
 			tapOption(index) {
 				let _this = this
 					console.log(index)
@@ -80,13 +94,21 @@
 					//如果选择正确
 					_this.sortTimer = setTimeout(() => {
 						
+							_this.lock(true) //加锁
+							
 							_this.isCorrect().then(() => {
+							
 								if(preStep === 0){										
 									_this.changePage(0)
 								  _this.updateData()
+									_this.lock(false) //解锁
 								}else{
 									_this.changePage(1)
-									_this.getCurrentWord()
+									_this.getCurrentWord().then(() => {
+											
+									_this.lock(false) //解锁
+					
+									})
 									_this.updateData()
 									_this.setTimer()
 								}								
@@ -99,7 +121,7 @@
 			showAnswer() {//取消遮挡
 				this.isShow = false//取消遮挡	
 				clearTimeout(this.timer)//清除定时器
-							
+				
 			},				
 			updateData(){//跳转到答案页，调用updateData，跳转到问题页，先调用updateData再调用setTimer
 				this.isTrue = -1

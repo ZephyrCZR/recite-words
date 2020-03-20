@@ -138,9 +138,11 @@ export default {
 	
 	btnType(state){		
 		return {'page':state.page,'step':state.currentWord.marker.step}
+	},
+	
+	isLock(state){
+		return state.lock
 	}
-	
-	
 	
 		
 		

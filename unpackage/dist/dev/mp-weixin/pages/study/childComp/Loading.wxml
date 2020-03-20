@@ -1,1 +1,1 @@
-<transition vue-id="64e9cefd-1" bind:__l="__l" vue-slots="{{['default']}}"><view data-event-opts="{{[['tap',[['onTap',['$event']]]]]}}" class="rotate_loop" bindtap="__e"><text class="cuIcon cuIcon-loading1"></text></view></transition>
+<transition vue-id="64e9cefd-1" bind:__l="__l" vue-slots="{{['default']}}"><view class="rotate_loop"><text class="cuIcon cuIcon-loading1"></text></view></transition>

@@ -126,11 +126,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 var _default =
 {
-  name: 'Loading',
-  methods: {
-    onTap: function onTap() {
-      this.$emit('showAnswer');
-    } } };exports.default = _default;
+  name: 'Loading' };exports.default = _default;
 
 /***/ }),
 

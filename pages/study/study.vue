@@ -2,9 +2,9 @@
 	<view class="base-bg-image">
 		<view class="study-mask study-content">
 			<top-bar></top-bar>
-			<word :options="word" class="study-word"></word>
-			<Paraphrase ref="Paraphrase" :options="paraphrase"></Paraphrase>
-			<control-bar :btnType="btnType" @tapYes="tapYes" @tapNo="tapNo" @tapNext="tapNext"></control-bar>
+			<word class="study-word"></word>
+			<Paraphrase ref="Paraphrase" ></Paraphrase>
+			<control-bar @tapYes="tapYes" @tapNo="tapNo" @tapNext="tapNext"></control-bar>
 			<tab-bar></tab-bar>
 		</view>
 	</view>
@@ -30,39 +30,27 @@
 			ControlBar,
 			TabBar
 		},
-		data() {
-			return {
-				btnType: 0, //控制键类型0，1，2
-				// 子组件props统一传参				
-				topbar: {done: 0,count: 20},  //已背单词数achieve/每组单词数count
-				word: {
-						word: 'hello',
-						soundmark: [{"soundtype":"美","symbol":"rɪˈkrutmənt","audio":"https://dictionary.blob.core.chinacloudapi.cn/media/audio/tom/15/0f/150FE9E687005122E736241BA691EDA3.mp3"},{"soundtype":"英","symbol":"rɪˈkruːtmənt","audio":"https://dictionary.blob.core.chinacloudapi.cn/media/audio/george/15/0f/150FE9E687005122E736241BA691EDA3.mp3"}],
-						state: 0,
-						is_kk: false,
-						auto_audio: false
-					}, //		word: '', soundmark: [], state: 0, is_kk: false, auto_audio: false
-				paraphrase: [
-						{"pos":"n.","meaning":"招聘；征兵；招兵买马"},
-						{"pos":"adv.","meaning":"古怪地；怪异地；反常地；令人奇怪地"},
-						{"pos":"v.","meaning":"区分；区别；辨别；表明…间的差别"}
-					]
-			}
-		},
+
 		methods: {
-			...mapActions(['initQueues','getCurrentWord','changePage','isCorrect', 'isMistake']),
+			...mapActions(['initQueues','getCurrentWord','changePage','isCorrect', 'isMistake','lock']),
 			tapYes() {
-				this.isCorrect().then(() => {					
-					this.getCurrentWord()
-					this.$refs.Paraphrase.updateData()
-					this.changePage(1)					
-					this.$refs.Paraphrase.setTimer()					
+				this.lock(true)
+				this.isCorrect().then(() => {						
+					this.getCurrentWord().then(() => {						
+						this.changePage(1)
+						this.lock(false)
+					})
+					this.$refs.Paraphrase.updateData()	
+									
+					this.$refs.Paraphrase.setTimer()
 				})
 				
 			},
 			tapNo() {
+				this.lock(true)
 				this.isMistake().then(() => {					
 					this.changePage(0).then(() => {
+						this.lock(false)
 						this.$refs.Paraphrase.updateData()
 					})
 					
@@ -84,7 +72,9 @@
 			this.getCurrentWord()			
 			
 		},
-
+		onLoad(options) {
+			console.log(options)
+		}
 	}
 </script>
 

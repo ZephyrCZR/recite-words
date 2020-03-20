@@ -37,8 +37,8 @@ export async function netGetBookInfo(book_id) {
 	return response.book_info
 }
 
-//获取单词等待队列
-export async function netGetWaitingWords(wordsIdArr) {	
+//根据单词id数组获取一组单词
+export async function netGetWords(wordsIdArr) {	
 	const response = await request('POST', '/study/getwords', JSON.stringify(wordsIdArr))//请求体中不要放数组
 	return response.wordsInfoArr
 }

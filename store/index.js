@@ -28,8 +28,9 @@ const store = new Vuex.Store({
 		queue: [], //正在学习的单词队列	
 		currentWord: {marker:{},paraphrase:[]}, //当前单词
 		errorWordA:{marker:{},paraphrase:[]},
-		errorWordB:{marker:{},paraphrase:[]}
+		errorWordB:{marker:{},paraphrase:[]},
 		
+		lock: false
   },
   actions,
   mutations,
