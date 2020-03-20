@@ -5,7 +5,7 @@ import {
 	CLOCK_IN,
 	UPDATE_QUEUE,
 	SET_CURRENT_WORD,
-	SET_CURRENT_COUNT,
+	SET_CURRENT_DONE,
 	SET_CURRENT_PAGE
 } from "./mutation-types"
 
@@ -21,8 +21,10 @@ import {
 	saveToLocal,
 	getWaiting,
 	getQueue,
-	getCounter,
-	getWaitingLength
+	getWaitingLength,
+	setWordState,
+	getDone,
+	upload,
 } from './assistant.js'
 
 import { 
@@ -106,13 +108,15 @@ export default {
 
  //初始化单词队列(两个队列)
   async initQueues(context) {
+		console.log("调用了initQueues")
 		let waiting = []
 		let queue = []
 
 		//1.判断上一组学习目标是否已经完成，本地是否有缓存
-		let counter = await getCounter()//每次完成一组学习，会重置counter
-
-		if(counter === 0){ //当counter = 0 表示学习组已重置, 上组学习已完成或者本地缓存被清除
+		// let counter = await getCounter()//每次完成一组学习，会重置counter
+		const done = getDone()
+		
+		if(!done || done.length === 0){ //done不存在或者长度为0
 
 			//将waiting队列补充到40个单词
 			
@@ -137,6 +141,7 @@ export default {
 			let netWords = []
 			if(wordsIdArr.length !== 0){
 				netWords = await getWaiting(wordsIdArr, true)//从服务器获取
+				console.log(netWords)
 			}			
 			
 			//拼接，取得一个包含40个未背单词的数组（除非未背的单词不满40个）
@@ -156,47 +161,70 @@ export default {
 		for(let i = 0; i < (10 - length); i++){
 			queue.push(waiting.pop())
 		}
-		console.log(queue)
-		console.log(waiting)
+
 		//5.保存到缓存
 		saveToLocal('QUEUE', queue)
 		saveToLocal('WAITING', waiting)		
 		
+		context.commit(SET_CURRENT_DONE, getDone())
 		context.commit(UPDATE_QUEUE, queue)
   },
 	
+	
 	//获取当前分数最高的一个单词和分数最低的两个单词
 	async getCurrentWord(context) {
+		console.log("调用了获取单词的方法")
 		let queue = await getQueue() //获取到单词队列
 		//获取score最大的单词
+		console.log(queue)
 		let word = {marker:{score: -1}}
-		queue.forEach((el) => {
+	
+		for(let i = 0; i < queue.length; i++){
+			let el = queue[i]
+			//查找循环之前分数最大的单词
+			console.log(el.marker.score)
 			if(el.marker.score > word.marker.score){
 				word = el
-			}
-		})
-		
+				console.log(el.marker.score)
+			}	
+			//设置分数
+			queue[i].marker.noshow = queue[i].marker.noshow + 1
+			let noshow = queue[i].marker.noshow
+			let error = el.marker.error
+			let step = el.marker.step			
+			queue[i].marker.score = noshow*2 + error + step
+		}
+				
+		console.log(word)
 	  let wrong = selectMinScore(queue)
 		let wordArr = [word,...wrong]
 		
-		context.commit(SET_CURRENT_WORD, wordArr)			
+		context.commit(SET_CURRENT_WORD, wordArr)		
+			
+		//更新缓存队列
+		saveToLocal('QUEUE', queue)		
+		//提交mutation
+		context.commit(UPDATE_QUEUE, queue)	
 	},
 	
-	//获取计数器
-	async getCurrentCount(context, setter = -1) {
-		let counter = 0
-		if(setter !== -1){
-			counter = await getCounter(setter)
-		}else{
-			counter = await getCounter()
-		}		
-		context.commit(SET_CURRENT_COUNT, counter)		
-	},
+	
+	// //获取计数器
+	// async getCurrentCount(context, setter = -1) {
+	// 	let counter = 0
+	// 	if(setter !== -1){
+	// 		counter = await getCounter(setter)
+	// 	}else{
+	// 		counter = await getCounter()
+	// 	}		
+	// 	context.commit(SET_CURRENT_COUNT, counter)		
+	// },
+	
 	
 	//更改当前显示的页面
 	async changePage(context, page){
 		context.commit(SET_CURRENT_PAGE, page) 
 	},
+	
 	
 	//选择正确
 	async isCorrect(context){
@@ -205,66 +233,75 @@ export default {
 		
 		//获取增加后的step值
 		let newStep = currentWord.marker.step + 1
-		let index = -1
+
 		//查找对应的单词
-		for (let i = 0; i < queue.length; i++) {
-			let el = queue[i]
-			let noshow = ++el.marker.noshow
-			el.marker.score = noshow + error*2>10?10:error*2 + step
- 			if(el._id === currentWord._id){
-				index = i
-			}
-		}		
-		console.log("index:",index)
+		let index = queue.findIndex(el => el._id === currentWord._id)		
 		
 		if(newStep<4){
-				console.log(queue[index])
 			//更新marker
 			queue[index].marker={
 				error: 0,
 				noshow: 0,
 				score: newStep,
 				step: newStep
-			}
-			
+			}			
 		}else{
 			//从queue中删除该单词
-			let word = queue.splice(index,1)
-			console.log("刚刚被完成的单词是：")
-			console.log(word)
+			const word = queue.splice(index,1)[0]//splice返回的是一个数组
 			
+			//保存到临时数组
+			let done = [...getDone(),word]
+			saveToLocal('DONE', done)
+		  context.commit(SET_CURRENT_DONE, done)	
+			
+			//操作book_info中book列表里对应的单词
+			await setWordState(word._id,1) //状态设为1，表示已背诵
+			console.log(uni.getStorageSync('QUEUE'))
+						
 			//从waiting队列中获取一个新的单词
 			let waiting = await getWaiting()
 			queue.push(waiting.shift()) 
+			saveToLocal('WAITING', waiting)
+			
+			if(done.length >= context.state.config.numbers){
+				//弹出提示框,提示完成了一组的学习(page设为-1) 点击可回首页，后续做成回顾单词
+				coutext.commit(SET_CURRENT_PAGE,-1) //-1：正在上传数据
+				//尝试将数据同步到服务器（若失败，下次重试）
+				if(await upload().err_code === 0) {
+					coutext.commit(SET_CURRENT_PAGE,-2) //-2：上传成功
+				}else{
+					coutext.commit(SET_CURRENT_PAGE,-3) //-3：上传失败
+				}
+			}	
 		}
 				
 		//更新缓存队列
-		saveToLocal('QUEUE', queue)
+		saveToLocal('QUEUE', queue)		
 		
 		//提交mutation
 		context.commit(UPDATE_QUEUE, queue)		
 	},
 	
+	
 	//选择错误
-	async isistake(context){
+	async isMistake(context){
 		let currentWord = context.state.currentWord
 		let queue = context.state.queue
-
 		
 		//查找对应的单词
 		let index = queue.findIndex(el => el._id === currentWord._id)
 
 		let error = currentWord.marker.error + 1
-		let score = error*2 > 10 ? 10 : error*2
 		
 		//更新marker
 		queue[index].marker={
 			error: error,
 			noshow: 0,
-			score: score,
+			score: error,
 			step: 0
 		}
-						
+		console.log("测试")
+						console.log(queue[index])
 		//更新缓存队列
 		saveToLocal('QUEUE', queue)
 		
@@ -275,14 +312,15 @@ export default {
 }
 
 
+//取得分数最小的两个单词
 const selectMinScore = function(list) {
 	let word_a = {marker:{score: Number.MAX_VALUE}}
 	let word_b = {marker:{score: Number.MAX_VALUE}}
 	let arr = list.reverse()
-		console.log(arr)
+
 	arr.forEach((el) => { //将数组颠倒，避免当所有单词的分数相同时，取到同一个单词
 		if(el.marker.score < word_a.marker.score){
-			console.log(el)
+
 			word_a = el			
 			if(word_a.marker.score < word_b.marker.score){
 				[word_a,word_b] = [word_b,word_a]

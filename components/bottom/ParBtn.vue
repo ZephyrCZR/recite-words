@@ -31,13 +31,8 @@
 
 
 	.par-btn {
-		padding: 0 30rpx;
 		width: 100%;
 		height: 140rpx;
 		border-radius: 20rpx;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		box-sizing: border-box;
 	}
 </style>

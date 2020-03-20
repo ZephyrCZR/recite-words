@@ -155,6 +155,8 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
   computed: _objectSpread({},
   (0, _vuex.mapGetters)(['word'])),
 
+
+
   data: function data() {
     return {
       isChange: false,
@@ -174,6 +176,10 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
       this.innerAudioContext.play(function () {});
     } },
 
+  created: function created() {
+    console.log(this.$store.getters.word);
+
+  },
   mounted: function mounted() {//加载音频，若需要自动播放，则自动播放
     this.innerAudioContext = uni.createInnerAudioContext();
     this.innerAudioContext.autoplay = this.word.auto_audio;

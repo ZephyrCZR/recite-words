@@ -61,32 +61,33 @@
 			//点击“Learn”
 			tapLearn() {
 				uni.redirectTo({
-					url: '/pages/study/study'
+					url: '/pages/study/study?type=learn'					
 				})
 			
 			},
 			//点击“Review”
 			tapReview() {
-			
+				uni.redirectTo({
+					url: '/pages/study/study?type=review'					
+				})
 			},
 
 		},
 		created() {
-			console.log(this.$store.state)
+			
 			if(uni.getStorageSync('TOKEN')){
 				this.initUserInfo().then(() => {
 					this.noBook = !this.$store.state.book_id
 				})
 				this.initBookInfo().then(() => {
-					this.initQueues()
+					this.initQueues().then(( ) => {
+						
+					})
+					
 				})
 			}
 	
 		},
-		mounted() {
-		
-
-		}
 	}
 </script>
 

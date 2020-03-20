@@ -44,9 +44,6 @@
 			wInput,
 			wButton,
 		},
-		mounted() {
-
-		},
 		methods: {
 
 			startLogin() {

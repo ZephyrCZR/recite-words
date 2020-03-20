@@ -24,7 +24,7 @@ const store = new Vuex.Store({
 		sys_lib: [], //系统书库信息
 		
 		page: 1, //0：答案页，1：选择页，2：遮挡页，3：音频页
-		counter: 0, //计数器
+		done: [], //存储当前组完成学习的单词
 		queue: [], //正在学习的单词队列	
 		currentWord: {marker:{},paraphrase:[]}, //当前单词
 		errorWordA:{marker:{},paraphrase:[]},

@@ -6,7 +6,7 @@ import {
 	UPDATE_COIN,
 	UPDATE_QUEUE,
 	SET_CURRENT_WORD,
-	SET_CURRENT_COUNT,
+	SET_CURRENT_DONE,
 	SET_CURRENT_PAGE
 } from "./mutation-types"
 
@@ -59,9 +59,9 @@ export default {
 		state.errorWordB = payload[2]
  	},
 	
-	//设置当前计数器
-	[SET_CURRENT_COUNT](state, payload){
-		state.counter = payload
+	//设置当前done数组
+	[SET_CURRENT_DONE](state, payload){
+		state.done = payload
 	},
 	
 	//设置当前显示的页面

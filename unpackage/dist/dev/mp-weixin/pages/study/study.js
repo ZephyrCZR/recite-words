@@ -185,34 +185,38 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
 
   },
   methods: _objectSpread({},
-  (0, _vuex.mapActions)(['initQueues', 'getCurrentCount', 'getCurrentWord', 'changePage', 'isCorrect', 'isistake']), {
+  (0, _vuex.mapActions)(['initQueues', 'getCurrentWord', 'changePage', 'isCorrect', 'isMistake']), {
     tapYes: function tapYes() {var _this = this;
       this.isCorrect().then(function () {
         _this.getCurrentWord();
+        _this.$refs.Paraphrase.updateData();
+        _this.changePage(1);
+        _this.$refs.Paraphrase.setTimer();
       });
 
     },
     tapNo: function tapNo() {var _this2 = this;
-      this.isistake().then(function () {
-        _this2.changePage(0);
+      this.isMistake().then(function () {
+        _this2.changePage(0).then(function () {
+          _this2.$refs.Paraphrase.updateData();
+        });
+
       });
 
     },
-    tapNext: function tapNext() {
+    tapNext: function tapNext() {var _this3 = this;
       this.getCurrentWord();
+      this.$refs.Paraphrase.updateData();
+      this.changePage(1).then(function () {
+        _this3.$refs.Paraphrase.setTimer();
+      });
+
+
     } }),
 
-  created: function created() {var _this3 = this;
+  created: function created() {
     this.initQueues();
-    this.getCurrentCount();
-    this.getCurrentWord().then(function () {
-      console.log(_this3.$store.state);
-    });
-
-  },
-  mounted: function mounted() {
-    // console.log(this.config)
-
+    this.getCurrentWord();
 
   } };exports.default = _default;
 

@@ -10,5 +10,8 @@
   "window": {
     "navigationStyle": "custom"
   },
+  "uniStatistics": {
+    "enable": true
+  },
   "usingComponents": {}
 }

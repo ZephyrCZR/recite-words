@@ -4,13 +4,8 @@
 	box-shadow: 0 0 20rpx 5rpx rgba(0, 0, 0, 0.3);
 }
 .par-btn {
-	padding: 0 30rpx;
 	width: 100%;
 	height: 140rpx;
 	border-radius: 20rpx;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	box-sizing: border-box;
 }
 

@@ -1,6 +1,6 @@
 <template>
 	<view class="my-tab-bar ">
-		<view class="search" ><span class="iconfont icon-return tab-icon base-color-sub"></span></view>	
+		<view class="back" @tap="back"><span class="iconfont icon-return tab-icon base-color-sub"></span></view>	
 		<view class="books" ><span class="iconfont icon-brush tab-icon base-color-sub"></span></view>	
 		<view class="settings"><span class="iconfont icon-textile-products tab-icon base-color-sub"></span></view>					
 		<view class="theme" ><span class="iconfont icon-ashbin tab-icon base-color-sub"></span></view>
@@ -16,7 +16,11 @@
 			}
 		},
 		methods: {
-		
+			back(){
+				uni.redirectTo({
+					url: '/pages/index/index'
+				})
+			}
 		}
 	}
 </script>

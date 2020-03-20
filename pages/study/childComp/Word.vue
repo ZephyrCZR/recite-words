@@ -36,6 +36,8 @@
 		name: 'Word',
 		computed:{
 			...mapGetters(['word'])
+			
+			
 		},
 		data() {
 			return {
@@ -55,6 +57,10 @@
 				}
 				this.innerAudioContext.play(() => {})
 			}
+		},
+		created() {
+			console.log(this.$store.getters.word)
+			
 		},
 		mounted() {//加载音频，若需要自动播放，则自动播放
 			this.innerAudioContext = uni.createInnerAudioContext();

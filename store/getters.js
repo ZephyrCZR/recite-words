@@ -13,7 +13,7 @@ export default {
 	bookState(state) {
 		let book_state = {learn: 0, review: 0}
 		//获取单词列表
-		console.log(!state.book_info)
+		
 		if(!state.book_info){ 
 			return book_state
 		}
@@ -82,7 +82,7 @@ export default {
 	
 	//page/study
 	count(state) {
-		return state.counter
+		return state.done.length
 	},
 	numbers(state) {
 		return state.config.numbers
@@ -99,6 +99,7 @@ export default {
 		options.page = state.page
 		return options
 	},
+	
 	paraphrase(state) {
 		let options = {}		
 		let right = state.currentWord.paraphrase[0]	
@@ -122,36 +123,29 @@ export default {
 		options.page = state.page
 		
 		let arr = state.currentWord.paraphrase
-		arr.pop()
-		arr.length = 3
+		
+		let length = arr.length
+
+		if(length > 1 && arr[length - 1].pos === '网络'){
+			arr.pop()
+		}
+	
+		arr.length = arr.length > 3 ? 3 : arr.length
 		options.right = arr
 		
 		return options
 	},
 	
-	btnType(state){
-		
-		
+	btnType(state){		
 		return {'page':state.page,'step':state.currentWord.marker.step}
 	}
 	
-	//学习界面数据
-	// studyData(state) {
-	// 	let data = {}
-	// 	//1.获取正在学习的单词队列,计数器
-	// 	let queue = state.queue
-	// 	let counter = state.counter
-		
-		
-		
-		
-		
-	// }
 	
-	// btnType
-	// topbar
-	// word
-	// paraphrase
+	
+		
+		
+		
+
 	
 }
 

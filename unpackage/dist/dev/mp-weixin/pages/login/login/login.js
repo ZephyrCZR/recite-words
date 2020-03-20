@@ -179,9 +179,6 @@ var _logAndReg = __webpack_require__(/*! network/logAndReg.js */ 50);var Logo = 
     wInput: wInput,
     wButton: wButton },
 
-  mounted: function mounted() {
-
-  },
   methods: {
 
     startLogin: function startLogin() {var _this = this;

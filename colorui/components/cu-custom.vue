@@ -57,10 +57,6 @@
 				});
 			}
 		},
-		mounted() {
-			console.log(this.StatusBar)
-			console.log(this.CustomBar)
-		},
 	}
 </script>
 

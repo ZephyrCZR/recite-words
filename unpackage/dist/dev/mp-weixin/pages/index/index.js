@@ -196,30 +196,31 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
     //点击“Learn”
     tapLearn: function tapLearn() {
       uni.redirectTo({
-        url: '/pages/study/study' });
+        url: '/pages/study/study?type=learn' });
 
 
     },
     //点击“Review”
     tapReview: function tapReview() {
+      uni.redirectTo({
+        url: '/pages/study/study?type=review' });
 
     } }),
 
 
   created: function created() {var _this = this;
-    console.log(this.$store.state);
+
     if (uni.getStorageSync('TOKEN')) {
       this.initUserInfo().then(function () {
         _this.noBook = !_this.$store.state.book_id;
       });
       this.initBookInfo().then(function () {
-        _this.initQueues();
+        _this.initQueues().then(function () {
+
+        });
+
       });
     }
-
-  },
-  mounted: function mounted() {
-
 
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

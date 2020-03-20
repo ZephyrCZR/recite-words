@@ -39,7 +39,12 @@ export async function netGetBookInfo(book_id) {
 
 //获取单词等待队列
 export async function netGetWaitingWords(wordsIdArr) {	
-	const response = await request('POST', '/study/getwords', wordsIdArr)
-	console.log(response.wordsInfoArr)
+	const response = await request('POST', '/study/getwords', JSON.stringify(wordsIdArr))//请求体中不要放数组
 	return response.wordsInfoArr
+}
+
+//上传用户数据
+export async function uploadData(book_info) {
+	const response = await request('POST', '/study/upload', book_info)
+	return response	
 }

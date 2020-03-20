@@ -203,9 +203,6 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
   created: function created() {
     //获取书库信息
     this.initLibInfo();
-  },
-  mounted: function mounted() {
-    console.log(this.sysLib);
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

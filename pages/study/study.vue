@@ -3,7 +3,7 @@
 		<view class="study-mask study-content">
 			<top-bar></top-bar>
 			<word :options="word" class="study-word"></word>
-			<Paraphrase :options="paraphrase"></Paraphrase>
+			<Paraphrase ref="Paraphrase" :options="paraphrase"></Paraphrase>
 			<control-bar :btnType="btnType" @tapYes="tapYes" @tapNo="tapNo" @tapNext="tapNext"></control-bar>
 			<tab-bar></tab-bar>
 		</view>
@@ -50,42 +50,49 @@
 			}
 		},
 		methods: {
-			...mapActions(['initQueues','getCurrentCount','getCurrentWord','changePage','isCorrect', 'isistake']),
+			...mapActions(['initQueues','getCurrentWord','changePage','isCorrect', 'isMistake']),
 			tapYes() {
-				this.isCorrect().then(() => {
+				this.isCorrect().then(() => {					
 					this.getCurrentWord()
+					this.$refs.Paraphrase.updateData()
+					this.changePage(1)					
+					this.$refs.Paraphrase.setTimer()					
 				})
 				
 			},
 			tapNo() {
-				this.isistake().then(() => {
-					this.changePage(0)
+				this.isMistake().then(() => {					
+					this.changePage(0).then(() => {
+						this.$refs.Paraphrase.updateData()
+					})
+					
 				})
 				
 			},
-			tapNext() {
+			tapNext() {				
 				this.getCurrentWord()
+				this.$refs.Paraphrase.updateData()
+				this.changePage(1).then(() => {
+					this.$refs.Paraphrase.setTimer()
+				})
+				
+				
 			}
 		},
 		created() {
 			this.initQueues()
-			this.getCurrentCount()
-			this.getCurrentWord().then(() => {
-				console.log(this.$store.state)
-			})
+			this.getCurrentWord()			
 			
 		},
-		mounted() {
-			// console.log(this.config)
-			
-			
-		}
+
 	}
 </script>
 
 <style>
 	.study-word {
-		flex: 1;
+		/* flex: 1; */
+		height: 50%;
+/* 		background-color: #1CBBB4; */
 	}
 
 	.study-content {

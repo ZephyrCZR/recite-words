@@ -147,6 +147,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
 var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var ParBtn = function ParBtn() {return __webpack_require__.e(/*! import() | components/bottom/ParBtn */ "components/bottom/ParBtn").then(__webpack_require__.bind(null, /*! ../../../components/bottom/ParBtn.vue */ 196));};var Loading = function Loading() {return __webpack_require__.e(/*! import() | pages/study/childComp/Loading */ "pages/study/childComp/Loading").then(__webpack_require__.bind(null, /*! ./Loading.vue */ 203));};var _default =
 
 
@@ -160,48 +161,83 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
     Loading: Loading },
 
   computed: _objectSpread({},
-  (0, _vuex.mapGetters)({ options: 'paraphrase' })),
+  (0, _vuex.mapGetters)({
+    options: 'paraphrase' })),
+
 
   data: function data() {
     return {
       isTrue: -1,
       isFalse: -1,
-      isShow: true };
+      isShow: true,
+      timer: null,
+      sortTimer: null };
 
   },
   methods: _objectSpread({},
-  (0, _vuex.mapActions)(['changePage', 'isCorrect', 'getCurrentWord']), {
-    tapOption: function tapOption(index) {var _this = this;
+  (0, _vuex.mapActions)(['changePage', 'isCorrect', 'isMistake', 'getCurrentWord']), {
+    tapOption: function tapOption(index) {
+      var _this = this;
       console.log(index);
-      if (index !== this.options.rand) {//如果选错了
-        this.isFalse = index;
-        this.changePage(0); //跳转到答案页
-      } else {
-        this.isCorrect().then(function () {
-
-          if (_this.options.step === 1) {
-            _this.changePage(0);
-          } else {
-            _this.getCurrentWord();
-          }
-
-        });
-
-      }
       //不管选对还是选错，true都会亮起
-      this.isTrue = this.options.rand;
+      _this.isTrue = _this.options.rand;
+      clearTimeout(_this.sortTimer);
+
+      if (index !== this.options.rand) {
+        //如果选择错误
+        _this.isFalse = index;
+        _this.sortTimer = setTimeout(function () {
+          _this.isMistake().then(function () {
+            _this.updateData();
+            _this.changePage(0);
+          });
+        }, 600);
+
+      } else {
+        var preStep = this.options.step;
+        //如果选择正确
+        _this.sortTimer = setTimeout(function () {
+
+          _this.isCorrect().then(function () {
+            if (preStep === 0) {
+              _this.changePage(0);
+              _this.updateData();
+            } else {
+              _this.changePage(1);
+              _this.getCurrentWord();
+              _this.updateData();
+              _this.setTimer();
+            }
+          });
+        }, 600);
+      }
 
 
     },
-    showAnswer: function showAnswer() {
-      this.isShow = false;
+    showAnswer: function showAnswer() {//取消遮挡
+      this.isShow = false; //取消遮挡	
+      clearTimeout(this.timer); //清除定时器
 
-      // this.$store.dispatch('changePage', 0).then(()=>{
-      // 	console.log(this.$store.state)
-      // 	console.log(this.$store.getters.paraphrase.page)
-      // 	console.log(this.curComp)
-      // })
-    } }) };exports.default = _default;
+    },
+    updateData: function updateData() {//跳转到答案页，调用updateData，跳转到问题页，先调用updateData再调用setTimer
+      this.isTrue = -1;
+      this.isFalse = -1;
+      this.isShow = false;
+    },
+    setTimer: function setTimer() {
+      var _this = this;
+      clearTimeout(_this.timer);
+      _this.isShow = true;
+      _this.timer = setTimeout(function () {
+        console.log("haha");
+        _this.isShow = false;
+      }, 3000);
+    } }),
+
+
+  created: function created() {
+    // this.updateData()
+  } };exports.default = _default;
 
 /***/ }),
 

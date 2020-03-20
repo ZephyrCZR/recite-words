@@ -19,8 +19,8 @@ export const UPDATE_QUEUE = 'update_queue'
 //设置当前单词
 export const SET_CURRENT_WORD = 'set_current_word'
 
-//设置当前完成的数量
-export const SET_CURRENT_COUNT = 'set_current_count'
+//设置当前完成的单词数组
+export const SET_CURRENT_DONE  = 'set_current_done'
 
 //设置当前显示页面
 export const SET_CURRENT_PAGE = 'set_current_page'

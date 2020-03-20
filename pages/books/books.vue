@@ -69,9 +69,7 @@
 			//获取书库信息
 			this.initLibInfo()
 		},
-		mounted(){
-			console.log(this.sysLib)
-		}
+
 	}
 </script>
 
