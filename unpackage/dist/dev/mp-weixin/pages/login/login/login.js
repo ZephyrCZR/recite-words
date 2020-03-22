@@ -162,7 +162,7 @@ __webpack_require__.r(__webpack_exports__);
 var _utils = __webpack_require__(/*! common/utils.js */ 22);
 
 
-var _logAndReg = __webpack_require__(/*! network/logAndReg.js */ 50);var Logo = function Logo() {return __webpack_require__.e(/*! import() | pages/login/childComp/Logo */ "pages/login/childComp/Logo").then(__webpack_require__.bind(null, /*! ../childComp/Logo.vue */ 156));};var wInput = function wInput() {return __webpack_require__.e(/*! import() | components/watch-login/watch-input */ "components/watch-login/watch-input").then(__webpack_require__.bind(null, /*! components/watch-login/watch-input.vue */ 163));};var wButton = function wButton() {return __webpack_require__.e(/*! import() | components/watch-login/watch-button */ "components/watch-login/watch-button").then(__webpack_require__.bind(null, /*! components/watch-login/watch-button.vue */ 170));};var _default =
+var _logAndReg = __webpack_require__(/*! network/logAndReg.js */ 50);var Logo = function Logo() {return __webpack_require__.e(/*! import() | pages/login/childComp/Logo */ "pages/login/childComp/Logo").then(__webpack_require__.bind(null, /*! ../childComp/Logo.vue */ 178));};var wInput = function wInput() {return __webpack_require__.e(/*! import() | components/watch-login/watch-input */ "components/watch-login/watch-input").then(__webpack_require__.bind(null, /*! components/watch-login/watch-input.vue */ 185));};var wButton = function wButton() {return __webpack_require__.e(/*! import() | components/watch-login/watch-button */ "components/watch-login/watch-button").then(__webpack_require__.bind(null, /*! components/watch-login/watch-button.vue */ 192));};var _default =
 
 
 

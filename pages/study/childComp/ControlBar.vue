@@ -1,25 +1,32 @@
 <template>
 	<view class="control-content">
-		<view class="con-btn-type" v-if="btnType.page? (btnType.step === 0 || btnType.step === 2) : false">
+		<view class="con-btn-type" v-show="btnType.page? (btnType.step === 0 || btnType.step === 2 || btnType.step === -2) : false">
 			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 1}" 
 			:data-id=1 @tap="tapNo" @touchstart="touchStar" @touchend="touchEnd">
 				<text class="word-text base-text-sub base-color-primary">看答案</text>
 				<view class="word-point"></view>
 			</view>
 		</view>
-		<view class="con-btn-type" v-if="btnType.page? (btnType.step === 1 || btnType.step === 3) : false">
+		<view class="con-btn-type" v-show="btnType.page? (btnType.step === 1 || btnType.step === 3 || btnType.step === -1) : false">
 			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 1}"
 			:data-id=1 @tap="tapYes" @touchstart="touchStar" @touchend="touchEnd">
 				<text class="word-text base-text-sub base-color-primary">认识</text>
 				<view class="word-point"></view>
 			</view>
+			
+			<view class="con-btn-content" v-show="btnType.step === -1" :class="{'con-btn-active': onTouch === 2}"
+			:data-id=2 @tap="tapNoClear" @touchstart="touchStar" @touchend="touchEnd">
+				<text class="word-text base-text-sub base-color-primary">模糊</text>
+				<view class="word-point"></view>
+			</view>
+			
 			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 0}"
 			:data-id=0 @tap="tapNo" @touchstart="touchStar" @touchend="touchEnd">
 				<text class="word-text base-text-sub base-color-primary">不认识</text>
 				<view class="word-point"></view>
 			</view>
 		</view>
-		<view class="con-btn-type" v-if="btnType.page === 0">
+		<view class="con-btn-type" v-show="btnType.page === 0">
 			<view class="con-btn-content" :class="{'con-btn-active': onTouch === 1}" 
 			:data-id=1 @tap="tapNext" @touchstart="touchStar" @touchend="touchEnd" >
 				<text class="word-text base-text-sub base-color-primary">下一词</text>
@@ -63,6 +70,9 @@
 			},
 			tapNext(){
 				this.$emit('tapNext')
+			},
+			tapNoClear(){
+				this.$emit('tapNoClear')
 			},
 			touchStar(e) {
 				this.onTouch = e.currentTarget.dataset.id

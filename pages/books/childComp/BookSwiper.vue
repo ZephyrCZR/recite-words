@@ -12,7 +12,7 @@
 			<swiper-item v-for="(category,index) in booksList" :key="index">
 				<scroll-view scroll-y class="swiper-item ">
 
-					<view class="book-card  shadow-warp bg-white margin-top" :class="isCard?'no-card':''" v-if="category.list.length" v-for="(book,index) in category.list"
+					<view class="book-card  shadow-warp bg-white margin-top" v-if="category.list.length" v-for="(book,index) in category.list"
 					 :key="index" >
 
 

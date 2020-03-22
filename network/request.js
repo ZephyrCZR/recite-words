@@ -21,6 +21,7 @@ module.exports = function(method, path, body) {
 				if (response.data.err_code === 0) {//判断数据是否成功返回
 					resolve(response.data)
 				}
+				console.log(response)
 				reject('ERROR')
 			},
 			fail: (err) => {

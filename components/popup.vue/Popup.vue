@@ -2,36 +2,43 @@
 	<view class="my-popup">
 		<view class="base-mask my-tips">
 			<view class="my-text">
-				<text>添加词书</text>
-				<text>开始背单词</text>
+				{{params.text}}
 			</view>
-			<view @tap="goSelect" 
-			class="my-popup-btn" :class="{'my-touch':onTouch}" 
-			@touchstart="startTouch"  @touchend="endTouch">GO!</view>
-		
+			<view class="my-popup-btns">
+				<child-btn class="my-popup-btn" v-for="(item, index) in params.btn" :key="index" @tap="$emit('onTap', index)">
+					<template>
+						<view class="base-text-thin">{{item}}</view>
+					</template>
+				</child-btn>
+			</view>
+
+
 		</view>
 	</view>
 </template>
 
 <script>
+	import childBtn from './childComp/childBtn.vue'
 	export default {
 		name: 'Popup',
-		data(){
-			return {
-				onTouch: false
+		props:{
+			params:{
+				type: Object,
+				default(){					
+					return {
+						text: '',
+						btn: []
+					}
+					
+				}
 			}
 		},
+		components:{
+			childBtn
+		},
 		methods: {
-			startTouch() {
-				this.onTouch = true
-			},
-			endTouch() {
-				this.onTouch = false
-			},
 			goSelect() {
-				uni.redirectTo({
-					url: '/pages/books/books'
-				})
+				this.$emit('tapGo')
 			}
 		}
 	}
@@ -45,7 +52,7 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		background-color: rgba(0, 0, 0, 0.4);
+		background-color: rgba(0, 0, 0, 0.3);
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -53,12 +60,13 @@
 
 	.my-tips {
 		height: 300rpx;
-		width: 350rpx;
+		width: 440rpx;
 		border-radius: 30rpx;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		overflow: hidden;
+		background-color: rgba(255, 255, 255, 0.9);
 	}
 
 	.my-text {
@@ -68,19 +76,16 @@
 		justify-content: center;
 		flex: 2;
 	}
-	
-	.my-popup-btn {
-		background-color: rgba(167, 134, 107, 0.6);
+
+	.my-popup-btns {
 		width: 100%;
-		flex: 1;
-		border-radius: 0 0 30rpx 30rpx;
+		height: 30%;
 		display: flex;
-		justify-content: center;
-		align-items: center;
+		
 	}
-	
-	.my-touch {
-		color: #a88151;
-		background-color: rgba(167, 134, 107, 0.2);
+	.my-popup-btn{
+		flex:1 ;
 	}
+
+
 </style>

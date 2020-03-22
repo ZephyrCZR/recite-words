@@ -95,7 +95,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var components
+var components = {
+  avatar: () =>
+    __webpack_require__.e(/*! import() | components/avatar/avatar */ "components/avatar/avatar").then(__webpack_require__.bind(null, /*! @/components/avatar/avatar.vue */ 94))
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -156,7 +159,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var Avatar = function Avatar() {return __webpack_require__.e(/*! import() | pages/index/childComp/Avatar */ "pages/index/childComp/Avatar").then(__webpack_require__.bind(null, /*! ./childComp/Avatar.vue */ 72));};var ClockIn = function ClockIn() {return __webpack_require__.e(/*! import() | pages/index/childComp/ClockIn */ "pages/index/childComp/ClockIn").then(__webpack_require__.bind(null, /*! ./childComp/ClockIn.vue */ 79));};var BackgroundDesc = function BackgroundDesc() {return __webpack_require__.e(/*! import() | pages/index/childComp/BackgroundDesc */ "pages/index/childComp/BackgroundDesc").then(__webpack_require__.bind(null, /*! ./childComp/BackgroundDesc.vue */ 86));};var HomeBotton = function HomeBotton() {return __webpack_require__.e(/*! import() | pages/index/childComp/HomeBotton */ "pages/index/childComp/HomeBotton").then(__webpack_require__.bind(null, /*! ./childComp/HomeBotton.vue */ 93));};var Popup = function Popup() {return __webpack_require__.e(/*! import() | pages/index/childComp/Popup */ "pages/index/childComp/Popup").then(__webpack_require__.bind(null, /*! ./childComp/Popup.vue */ 100));};var Panel = function Panel() {return __webpack_require__.e(/*! import() | components/panel/panel */ "components/panel/panel").then(__webpack_require__.bind(null, /*! components/panel/panel.vue */ 107));};var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | pages/index/childComp/TabBar */ "pages/index/childComp/TabBar").then(__webpack_require__.bind(null, /*! ./childComp/TabBar.vue */ 114));};var _default =
+
+var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var ClockIn = function ClockIn() {return __webpack_require__.e(/*! import() | pages/index/childComp/ClockIn */ "pages/index/childComp/ClockIn").then(__webpack_require__.bind(null, /*! ./childComp/ClockIn.vue */ 101));};var BackgroundDesc = function BackgroundDesc() {return __webpack_require__.e(/*! import() | pages/index/childComp/BackgroundDesc */ "pages/index/childComp/BackgroundDesc").then(__webpack_require__.bind(null, /*! ./childComp/BackgroundDesc.vue */ 108));};var HomeBotton = function HomeBotton() {return __webpack_require__.e(/*! import() | pages/index/childComp/HomeBotton */ "pages/index/childComp/HomeBotton").then(__webpack_require__.bind(null, /*! ./childComp/HomeBotton.vue */ 115));};var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | pages/index/childComp/TabBar */ "pages/index/childComp/TabBar").then(__webpack_require__.bind(null, /*! ./childComp/TabBar.vue */ 122));};var Avatar = function Avatar() {return __webpack_require__.e(/*! import() | components/avatar/avatar */ "components/avatar/avatar").then(__webpack_require__.bind(null, /*! ../../components/avatar/avatar.vue */ 94));};var Panel = function Panel() {return __webpack_require__.e(/*! import() | components/panel/panel */ "components/panel/panel").then(__webpack_require__.bind(null, /*! components/panel/panel.vue */ 129));};var Popup = function Popup() {return __webpack_require__.e(/*! import() | components/popup.vue/Popup */ "components/popup.vue/Popup").then(__webpack_require__.bind(null, /*! components/popup.vue/Popup.vue */ 136));};var _default =
 
 
 
@@ -165,7 +169,8 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
   data: function data() {
     return {
       bg_decs: {},
-      noBook: false };
+      showPopup: false,
+      popup_params: {} };
 
   },
   components: {
@@ -181,7 +186,7 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
   (0, _vuex.mapGetters)(['avatar', 'bookState', 'isClock'])),
 
   methods: _objectSpread({},
-  (0, _vuex.mapActions)(['initUserInfo', 'initBookInfo', 'initQueues', 'clock']), {
+  (0, _vuex.mapActions)(['initUserInfo', 'initBookInfo', 'initQueues', 'initReview', 'clock']), {
 
     //签到
     clockIn: function clockIn() {
@@ -195,33 +200,90 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
     },
     //点击“Learn”
     tapLearn: function tapLearn() {
-      uni.redirectTo({
-        url: '/pages/study/study?type=learn' });
+      //判断是否有需要复习的单词
+      if (this.bookState.review > 0) {
+        //提示是否先完成复习
+        this.showPopup = true,
+        this.popup_params = {
+          text: '尚未完成复习，是否先复习',
+          btn: ['仍要学习', '开始复习'] };
 
+      } else {
+        uni.redirectTo({
+          url: '/pages/study/study?type=learn&num=' + JSON.stringify(this.bookState) });
+
+      }
 
     },
     //点击“Review”
     tapReview: function tapReview() {
-      uni.redirectTo({
-        url: '/pages/study/study?type=review' });
+      //判断是否有需要复习的单词
+      if (this.bookState.review > 0) {
+        uni.redirectTo({
+          url: '/pages/study/study?type=review&num=' + JSON.stringify(this.bookState) });
+
+      } else {
+        uni.showToast({
+          icon: 'none',
+          position: 'center',
+          title: '您没有需要复习的单词哦' });
+
+      }
+
+
+    },
+    tapPopup: function tapPopup(index) {
+      if (index === 1) {
+        uni.redirectTo({
+          url: '/pages/study/study?type=review&num=' + JSON.stringify(this.bookState) });
+
+      } else {
+        if (!this.$store.state.book_id) {
+          uni.redirectTo({
+            url: '/pages/study/study?type=learn&num=' + JSON.stringify(this.bookState) });
+
+        } else {
+          uni.navigateTo({
+            url: '/pages/books/books' });
+
+        }
+
+      }
+
+    },
+    //点击头像
+    tapAvatar: function tapAvatar() {
+      uni.navigateTo({
+        url: '/pages/profile/profile' });
 
     } }),
 
-
   created: function created() {var _this = this;
+    this.showPopup = false;
 
     if (uni.getStorageSync('TOKEN')) {
       this.initUserInfo().then(function () {
-        _this.noBook = !_this.$store.state.book_id;
+        _this.showPopup = !_this.$store.state.book_id;
+        if (_this.showPopup) {
+          _this.popup_params = {
+            text: '前往添加词书',
+            btn: ['GO'] };
+
+        }
       });
       this.initBookInfo().then(function () {
-        _this.initQueues().then(function () {
+        _this.initQueues().then(function (error) {
+          if (error) {
+            uni.showToast({
+              title: error,
+              icon: 'none' });
 
+          }
         });
-
+        _this.initReview();
+        console.log(_this.$store.state);
       });
     }
-
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

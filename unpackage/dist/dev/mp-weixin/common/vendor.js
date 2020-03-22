@@ -754,7 +754,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7083,7 +7083,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7104,14 +7104,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7187,7 +7187,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8525,7 +8525,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@next","_id":"@dcloudio/uni-stat@2.
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "disableScroll": true }, "pages/study/study": { "navigationBarTextStyle": "black", "disableScroll": true }, "pages/login/login/login": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" }, "pages/login/register/register": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" }, "pages/books/books": { "navigationBarTextStyle": "black", "backgroundColor": "#ff0000" } }, "globalStyle": { "navigationStyle": "custom" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "disableScroll": true }, "pages/study/study": { "navigationBarTextStyle": "black", "disableScroll": true }, "pages/login/login/login": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" }, "pages/login/register/register": { "disableScroll": true, "backgroundColor": "#F8F8F8", "navigationBarTextStyle": "black" }, "pages/books/books": { "navigationBarTextStyle": "black", "backgroundColor": "#ff0000" }, "pages/dashBoard/dashBoard": { "disableScroll": true, "navigationBarTextStyle": "black" }, "pages/profile/profile": { "disableScroll": true, "navigationBarTextStyle": "black" }, "pages/search/search": { "disableScroll": true, "navigationBarTextStyle": "black" } }, "globalStyle": { "navigationStyle": "custom" } };exports.default = _default;
 
 /***/ }),
 /* 8 */
@@ -9654,7 +9654,11 @@ var store = new _vuex.default.Store({
     errorWordA: { marker: {}, paraphrase: [] },
     errorWordB: { marker: {}, paraphrase: [] },
 
-    lock: false },
+    reviewQueue: [], //当前正在复习的单词队列
+    reviewDone: [], //当前完成复习的单词队列
+
+    lock: false,
+    onSync: 0 },
 
   actions: _actions.default,
   mutations: _mutations.default,
@@ -9684,11 +9688,17 @@ store;exports.default = _default;
 
 
 
+
+
+
 var _utils = __webpack_require__(/*! ../common/utils.js */ 22);
 
 
 
 var _assistant = __webpack_require__(/*! ./assistant.js */ 23);
+
+
+
 
 
 
@@ -9723,8 +9733,8 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
               length = userInfo.calendar ? userInfo.calendar.length : 0;
 
               calendar = false;
-              //获取今天日期 yyyy-mm-dd
-              today = (0, _utils.dateFormat)(Date.now() - 4 * 60 * 60 * 1000); //慢四个小时
+              //获取今天日期
+              today = (0, _utils.dateFormat)(Date.now() - 4 * 60 * 60 * 1000); //慢四个小时，字符串格式
               /*
               判断用户信息表中是否有学习记录表，如果有学习记录表且该表是今日的记录表，
               （系统返回的calendar.date全都慢4四个小时）
@@ -9784,86 +9794,101 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
 
 
 
-  //初始化单词队列(两个队列)
-  initQueues: function () {var _initQueues = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6(context) {var waiting, queue, done, _length, wordsIdArr, book, i, word, localWords, netWords, length, _i;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
+
+  //更改当前显示的页面
+  changePage: function changePage(context, page) {
+    context.commit(_mutationTypes.SET_CURRENT_PAGE, page);
+  },
+
+  //===============Learn===================
+  //初始化Learn单词队列(两个队列)
+  initQueues: function () {var _initQueues = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6(context) {var waiting, queue, done, _length, wordsIdArr, book, i, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step, _ret, localWords, netWords, length, _i;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
               console.log("调用了initQueues");
-              waiting = [];
-              queue = [];
+
+              waiting = [];_context6.next = 4;return (
+                (0, _assistant.getQueue)());case 4:queue = _context6.sent; //从本地获取正在学习的单词队列
 
               //1.判断上一组学习目标是否已经完成，本地是否有缓存
               // let counter = await getCounter()//每次完成一组学习，会重置counter
-              done = (0, _assistant.getDone)();if (!(
-
-              !done || done.length === 0)) {_context6.next = 23;break;}_context6.next = 7;return (
-
-
+              done = (0, _assistant.getDone)();
+              console.log(done);if (!(
+              !done || done.length === 0)) {_context6.next = 55;break;}_context6.next = 10;return (
 
 
-                (0, _assistant.getWaitingLength)());case 7:_length = _context6.sent;
 
 
-              //2a.获取40-length个未背单词id的数组
+                (0, _assistant.getWaitingLength)());case 10:_length = _context6.sent;
+
+              //2a.获取40-length个未背单词id的数组(要剔除还在queue里的单词)
               wordsIdArr = [];
               book = context.state.book_info.book;
 
-              for (i = 0; i < 40 - _length && i < book.length;) {
-                word = book[i];
+              i = 0;_iteratorNormalCompletion = true;_didIteratorError = false;_iteratorError = undefined;_context6.prev = 17;_loop = function _loop() {var
+                word = _step.value;
                 if (word.state === 0) {
-                  wordsIdArr.push(word.word_id);
-                  i++;
-                }
-              }
 
-              //2b.获取单词详情列表
-              _context6.next = 13;return (0, _assistant.getWaiting)();case 13:localWords = _context6.sent; //从本地获取
+                  if (queue.findIndex(function (el) {return el._id === word._id;}) === -1) {
+                    i++;
+                    wordsIdArr.push(word.word_id);
+
+                    if (i >= 40 - _length) {
+                      return "break";
+                    }
+                  }
+                }};_iterator = book[Symbol.iterator]();case 20:if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {_context6.next = 27;break;}_ret = _loop();if (!(_ret === "break")) {_context6.next = 24;break;}return _context6.abrupt("break", 27);case 24:_iteratorNormalCompletion = true;_context6.next = 20;break;case 27:_context6.next = 33;break;case 29:_context6.prev = 29;_context6.t0 = _context6["catch"](17);_didIteratorError = true;_iteratorError = _context6.t0;case 33:_context6.prev = 33;_context6.prev = 34;if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}case 36:_context6.prev = 36;if (!_didIteratorError) {_context6.next = 39;break;}throw _iteratorError;case 39:return _context6.finish(36);case 40:return _context6.finish(33);case 41:_context6.next = 43;return (
+
+
+
+                (0, _assistant.getWaiting)());case 43:localWords = _context6.sent; //从本地获取
               netWords = [];if (!(
-              wordsIdArr.length !== 0)) {_context6.next = 20;break;}_context6.next = 18;return (
-                (0, _assistant.getWaiting)(wordsIdArr, true));case 18:netWords = _context6.sent; //从服务器获取
-              console.log(netWords);case 20:
+              wordsIdArr.length !== 0)) {_context6.next = 52;break;}_context6.next = 48;return (
+                (0, _assistant.getWaiting)(wordsIdArr, true));case 48:netWords = _context6.sent;if (
+              netWords) {_context6.next = 51;break;}return _context6.abrupt("return",
+              { error: '网络错误' //网络错误
+              });case 51:
+              console.log(netWords);case 52:
 
 
               //拼接，取得一个包含40个未背单词的数组（除非未背的单词不满40个）
-              waiting = [].concat(_toConsumableArray(localWords), _toConsumableArray(netWords));_context6.next = 26;break;case 23:_context6.next = 25;return (
+              waiting = [].concat(_toConsumableArray(localWords), _toConsumableArray(netWords));_context6.next = 58;break;case 55:_context6.next = 57;return (
 
 
 
 
-                (0, _assistant.getWaiting)());case 25:waiting = _context6.sent;case 26:_context6.next = 28;return (
+                (0, _assistant.getWaiting)());case 57:waiting = _context6.sent;case 58:
 
 
 
-                (0, _assistant.getQueue)());case 28:queue = _context6.sent; //从本地获取正在学习的单词队列
 
-              //4.若正在学习的单词数不满10,补充到10
+              //3.若正在学习的单词数不满10,补充到10
               length = queue.length;
               for (_i = 0; _i < 10 - length; _i++) {
                 queue.push(waiting.pop());
               }
 
-              //5.保存到缓存
+              //4.保存到缓存
               (0, _assistant.saveToLocal)('QUEUE', queue);
               (0, _assistant.saveToLocal)('WAITING', waiting);
 
               context.commit(_mutationTypes.SET_CURRENT_DONE, (0, _assistant.getDone)());
-              context.commit(_mutationTypes.UPDATE_QUEUE, queue);case 35:case "end":return _context6.stop();}}}, _callee6, this);}));function initQueues(_x7) {return _initQueues.apply(this, arguments);}return initQueues;}(),
+              context.commit(_mutationTypes.UPDATE_QUEUE, queue);case 64:case "end":return _context6.stop();}}}, _callee6, this, [[17, 29, 33, 41], [34,, 36, 40]]);}));function initQueues(_x7) {return _initQueues.apply(this, arguments);}return initQueues;}(),
 
 
 
-  //获取当前分数最高的一个单词和分数最低的两个单词
-  getCurrentWord: function () {var _getCurrentWord = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7(context) {var queue, word, i, el, noshow, error, step, wrong, wordArr;return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:
+  //获取当前分数最高的一个单词和两个混淆单词
+  getCurrentWord: function () {var _getCurrentWord = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7(context) {var queue, word, index, i, el, noshow, error, step, wordArr;return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:
               console.log("调用了获取单词的方法");_context7.next = 3;return (
                 (0, _assistant.getQueue)());case 3:queue = _context7.sent; //获取到单词队列
               //获取score最大的单词
               console.log(queue);
               word = { marker: { score: -1 } };
-
+              index = -1;
               for (i = 0; i < queue.length; i++) {
                 el = queue[i];
                 //查找循环之前分数最大的单词
-                console.log(el.marker.score);
                 if (el.marker.score > word.marker.score) {
                   word = el;
-                  console.log(el.marker.score);
+                  index = i;
                 }
                 //设置分数
                 queue[i].marker.noshow = queue[i].marker.noshow + 1;
@@ -9874,8 +9899,8 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
               }
 
               console.log(word);
-              wrong = selectMinScore(queue);
-              wordArr = [word].concat(_toConsumableArray(wrong));
+              //加入混淆单词
+              wordArr = [word, queue[(index + 3) % 10], queue[(index + 6) % 10]];
 
               context.commit(_mutationTypes.SET_CURRENT_WORD, wordArr);
 
@@ -9884,24 +9909,6 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
               //提交mutation
               context.commit(_mutationTypes.UPDATE_QUEUE, queue);case 13:case "end":return _context7.stop();}}}, _callee7, this);}));function getCurrentWord(_x8) {return _getCurrentWord.apply(this, arguments);}return getCurrentWord;}(),
 
-
-
-  // //获取计数器
-  // async getCurrentCount(context, setter = -1) {
-  // 	let counter = 0
-  // 	if(setter !== -1){
-  // 		counter = await getCounter(setter)
-  // 	}else{
-  // 		counter = await getCounter()
-  // 	}		
-  // 	context.commit(SET_CURRENT_COUNT, counter)		
-  // },
-
-
-  //更改当前显示的页面
-  changePage: function changePage(context, page) {
-    context.commit(_mutationTypes.SET_CURRENT_PAGE, page);
-  },
 
 
   //选择正确
@@ -9921,7 +9928,7 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
                 error: 0,
                 noshow: 0,
                 score: newStep,
-                step: newStep };_context8.next = 30;break;case 8:
+                step: newStep };_context8.next = 32;break;case 8:
 
 
               //从queue中删除该单词
@@ -9929,27 +9936,33 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
 
               //保存到临时数组
               done = [].concat(_toConsumableArray((0, _assistant.getDone)()), [word]);
+              console.log(done);
               (0, _assistant.saveToLocal)('DONE', done);
+
               context.commit(_mutationTypes.SET_CURRENT_DONE, done);
 
               //操作book_info中book列表里对应的单词
-              _context8.next = 14;return (0, _assistant.setWordState)(word._id, 1);case 14: //状态设为1，表示已背诵
+              _context8.next = 15;return (0, _assistant.setWordState)(word._id, 1);case 15: //状态设为1，表示已背诵
               console.log(uni.getStorageSync('QUEUE'));
 
               //从waiting队列中获取一个新的单词
-              _context8.next = 17;return (0, _assistant.getWaiting)();case 17:waiting = _context8.sent;
+              _context8.next = 18;return (0, _assistant.getWaiting)();case 18:waiting = _context8.sent;
               queue.push(waiting.shift());
               (0, _assistant.saveToLocal)('WAITING', waiting);if (!(
 
-              done.length >= context.state.config.numbers)) {_context8.next = 30;break;}
-              //弹出提示框,提示完成了一组的学习(page设为-1) 点击可回首页，后续做成回顾单词
-              coutext.commit(_mutationTypes.SET_CURRENT_PAGE, -1); //-1：正在上传数据
+              done.length >= context.state.config.numbers)) {_context8.next = 32;break;}
+              //弹出提示框,提示完成了一组的学习(onSync设为1) 点击可回首页，后续做成回顾单词
+              context.commit(_mutationTypes.ON_SYNC, 1); //1：正在上传数据
+
+              //删除done缓存 (暂时在这里删	)，之后这里可以跳转到 回顾刚刚学习的单词
+              (0, _assistant.saveToLocal)('DONE', []);
               //尝试将数据同步到服务器（若失败，下次重试）
-              _context8.next = 24;return (0, _assistant.upload)().err_code;case 24:_context8.t0 = _context8.sent;if (!(_context8.t0 === 0)) {_context8.next = 29;break;}
-              coutext.commit(_mutationTypes.SET_CURRENT_PAGE, -2); //-2：上传成功
-              _context8.next = 30;break;case 29:
-              coutext.commit(_mutationTypes.SET_CURRENT_PAGE, -3); //-3：上传失败
-            case 30:
+              _context8.next = 26;return (0, _assistant.upload)().err_code;case 26:_context8.t0 = _context8.sent;if (!(_context8.t0 === 0)) {_context8.next = 31;break;}
+              context.commit(_mutationTypes.ON_SYNC, 2); //2：上传成功
+              _context8.next = 32;break;case 31:
+              context.commit(_mutationTypes.ON_SYNC, 3); //3：上传失败
+            case 32:
+
 
 
 
@@ -9957,7 +9970,7 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
               (0, _assistant.saveToLocal)('QUEUE', queue);
 
               //提交mutation
-              context.commit(_mutationTypes.UPDATE_QUEUE, queue);case 32:case "end":return _context8.stop();}}}, _callee8, this);}));function isCorrect(_x9) {return _isCorrect.apply(this, arguments);}return isCorrect;}(),
+              context.commit(_mutationTypes.UPDATE_QUEUE, queue);case 34:case "end":return _context8.stop();}}}, _callee8, this);}));function isCorrect(_x9) {return _isCorrect.apply(this, arguments);}return isCorrect;}(),
 
 
 
@@ -9976,37 +9989,202 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
                 error: error,
                 noshow: 0,
                 score: error,
-                step: 0 };
+                step: 0
 
-              console.log("测试");
-              console.log(queue[index]);
-              //更新缓存队列
-              (0, _assistant.saveToLocal)('QUEUE', queue);
+
+                //更新缓存队列
+              };(0, _assistant.saveToLocal)('QUEUE', queue);
 
               //提交mutation
-              context.commit(_mutationTypes.UPDATE_QUEUE, queue);case 9:case "end":return _context9.stop();}}}, _callee9, this);}));function isMistake(_x10) {return _isMistake.apply(this, arguments);}return isMistake;}() };
+              context.commit(_mutationTypes.UPDATE_QUEUE, queue);case 7:case "end":return _context9.stop();}}}, _callee9, this);}));function isMistake(_x10) {return _isMistake.apply(this, arguments);}return isMistake;}(),
+
+
+
+  //===============Review=================
+  //初始化review单词队列
+  initReview: function () {var _initReview = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee10(context) {var reviewWaiting, reviewQueue, oldReviews, wordsIdArr, book, TODAY, group, queueLength, waitingLength, i, temp;return _regenerator.default.wrap(function _callee10$(_context10) {while (1) {switch (_context10.prev = _context10.next) {case 0:
+              console.log("调用了initReview");
+              reviewWaiting = []; //等待复习队列
+              reviewQueue = []; //正在复习组
+
+              //1.复习途中退出后，下一次进入会是一轮全新的复习，但已复习完的单词不列入
+              (0, _assistant.saveToLocal)('REVIEW_DONE', []); //初始化
+              context.commit(_mutationTypes.UPDATE_REVIEW_DONE, []); //发送mutation更新页面
+
+              //2.判断今天是否已经更新过待复习的单词数组
+              _context10.next = 7;return (0, _assistant.getReviews)();case 7:oldReviews = _context10.sent;if (!(
+
+
+              !oldReviews || oldReviews && oldReviews[0] && oldReviews[0].date !== (0, _utils.dateFormat)(Date.now()))) {_context10.next = 23;break;} //此处日期采用字符串的格式
+
+              //2a.获取最多200个待复习单词id的数组
+              wordsIdArr = [];
+              book = context.state.book_info.book;
+              TODAY = (0, _utils.dateFormat)(Date.now());
+
+              book.forEach(function (word) {
+                if (word.state === 1 && word.next_date <= TODAY) {
+                  wordsIdArr.push(word.word_id);
+                }
+              });
+
+              //2b.获取单词详情列表
+              if (!(wordsIdArr.length !== 0)) {_context10.next = 20;break;}_context10.next = 16;return (
+                (0, _assistant.getReviews)(wordsIdArr, true));case 16:reviewWaiting = _context10.sent; //从服务器获取
+              console.log(reviewWaiting[0]); //打印日期标志位
+              _context10.next = 21;break;case 20:
+              //当日满足待复习条件的单词数为0
+              console.log("今天没有需要复习的单词");case 21:_context10.next = 24;break;case 23:
+
+
+              //当日获取的待复习列表存在缓存中
+              reviewWaiting = oldReviews;case 24:_context10.next = 26;return (
+
+
+
+                (0, _assistant.getReviewQueue)());case 26:reviewQueue = _context10.sent; //从本地获取正在复习的单词队列
+
+              //4.若正在学习的单词数不满用户配置的每组个数,补充满
+              group = context.state.config.numbers;
+              queueLength = reviewQueue.length;
+              waitingLength = reviewWaiting.length;
+
+              for (i = 0; i < group - queueLength && i < waitingLength; i++) {
+                temp = reviewWaiting.pop();
+
+                if (!temp.date) {//如果不是日期标志位
+                  reviewQueue.push(temp); //压入queue队列
+                }
+              }
+
+              //5.保存到缓存
+              (0, _assistant.saveToLocal)('REVIEW_QUEUE', reviewQueue);
+              (0, _assistant.saveToLocal)('REVIEW_WAITING', reviewWaiting);
+
+              context.commit(_mutationTypes.UPDATE_REVIEW_QUEUE, reviewQueue);case 34:case "end":return _context10.stop();}}}, _callee10, this);}));function initReview(_x11) {return _initReview.apply(this, arguments);}return initReview;}(),
+
+
+
+  //获取下一个单词，和混淆答案
+  getNextWord: function getNextWord(context) {
+    console.log("调用了获取下一个单词的方法");
+    //getters渲染队列第一个单词，因此我在这里只需要更改队列排序就可以了
+    var reviewQueue = (0, _assistant.getReviewQueue)();
+
+    reviewQueue.push(reviewQueue.shift()); //将数组第一个放到数组末尾
+
+    var wordArr = [reviewQueue[0], reviewQueue[3], reviewQueue[7]];
+
+    //保存到本地缓存，并且提交给mutation
+    (0, _assistant.saveToLocal)('REVIEW_QUEUE', reviewQueue);
+    context.commit(_mutationTypes.SET_CURRENT_WORD, wordArr);
+    context.commit(_mutationTypes.UPDATE_REVIEW_QUEUE, reviewQueue);
+  },
+
+
+  //选择分为三级，认识，模糊，不认识	
+  //标记该单词完成复习,标记完成不需要调用nextword了
+  setFinish: function () {var _setFinish = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee11(context) {var reviewQueue, reviewDone, word, next_date, wordArr;return _regenerator.default.wrap(function _callee11$(_context11) {while (1) {switch (_context11.prev = _context11.next) {case 0:
+              reviewQueue = (0, _assistant.getReviewQueue)();
+              reviewDone = (0, _assistant.getReviewDone)() ? (0, _assistant.getReviewDone)() : [];
+              console.log(reviewQueue);
+              word = reviewQueue.shift(); //从开头删除一个元素
+
+              //操作book_info中book列表里对应的单词
+              _context11.next = 6;return (0, _assistant.setWordState)(word._id, -word.marker.score);case 6:next_date = _context11.sent; //将score取反传入，setWordState方法会根据score设置下次复习的日期，如果score = 0，该单词设置重新学习
+
+              reviewDone.push({ 'word': word.word, 'next_date': next_date, 'score': word.marker.score });
+
+              //判断是否完成该组复习
+              if (reviewQueue.length === 0) {
+                //弹出提示框,提示完成了一组的复习(onSync设为1) 可点击继续复习或者回到首页（后续可做成单词评分表）
+                context.commit(_mutationTypes.ON_SYNC, 1);
+
+                // //尝试将数据同步到服务器（若失败，下次重试）
+                // if(await upload().err_code === 0) {
+                // 	context.commit(ON_SYNC,2) //2：上传成功
+                // }else{
+                // 	context.commit(ON_SYNC,3) //3：上传失败
+                // }
+              }
+
+
+              //下一个单词
+              wordArr = [reviewQueue[0], reviewQueue[3], reviewQueue[7]];
+              context.commit(_mutationTypes.SET_CURRENT_WORD, wordArr);
+
+              //存入缓存
+              (0, _assistant.saveToLocal)('REVIEW_QUEUE', reviewQueue);
+              (0, _assistant.saveToLocal)('REVIEW_DONE', reviewDone);
+
+              //提交给mutation
+              context.commit(_mutationTypes.UPDATE_REVIEW_QUEUE, reviewQueue);
+              context.commit(_mutationTypes.UPDATE_REVIEW_DONE, reviewDone);
+              console.log(reviewDone);case 16:case "end":return _context11.stop();}}}, _callee11, this);}));function setFinish(_x12) {return _setFinish.apply(this, arguments);}return setFinish;}(),
+
+
+
+  //继续 deduct：减去的分数，1or2
+  goOn: function () {var _goOn = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee12(context, deduct) {var reviewQueue, score, round, next;return _regenerator.default.wrap(function _callee12$(_context12) {while (1) {switch (_context12.prev = _context12.next) {case 0:
+              reviewQueue = (0, _assistant.getReviewQueue)();
+
+
+              score = reviewQueue[0].marker.score;
+              round = reviewQueue[0].marker.round;
+
+              reviewQueue[0].marker.score = score - deduct;
+              reviewQueue[0].marker.round = round + 1;
+
+              next = score <= 4 || round === 1 && deduct === 2 ? -1 : -2;
+              reviewQueue[0].marker.step = next;if (!(
+
+
+              reviewQueue[0].marker.round > 5)) {_context12.next = 10;break;}_context12.next = 10;return (
+
+                setFinish());case 10:
+
+
+              //存入缓存
+              (0, _assistant.saveToLocal)('REVIEW_QUEUE', reviewQueue);
+              //提交给mutation
+              context.commit(_mutationTypes.UPDATE_REVIEW_QUEUE, reviewQueue);case 12:case "end":return _context12.stop();}}}, _callee12, this);}));function goOn(_x13, _x14) {return _goOn.apply(this, arguments);}return goOn;}(),
+
+
+
+
+  //设置同步状态标记
+  setSyncSign: function setSyncSign(context, sign) {
+    //删除done缓存 (暂时在这里删	)，之后这里可以跳转到 回顾刚刚学习的单词
+    (0, _assistant.saveToLocal)('DONE', []);
+    context.commit(_mutationTypes.ON_SYNC, sign);
+  } };
 
 
 
 
 
-//取得分数最小的两个单词
-exports.default = _default;var selectMinScore = function selectMinScore(list) {
-  var word_a = { marker: { score: Number.MAX_VALUE } };
-  var word_b = { marker: { score: Number.MAX_VALUE } };
-  var arr = list.reverse();
 
-  arr.forEach(function (el) {//将数组颠倒，避免当所有单词的分数相同时，取到同一个单词
-    if (el.marker.score < word_a.marker.score) {
 
-      word_a = el;
-      if (word_a.marker.score < word_b.marker.score) {var _ref =
-        [word_b, word_a];word_a = _ref[0];word_b = _ref[1];
-      }
-    }
-  });
-  return [word_a, word_b];
-};
+
+
+// //取得分数最小的两个单词
+// const selectMinScore = function(list) {
+// 	let word_a = {marker:{score: Number.MAX_VALUE}}
+// 	let word_b = {marker:{score: Number.MAX_VALUE}}
+// 	let arr = list.reverse()
+
+// 	arr.forEach((el) => { //将数组颠倒，避免当所有单词的分数相同时，取到同一个单词
+// 		if(el.marker.score < word_a.marker.score){
+
+// 			word_a = el			
+// 			if(word_a.marker.score < word_b.marker.score){
+// 				[word_a,word_b] = [word_b,word_a]
+// 			}			
+// 		}
+// 	})	
+// 	return [word_a,word_b]
+// }
+exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
@@ -10807,7 +10985,7 @@ if (hadRuntime) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.LOCK = exports.SET_CURRENT_PAGE = exports.SET_CURRENT_DONE = exports.SET_CURRENT_WORD = exports.UPDATE_QUEUE = exports.UPDATE_COIN = exports.CLOCK_IN = exports.UPDATE_Lib_INFO = exports.UPDATE_BOOK_INFO = exports.UPDATE_USER_INFO = void 0; //更新用户信息
+Object.defineProperty(exports, "__esModule", { value: true });exports.LOCK = exports.ON_SYNC = exports.UPDATE_REVIEW_DONE = exports.UPDATE_REVIEW_QUEUE = exports.SET_CURRENT_PAGE = exports.SET_CURRENT_DONE = exports.SET_CURRENT_WORD = exports.UPDATE_QUEUE = exports.UPDATE_COIN = exports.CLOCK_IN = exports.UPDATE_Lib_INFO = exports.UPDATE_BOOK_INFO = exports.UPDATE_USER_INFO = void 0; //更新用户信息
 var UPDATE_USER_INFO = 'update_user_info';
 
 //更新词书信息
@@ -10822,7 +11000,7 @@ exports.UPDATE_Lib_INFO = UPDATE_Lib_INFO;var CLOCK_IN = 'clock_in';
 //更新M币数量
 exports.CLOCK_IN = CLOCK_IN;var UPDATE_COIN = 'update_coin';
 
-// //更新单词队列
+//更新单词队列
 exports.UPDATE_COIN = UPDATE_COIN;var UPDATE_QUEUE = 'update_queue';
 
 //设置当前单词
@@ -10834,8 +11012,17 @@ exports.SET_CURRENT_WORD = SET_CURRENT_WORD;var SET_CURRENT_DONE = 'set_current_
 //设置当前显示页面
 exports.SET_CURRENT_DONE = SET_CURRENT_DONE;var SET_CURRENT_PAGE = 'set_current_page';
 
+//更新复习队列
+exports.SET_CURRENT_PAGE = SET_CURRENT_PAGE;var UPDATE_REVIEW_QUEUE = 'update_review_queue';
+
+//更新复习完成的队列
+exports.UPDATE_REVIEW_QUEUE = UPDATE_REVIEW_QUEUE;var UPDATE_REVIEW_DONE = 'update_review_done';
+
+//弹出提示框
+exports.UPDATE_REVIEW_DONE = UPDATE_REVIEW_DONE;var ON_SYNC = 'on_sync';
+
 //锁
-exports.SET_CURRENT_PAGE = SET_CURRENT_PAGE;var LOCK = 'lock';exports.LOCK = LOCK;
+exports.ON_SYNC = ON_SYNC;var LOCK = 'lock';exports.LOCK = LOCK;
 
 /***/ }),
 /* 22 */
@@ -10877,7 +11064,7 @@ function dateFormat(time) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getUserInfo = getUserInfo;exports.saveUserInfo = saveUserInfo;exports.getBookInfo = getBookInfo;exports.getLibInfo = getLibInfo;exports.getWaitingLength = getWaitingLength;exports.getWaiting = getWaiting;exports.getQueue = getQueue;exports.setWordState = setWordState;exports.getDone = getDone;exports.upload = upload;exports.getReviews = getReviews;exports.saveToLocal = saveToLocal;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 18));
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getUserInfo = getUserInfo;exports.saveUserInfo = saveUserInfo;exports.getBookInfo = getBookInfo;exports.getLibInfo = getLibInfo;exports.getWaitingLength = getWaitingLength;exports.getWaiting = getWaiting;exports.getQueue = getQueue;exports.setWordState = setWordState;exports.getDone = getDone;exports.upload = upload;exports.getReviews = getReviews;exports.getReviewQueue = getReviewQueue;exports.getReviewDone = getReviewDone;exports.saveToLocal = saveToLocal;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 18));
 
 
 
@@ -10965,27 +11152,6 @@ function _getBookInfo() {_getBookInfo = _asyncToGenerator( /*#__PURE__*/_regener
 
 
 
-//获取计数器（将由DONE取代）
-// export async function getCounter(reset = 0) { 
-// 	/*
-// 		参数为0: 正常获取缓存值，若缓存值为0或不存在，返回-1，若缓存值存在且不为0，返回缓存值；
-// 		参数为-1: 重置counter缓存值为0，返回0
-// 		参数>0: 设置counter缓存值，并且返回修改完成的值
-// 	*/
-// 	let counter = false
-
-// 	if(!reset){//如果reset为零，从本地获取值
-// 		counter = uni.getStorageSync('COUNTER')
-// 	}
-
-// 	if(!counter){//如果reset不为零，则允许更改counter
-// 		reset = reset === -1 ? 0 : reset
-// 		uni.setStorageSync('COUNTER', reset)
-// 		counter = reset
-// 	}	
-// 	return counter ? counter : 0 
-// }
-
 //获取Waiting长度
 function _getLibInfo() {_getLibInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var booksList;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0: //尝试从本地获取书库信息
             booksList = uni.getStorageSync('SYS_LIB');if (booksList) {_context5.next = 7;break;} //尝试从服务器获取书库信息
@@ -11020,7 +11186,7 @@ function _getWaiting() {_getWaiting = _asyncToGenerator( /*#__PURE__*/_regenerat
               word.marker.noshow = 0; //连续没出现回合每次+1
               word.marker.error = 0; //连续错误的次数每次错误+2，最高6分
               word.marker.score = 3; //决定出场的顺序，初始3分，出现过一次之后按照score = noshow + error计算
-            });case 11:return _context7.abrupt("return", words);case 12:case "end":return _context7.stop();}}}, _callee7, this);}));return _getWaiting.apply(this, arguments);}function getQueue() {return _getQueue.apply(this, arguments);} //设置单词状态 sign值对应操作 0:设置为未背诵，1：设置为已背诵，2：设置为已掌握，-1：复习次数+1
+            });case 11:return _context7.abrupt("return", words);case 12:case "end":return _context7.stop();}}}, _callee7, this);}));return _getWaiting.apply(this, arguments);}function getQueue() {return _getQueue.apply(this, arguments);} //设置单词状态 sign值对应操作 0:设置为未背诵，1：设置为已背诵，2：设置为已掌握，<0：复习次数+1,-x: 掌握程度为x（0、1、2、3、4、5、6）六个等级，0则设置为重新学习
 function _getQueue() {_getQueue = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee8() {var queue;return _regenerator.default.wrap(function _callee8$(_context8) {while (1) {switch (_context8.prev = _context8.next) {case 0:queue = uni.getStorageSync('QUEUE');return _context8.abrupt("return", queue ? queue : []);case 2:case "end":return _context8.stop();}}}, _callee8, this);}));return _getQueue.apply(this, arguments);}function setWordState(_x2, _x3) {return _setWordState.apply(this, arguments);}
 
 
@@ -11058,19 +11224,32 @@ function _getQueue() {_getQueue = _asyncToGenerator( /*#__PURE__*/_regenerator.d
 
 
 
+
+
+
+
+
+
+
+
+
+
 //获取在本组已完成学习的单词(同步)
-function _setWordState() {_setWordState = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee9(wordId, sign) {var ONEDAY, CURVE, DATE, bookInfo;return _regenerator.default.wrap(function _callee9$(_context9) {while (1) {switch (_context9.prev = _context9.next) {case 0: //一天时间毫秒数
-            ONEDAY = 24 * 60 * 60 * 1000; //根据艾宾浩斯遗忘曲线设计的复习间隔天数
-            CURVE = [1, 2, 4, 7, 15, 30, 90, 180, 360]; //日期
+function _setWordState() {_setWordState = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee9(wordId, sign) {var param, ONEDAY, CURVE, DATE, bookInfo;return _regenerator.default.wrap(function _callee9$(_context9) {while (1) {switch (_context9.prev = _context9.next) {case 0:param = false; //返回参数
+            //一天时间毫秒数
+            ONEDAY = 24 * 60 * 60 * 1000; //根据艾宾浩斯遗忘曲线设计的复习间隔天数(实际操作时，根据用户对该单词的掌控程度，设置对应值)
+            CURVE = [1, 3, 7, 15, 30, 90, 180]; //日期
             DATE = Date.now(); //1.获取数据
             bookInfo = uni.getStorageSync('BOOK_INFO'); //2.记录最后一次操作的时间	
             bookInfo.version = DATE; //3.修改对应的单词状态
             bookInfo.book.forEach(function (el) {if (el.word_id === wordId) {if (sign === 1) {//第一次完成学习
                   el.state = 1;el.review_times = 0;el.first_date = (0, _utils.dateFormat)(DATE);el.next_date = (0, _utils.dateFormat)(DATE + ONEDAY); //设置下一次复习的时间	
-                } else if (sign === -1) {//完成一次复习
-                  el.review_times++;el.next_date = (0, _utils.dateFormat)(DATE + ONEDAY * CURVE[review_times]);} else {el.state = sign;}}}); //保存到缓存中
-            saveToLocal('BOOK_INFO', bookInfo);case 7:case "end":return _context9.stop();}}}, _callee9, this);}));return _setWordState.apply(this, arguments);}function getDone() {return uni.getStorageSync('DONE');} //将词书数据同步到服务器
-function upload() {return _upload.apply(this, arguments);} //从服务器/本地获取待复习单词队列
+                } else if (sign <= -1) {//完成了一次复习
+                  var level = Number.parseInt((-sign + el.review_times) / 4);el.review_times++;el.next_date = (0, _utils.dateFormat)(DATE + ONEDAY * CURVE[level]);param = el.next_date; //设置返回参数
+                } else {//已掌握或者是重新背诵
+                  el.state = sign;el.review_times = -1;el.first_date = '';el.next_date = '';}}}); //保存到缓存中
+            saveToLocal('BOOK_INFO', bookInfo);return _context9.abrupt("return", param);case 9:case "end":return _context9.stop();}}}, _callee9, this);}));return _setWordState.apply(this, arguments);}function getDone() {return uni.getStorageSync('DONE');} //将词书数据同步到服务器
+function upload() {return _upload.apply(this, arguments);} //从服务器/本地获取待复习单词队列学习（默认从本地获取（数组第一位是队列获取的日期）
 function _upload() {_upload = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee10() {return _regenerator.default.wrap(function _callee10$(_context10) {while (1) {switch (_context10.prev = _context10.next) {case 0:_context10.t0 = _server.uploadData;_context10.next = 3;return getBookInfo();case 3:_context10.t1 = _context10.sent;_context10.next = 6;return (0, _context10.t0)(_context10.t1);case 6:return _context10.abrupt("return", _context10.sent);case 7:case "end":return _context10.stop();}}}, _callee10, this);}));return _upload.apply(this, arguments);}function getReviews() {return _getReviews.apply(this, arguments);}
 
 
@@ -11087,17 +11266,25 @@ function _upload() {_upload = _asyncToGenerator( /*#__PURE__*/_regenerator.defau
 
 
 
-
-
+//获取本地的正在复习单词队列(同步)
+function _getReviews() {_getReviews = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee11() {var wordsIdArr,net,words,_args11 = arguments;return _regenerator.default.wrap(function _callee11$(_context11) {while (1) {switch (_context11.prev = _context11.next) {case 0:wordsIdArr = _args11.length > 0 && _args11[0] !== undefined ? _args11[0] : [];net = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : false;words = [];if (net) {_context11.next = 7;break;}words = uni.getStorageSync('REVIEW_WAITING');_context11.next = 12;break;case 7:_context11.next = 9;return (0, _server.netGetWords)(wordsIdArr);case 9:words = _context11.sent; //添加marker对象
+            words.forEach(function (word) {word.marker = {};word.marker.step = -1;word.marker.round = 0; //最多5个回合，强制完成复习并结算
+              word.marker.score = 10; //决定下次复习的时间，选择模糊或者不认识都会扣除相应分数，模糊-1，不认识-2，选择认识直接退出结算分数，选中选项不扣分，不退出
+            });words.unshift({ date: (0, _utils.dateFormat)(Date.now()) }); //加入日期标记更新时间
+          case 12:return _context11.abrupt("return", words);case 13:case "end":return _context11.stop();}}}, _callee11, this);}));return _getReviews.apply(this, arguments);}function getReviewQueue() {var queue = uni.getStorageSync('REVIEW_QUEUE');return queue ? queue : [];}
+//获取在本组已完成复习的单词(同步)
+function getReviewDone() {
+  return uni.getStorageSync('REVIEW_DONE');
+}
 
 
 //通用版保存到本地的方法，无再次从服务器获取数据的保险机制，只保证存入的数据不为空（同步）
-function _getReviews() {_getReviews = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee11() {var words;return _regenerator.default.wrap(function _callee11$(_context11) {while (1) {switch (_context11.prev = _context11.next) {case 0:words = [];if (net) {_context11.next = 5;break;}words = uni.getStorageSync('REVIEWS');_context11.next = 9;break;case 5:_context11.next = 7;return (0, _server.netGetWords)(wordsIdArr);case 7:words = _context11.sent; //添加marker对象
-            words.forEach(function (word) {word.marker = {};word.marker.step = 0; //阶段
-              word.marker.noshow = 0; //连续没出现回合每次+1
-              word.marker.error = 0; //连续错误的次数每次错误+2，最高6分
-              word.marker.score = 3; //决定出场的顺序，初始3分，出现过一次之后按照score = noshow + error计算
-            });case 9:return _context11.abrupt("return", words);case 10:case "end":return _context11.stop();}}}, _callee11, this);}));return _getReviews.apply(this, arguments);}function saveToLocal(storageName, data) {if (data) {uni.setStorageSync(storageName, data);} else {console.log(storageName + "数据保存失败");}
+function saveToLocal(storageName, data) {
+  if (data) {
+    uni.setStorageSync(storageName, data);
+  } else {
+    console.log(storageName + "数据保存失败");
+  }
 }
 
 
@@ -11119,6 +11306,30 @@ var tryGetUserInfoFromNet = /*#__PURE__*/function () {var _ref = _asyncToGenerat
             uni.setStorageSync('USER_INFO', userInfo);return _context.abrupt("return",
 
             userInfo);case 10:case "end":return _context.stop();}}}, _callee, this);}));return function tryGetUserInfoFromNet() {return _ref.apply(this, arguments);};}();
+
+
+
+
+//获取计数器（将由DONE取代）
+// export async function getCounter(reset = 0) { 
+// 	/*
+// 		参数为0: 正常获取缓存值，若缓存值为0或不存在，返回-1，若缓存值存在且不为0，返回缓存值；
+// 		参数为-1: 重置counter缓存值为0，返回0
+// 		参数>0: 设置counter缓存值，并且返回修改完成的值
+// 	*/
+// 	let counter = false
+
+// 	if(!reset){//如果reset为零，从本地获取值
+// 		counter = uni.getStorageSync('COUNTER')
+// 	}
+
+// 	if(!counter){//如果reset不为零，则允许更改counter
+// 		reset = reset === -1 ? 0 : reset
+// 		uni.setStorageSync('COUNTER', reset)
+// 		counter = reset
+// 	}	
+// 	return counter ? counter : 0 
+// }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
@@ -11176,9 +11387,10 @@ function _netGetBookInfo() {_netGetBookInfo = _asyncToGenerator( /*#__PURE__*/_r
 
 
 //上传用户数据
-function _netGetWords() {_netGetWords = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7(wordsIdArr) {var response;return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:_context7.next = 2;return request('POST', '/study/getwords', JSON.stringify(wordsIdArr));case 2:response = _context7.sent;return _context7.abrupt("return", response.wordsInfoArr);case 4:case "end":return _context7.stop();}}}, _callee7, this);}));return _netGetWords.apply(this, arguments);}function uploadData(_x5) {return _uploadData.apply(this, arguments);}function _uploadData() {_uploadData = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee8(book_info) {var response;return _regenerator.default.wrap(function _callee8$(_context8) {while (1) {switch (_context8.prev = _context8.next) {case 0:_context8.next = 2;return (
-              request('POST', '/study/upload', book_info));case 2:response = _context8.sent;return _context8.abrupt("return",
-            response);case 4:case "end":return _context8.stop();}}}, _callee8, this);}));return _uploadData.apply(this, arguments);}
+function _netGetWords() {_netGetWords = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7(wordsIdArr) {var response;return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:_context7.next = 2;return request('POST', '/study/getwords', JSON.stringify(wordsIdArr));case 2:response = _context7.sent;return _context7.abrupt("return", response.wordsInfoArr);case 4:case "end":return _context7.stop();}}}, _callee7, this);}));return _netGetWords.apply(this, arguments);}function uploadData(_x5) {return _uploadData.apply(this, arguments);}function _uploadData() {_uploadData = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee8(book_info) {var response;return _regenerator.default.wrap(function _callee8$(_context8) {while (1) {switch (_context8.prev = _context8.next) {case 0:
+            console.log(book_info);_context8.next = 3;return (
+              request('POST', '/study/upload', book_info));case 3:response = _context8.sent;return _context8.abrupt("return",
+            response);case 5:case "end":return _context8.stop();}}}, _callee8, this);}));return _uploadData.apply(this, arguments);}
 
 /***/ }),
 /* 25 */
@@ -11212,6 +11424,7 @@ module.exports = function (method, path, body) {
         if (response.data.err_code === 0) {//判断数据是否成功返回
           resolve(response.data);
         }
+        console.log(response);
         reject('ERROR');
       },
       fail: function fail(err) {
@@ -11232,6 +11445,9 @@ module.exports = function (method, path, body) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _mutationTypes = __webpack_require__(/*! ./mutation-types */ 21);var _UPDATE_USER_INFO$UPD;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default = (_UPDATE_USER_INFO$UPD = {}, _defineProperty(_UPDATE_USER_INFO$UPD,
+
+
+
 
 
 
@@ -11305,8 +11521,23 @@ _mutationTypes.SET_CURRENT_PAGE, function (state, payload) {
 }), _defineProperty(_UPDATE_USER_INFO$UPD,
 
 
+_mutationTypes.UPDATE_REVIEW_QUEUE, function (state, payload) {
+  state.reviewQueue = payload;
+}), _defineProperty(_UPDATE_USER_INFO$UPD,
+
+
+_mutationTypes.UPDATE_REVIEW_DONE, function (state, payload) {
+  state.reviewDone = payload;
+}), _defineProperty(_UPDATE_USER_INFO$UPD,
+
+
 _mutationTypes.LOCK, function (state, payload) {
   state.lock = payload;
+}), _defineProperty(_UPDATE_USER_INFO$UPD,
+
+
+_mutationTypes.ON_SYNC, function (state, payload) {
+  state.onSync = payload;
 }), _UPDATE_USER_INFO$UPD);exports.default = _default;
 
 /***/ }),
@@ -11401,12 +11632,11 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   },
 
   //page/study
-  count: function count(state) {
-    return state.done.length;
-  },
-  numbers: function numbers(state) {
-    return state.config.numbers;
-  },
+
+  //获取已学习or已复习数量
+  count: function count(state) {return function (type) {return type ? state.done.length : state.reviewDone.length;};},
+  //获取目标数量
+  numbers: function numbers(state) {return function (num) {return num > state.config.numbers ? state.config.numbers : num;};},
 
   word: function word(state) {
     var options = {};
@@ -11462,9 +11692,11 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
   isLock: function isLock(state) {
     return state.lock;
+  },
+
+  onSync: function onSync(state) {
+    return state.onSync;
   } };
-
-
 
 
 

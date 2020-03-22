@@ -6,6 +6,7 @@
     "word": "/pages/study/childComp/Word",
     "paraphrase": "/pages/study/childComp/Paraphrase",
     "control-bar": "/pages/study/childComp/ControlBar",
-    "tab-bar": "/pages/study/childComp/TabBar"
+    "tab-bar": "/pages/study/childComp/TabBar",
+    "popup": "/components/popup.vue/Popup"
   }
 }

@@ -8,7 +8,10 @@ import {
 	UPDATE_QUEUE,
 	SET_CURRENT_WORD,
 	SET_CURRENT_DONE,
-	SET_CURRENT_PAGE
+	SET_CURRENT_PAGE,
+	UPDATE_REVIEW_QUEUE,
+	UPDATE_REVIEW_DONE,
+	ON_SYNC
 } from "./mutation-types"
 
 
@@ -71,9 +74,24 @@ export default {
 		state.page = payload
 	},
 	
+	//更新复习队列
+	[UPDATE_REVIEW_QUEUE](state, payload){
+		state.reviewQueue = payload
+	},
+	
+	//更新复习完成的队列
+	[UPDATE_REVIEW_DONE](state, payload){
+		state.reviewDone = payload
+	},
+	
 	//锁
 	[LOCK](state, payload){
 		state.lock = payload
+	},
+	
+	//正在同步数据
+	[ON_SYNC](state, payload){
+		state.onSync = payload
 	}
 	
 }

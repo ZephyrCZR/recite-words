@@ -1,11 +1,10 @@
 <template>
 	<view class="nav-content">
 		<view class="nav-left">
-			<text class="cuIcon-back" @tap="onTap">back</text>
+			<text class="cuIcon-back" @tap="onTap"></text>
 		</view>
 		<view class="nav-center">
-			<text>书库</text>
-			<!-- <slot></slot> -->
+			<slot></slot>
 		</view>
 		<view class="nav-right">
 			<text> </text>
@@ -55,6 +54,8 @@
 		margin-top: 40rpx;
 		display: flex;
 		align-items: center;
-
+		position: absolute;
+		top: 0;
+		left: 0;
 	}
 </style>

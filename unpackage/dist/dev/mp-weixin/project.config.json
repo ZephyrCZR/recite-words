@@ -27,9 +27,27 @@
       "current": 0,
       "list": [
         {
-          "name": "学习",
+          "name": "搜索",
           "query": "",
           "id": 0,
+          "pathName": "pages/search/search"
+        },
+        {
+          "name": "我的",
+          "query": "",
+          "id": 1,
+          "pathName": "pages/profile/profile"
+        },
+        {
+          "name": "仪表盘",
+          "query": "",
+          "id": 2,
+          "pathName": "pages/dashBoard/dashBoard"
+        },
+        {
+          "name": "学习",
+          "query": "",
+          "id": 3,
           "pathName": "pages/study/study"
         }
       ]

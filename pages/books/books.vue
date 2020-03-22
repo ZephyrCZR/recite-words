@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view>
 		<nav-bar></nav-bar>
 		<book-swiper @selectBook="selectBook" @removeBook="removeBook" class="book-swiper" :booksList="sysLib"></book-swiper>
 		<bottom-modal v-if="showModal" @confirm="tapConfirm" @cancel="tapCancel"></bottom-modal>
@@ -12,7 +12,6 @@
 	import NavBar from '../../components/navbar/NavBar.vue'
 	import BookSwiper from './childComp/BookSwiper.vue'
 	import BottomModal from './childComp/BottomModal.vue'
-	// import {addbook, renderSBInfo} from './books.js'
 	
 	import {
 		mapActions,
@@ -82,6 +81,7 @@
 	.books-content {
 		width: 100%;
 		height: 100%;
-		background-color: #007AFF
+		background-color: #007AFF;
+		padding-top: 158rpx;
 	}
 </style>

@@ -13,19 +13,11 @@
 				type: Object,
 				default() {
 					return {
-						word: "beach",
-						par: "n. 海滩；湖滨"
+						word: "kitten",
+						par: "n. 猫咪"
 					}
 				}
 			}
-		},
-		data() {
-			return {
-				
-			}
-		},
-		methods: {
-			
 		}
 	}
 </script>

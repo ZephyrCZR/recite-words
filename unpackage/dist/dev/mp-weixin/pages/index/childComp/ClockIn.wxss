@@ -19,6 +19,7 @@
 	height: 300rpx;
 	width: 300rpx;
 	border-radius: 20%;
+	cursor:pointer;
 }
 .my-sign-icon {
 	margin-top: 40rpx;

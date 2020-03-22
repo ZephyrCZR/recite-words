@@ -37,17 +37,17 @@
 <style>
 .my-tab-bar {
 		position: absolute;
-		z-index: 233;
 		height: 98rpx;
 		width: 100%;
 		display: flex;
 		justify-content: space-around;
+		padding: 5rpx 0;
 		bottom: 0;
 		left: 0;
 	}
 	
 	.tab-icon {
-		line-height: 96rpx;
-		font-size: 24px;
+		line-height: 98rpx;
+		font-size: 28px;
 	}
 </style>

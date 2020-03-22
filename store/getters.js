@@ -81,12 +81,11 @@ export default {
 	},
 	
 	//page/study
-	count(state) {
-		return state.done.length
-	},
-	numbers(state) {
-		return state.config.numbers
-	},
+	
+	//获取已学习or已复习数量
+	count: (state) => (type) => type ? state.done.length : state.reviewDone.length,	
+	//获取目标数量
+	numbers: (state) => (num) => num > state.config.numbers ? state.config.numbers : num,
 	
 	word(state) {
 		let options = {}		
@@ -136,15 +135,17 @@ export default {
 		return options
 	},
 	
-	btnType(state){		
+	btnType(state){			
 		return {'page':state.page,'step':state.currentWord.marker.step}
 	},
 	
 	isLock(state){
 		return state.lock
-	}
+	},
 	
-		
+	onSync(state){
+		return state.onSync
+	}
 		
 		
 

@@ -1,6 +1,6 @@
 <template>
 	<transition name="bounce">
-		<view @tap.once="onTap" class="my-sign-in base-mask" :class="['buttonBorder',!_rotate?'dlbutton':'dlbutton_loading']" :style="{'background':bgColor, 'color': fontColor}">
+		<view class="my-sign-in base-mask" :class="['buttonBorder',!_rotate?'dlbutton':'dlbutton_loading']" >
 			<view :class="_rotate?'rotate_loop':''">
 				<view class="my-sign-in" v-if="!_rotate" :class="{'my-touch': onTouch}" @touchstart="touchstart" @touchend="touchend">
 					<text class="iconfont icon-calendar my-sign-icon">
@@ -34,14 +34,14 @@
 			}
 		},
 		methods: {
-			onTap() {
-				this.rotate = !this.rotate
-			},
+
 			touchstart() {
 				this.onTouch = true
 			},
 			touchend() {
 				this.onTouch = false
+				this.rotate = !this.rotate
+				this.$emit('onTap')
 			},
 			//获取当前日期
 			mDate() {
@@ -78,6 +78,7 @@
 		height: 300rpx;
 		width: 300rpx;
 		border-radius: 20%;
+		cursor:pointer;
 	}
 
 	.my-sign-icon {

@@ -133,7 +133,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -152,64 +152,133 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var TopBar = function TopBar() {return __webpack_require__.e(/*! import() | pages/study/childComp/TopBar */ "pages/study/childComp/TopBar").then(__webpack_require__.bind(null, /*! ./childComp/TopBar.vue */ 121));};var Word = function Word() {return __webpack_require__.e(/*! import() | pages/study/childComp/Word */ "pages/study/childComp/Word").then(__webpack_require__.bind(null, /*! ./childComp/Word.vue */ 128));};var Paraphrase = function Paraphrase() {return __webpack_require__.e(/*! import() | pages/study/childComp/Paraphrase */ "pages/study/childComp/Paraphrase").then(__webpack_require__.bind(null, /*! ./childComp/Paraphrase.vue */ 135));};var ControlBar = function ControlBar() {return __webpack_require__.e(/*! import() | pages/study/childComp/ControlBar */ "pages/study/childComp/ControlBar").then(__webpack_require__.bind(null, /*! ./childComp/ControlBar.vue */ 142));};var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | pages/study/childComp/TabBar */ "pages/study/childComp/TabBar").then(__webpack_require__.bind(null, /*! ./childComp/TabBar.vue */ 149));};var _default =
+
+
+var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var TopBar = function TopBar() {return __webpack_require__.e(/*! import() | pages/study/childComp/TopBar */ "pages/study/childComp/TopBar").then(__webpack_require__.bind(null, /*! ./childComp/TopBar.vue */ 143));};var Word = function Word() {return __webpack_require__.e(/*! import() | pages/study/childComp/Word */ "pages/study/childComp/Word").then(__webpack_require__.bind(null, /*! ./childComp/Word.vue */ 150));};var Paraphrase = function Paraphrase() {return __webpack_require__.e(/*! import() | pages/study/childComp/Paraphrase */ "pages/study/childComp/Paraphrase").then(__webpack_require__.bind(null, /*! ./childComp/Paraphrase.vue */ 157));};var ControlBar = function ControlBar() {return __webpack_require__.e(/*! import() | pages/study/childComp/ControlBar */ "pages/study/childComp/ControlBar").then(__webpack_require__.bind(null, /*! ./childComp/ControlBar.vue */ 164));};var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | pages/study/childComp/TabBar */ "pages/study/childComp/TabBar").then(__webpack_require__.bind(null, /*! ./childComp/TabBar.vue */ 171));};var Popup = function Popup() {return __webpack_require__.e(/*! import() | components/popup.vue/Popup */ "components/popup.vue/Popup").then(__webpack_require__.bind(null, /*! components/popup.vue/Popup.vue */ 136));};var _default =
 
 
 
 
 {
+
   components: {
     TopBar: TopBar,
     Word: Word,
     Paraphrase: Paraphrase,
     ControlBar: ControlBar,
-    TabBar: TabBar },
+    TabBar: TabBar,
+    Popup: Popup },
+
+  computed: {
+    popup: function popup() {
+      return this.$store.getters.onSync;
+    } },
+
+  data: function data() {
+    return {
+      view: {},
+      popup_params: {
+        text: "您完成了一组学习",
+        btn: ['继续学习', '休息一下'] } };
 
 
+  },
   methods: _objectSpread({},
-  (0, _vuex.mapActions)(['initQueues', 'getCurrentWord', 'changePage', 'isCorrect', 'isMistake', 'lock']), {
+  (0, _vuex.mapActions)(['initQueues', 'getCurrentWord', 'changePage', 'isCorrect', 'isMistake', 'lock', 'initReview',
+  'getNextWord', 'setFinish', 'goOn']), {
+
     tapYes: function tapYes() {var _this = this;
-      this.lock(true);
-      this.isCorrect().then(function () {
-        _this.getCurrentWord().then(function () {
+      if (this.view.type === 'learn') {
+        this.lock(true);
+        this.isCorrect().then(function () {
+          _this.getCurrentWord().then(function () {
+            _this.changePage(1);
+            _this.lock(false);
+          });
+          _this.$refs.Paraphrase.updateData();
+          _this.$refs.Paraphrase.setTimer();
+        });
+      } else {
+        this.lock(true);
+        this.setFinish().then(function () {
           _this.changePage(1);
           _this.lock(false);
+          _this.$refs.Paraphrase.updateData();
+          _this.$refs.Paraphrase.setTimer();
         });
-        _this.$refs.Paraphrase.updateData();
-
-        _this.$refs.Paraphrase.setTimer();
-      });
-
+      }
     },
     tapNo: function tapNo() {var _this2 = this;
-      this.lock(true);
-      this.isMistake().then(function () {
-        _this2.changePage(0).then(function () {
+      if (this.view.type === 'learn') {
+        this.lock(true);
+        this.isMistake().then(function () {
+          _this2.changePage(0).then(function () {
+            _this2.lock(false);
+            _this2.$refs.Paraphrase.updateData();
+          });
+        });
+      } else {
+        this.lock(true);
+        this.goOn(2).then(function () {
+          _this2.changePage(0);
           _this2.lock(false);
           _this2.$refs.Paraphrase.updateData();
         });
-
-      });
-
+      }
     },
     tapNext: function tapNext() {var _this3 = this;
-      this.getCurrentWord();
-      this.$refs.Paraphrase.updateData();
-      this.changePage(1).then(function () {
-        _this3.$refs.Paraphrase.setTimer();
+      if (this.view.type === 'learn') {
+        this.getCurrentWord();
+        this.$refs.Paraphrase.updateData();
+        this.changePage(1).then(function () {
+          _this3.$refs.Paraphrase.setTimer();
+        });
+      } else {
+        this.getNextWord();
+        this.$refs.Paraphrase.updateData();
+        this.changePage(1).then(function () {
+          _this3.$refs.Paraphrase.setTimer();
+        });
+      }
+    },
+    noClear: function noClear() {var _this4 = this;
+      this.lock(true);
+      this.goOn(1).then(function () {
+        _this4.changePage(0);
+        _this4.lock(false);
+        _this4.$refs.Paraphrase.updateData();
       });
+    },
+    onTap: function onTap(index) {
+      if (index === 1) {
+        this.$store.dispatch('setSyncSign', 0);
+        uni.redirectTo({
+          url: '/pages/index/index' });
 
+      } else {
+        this.$store.dispatch('setSyncSign', 0);
+      }
 
     } }),
 
-  created: function created() {
-    this.initQueues();
-    this.getCurrentWord();
+  onLoad: function onLoad(options) {var _this5 = this; //onLoad钩子只有在页面有用
+    console.log("onload执行了");
+    this.view = {
+      type: options.type,
+      counter: JSON.parse(options.num) };
 
-  },
-  onLoad: function onLoad(options) {
-    console.log(options);
+
+    if (options.type === 'learn') {
+      this.initQueues().then(function () {
+        _this5.getCurrentWord();
+      });
+    } else {
+      this.initReview().then(function () {
+        _this5.getNextWord();
+      });
+    }
   } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

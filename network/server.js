@@ -45,6 +45,7 @@ export async function netGetWords(wordsIdArr) {
 
 //上传用户数据
 export async function uploadData(book_info) {
+	console.log(book_info)
 	const response = await request('POST', '/study/upload', book_info)
 	return response	
 }

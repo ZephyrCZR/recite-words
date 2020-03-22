@@ -4,7 +4,10 @@
     "pages/study/study",
     "pages/login/login/login",
     "pages/login/register/register",
-    "pages/books/books"
+    "pages/books/books",
+    "pages/dashBoard/dashBoard",
+    "pages/profile/profile",
+    "pages/search/search"
   ],
   "subPackages": [],
   "window": {

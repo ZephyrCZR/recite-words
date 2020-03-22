@@ -1,1 +1,1 @@
-<view class="nav-content"><view class="nav-left"><text data-event-opts="{{[['tap',[['onTap',['$event']]]]]}}" class="cuIcon-back" bindtap="__e">back</text></view><view class="nav-center"><text>书库</text></view><view class="nav-right"><text></text></view></view>
+<view class="nav-content"><view class="nav-left"><text data-event-opts="{{[['tap',[['onTap',['$event']]]]]}}" class="cuIcon-back" bindtap="__e"></text></view><view class="nav-center"><slot></slot></view><view class="nav-right"><text></text></view></view>

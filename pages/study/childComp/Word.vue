@@ -20,7 +20,7 @@
 
 		</view>
 
-		<view class="word-main-sign">
+		<view class="word-main-sign" v-if="word.step >= 0">
 			<view class="sign-bar" v-for="index in word.step" :key="index"></view>
 		</view>
 
@@ -39,10 +39,8 @@
 					//当lock为false，保存变化之前的值
 					_this.hold = this.$store.getters.word
 					return this.$store.getters.word
-				}
-				
-			}
-			
+				}				
+			}			
 		},
 		data() {
 			return {
@@ -57,9 +55,9 @@
 			},
 			playAudio() {//播放音频
 				if (!this.isChange) {
-					this.innerAudioContext.src = this.word.soundmark[0].audio;
+					this.innerAudioContext.src = this.word.soundmark && this.word.soundmark[0].audio;
 				} else {
-					this.innerAudioContext.src = this.word.soundmark[1].audio;
+					this.innerAudioContext.src = this.word.soundmark && this.word.soundmark[1].audio;
 				}
 				this.innerAudioContext.play(() => {})
 			}
@@ -72,9 +70,9 @@
 			this.innerAudioContext = uni.createInnerAudioContext();
 			this.innerAudioContext.autoplay = this.word.auto_audio;
 			if (this.word.is_kk) {
-				this.innerAudioContext.src = this.word.soundmark[0].audio;
+				this.innerAudioContext.src = this.word.soundmark && this.word.soundmark[0].audio;
 			} else {
-				this.innerAudioContext.src = this.word.soundmark[1].audio;
+				this.innerAudioContext.src = this.word.soundmark && this.word.soundmark[1].audio;
 			}
 		}
 	}

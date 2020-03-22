@@ -1,11 +1,11 @@
 {
   "disableScroll": true,
   "usingComponents": {
-    "avatar": "/pages/index/childComp/Avatar",
+    "avatar": "/components/avatar/avatar",
     "clock-in": "/pages/index/childComp/ClockIn",
     "background-desc": "/pages/index/childComp/BackgroundDesc",
     "home-botton": "/pages/index/childComp/HomeBotton",
-    "popup": "/pages/index/childComp/Popup",
+    "popup": "/components/popup.vue/Popup",
     "panel": "/components/panel/panel",
     "tab-bar": "/pages/index/childComp/TabBar"
   }

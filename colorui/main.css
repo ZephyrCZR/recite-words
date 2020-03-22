@@ -1624,15 +1624,15 @@ button.cuIcon.lg {
 }
 
 .cu-bar .search-form {
-	background-color: #f5f5f5;
+	/* background-color: #f5f5f5; */
 	line-height: 64upx;
-	height: 64upx;
+	height: 82upx;
 	font-size: 24upx;
 	color: #333333;
 	flex: 1;
 	display: flex;
 	align-items: center;
-	margin: 0 30upx;
+	margin: 0 40upx;
 }
 
 .cu-bar .search-form+.action {

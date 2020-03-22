@@ -30,7 +30,11 @@ const store = new Vuex.Store({
 		errorWordA:{marker:{},paraphrase:[]},
 		errorWordB:{marker:{},paraphrase:[]},
 		
-		lock: false
+		reviewQueue: [], //当前正在复习的单词队列
+		reviewDone: [], //当前完成复习的单词队列
+		
+		lock: false,
+		onSync: 0,
   },
   actions,
   mutations,

@@ -5,6 +5,7 @@
 .books-content {
 	width: 100%;
 	height: 100%;
-	background-color: #007AFF
+	background-color: #007AFF;
+	padding-top: 158rpx;
 }
 
