@@ -183,6 +183,8 @@ export async function getReviews(wordsIdArr = [],net = false){
 	let words = []
 	if(!net) {
 		words = uni.getStorageSync('REVIEW_WAITING')
+		console.log('REVIEW_WAITING')
+		console.log(words)
 	}else{
 		//从服务器获取
 		words = await netGetWords(wordsIdArr)

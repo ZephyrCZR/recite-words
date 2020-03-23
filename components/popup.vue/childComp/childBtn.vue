@@ -6,8 +6,7 @@
 
 <script>
 	export default {
-		name: 'childBtn',
-		
+		name: 'childBtn',		
 		data() {
 			return {
 				onTouch: false

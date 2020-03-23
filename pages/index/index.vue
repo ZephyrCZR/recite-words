@@ -1,6 +1,9 @@
 <template>
 	<view class="base-bg-image">
-		<avatar class="home-avatar" @tapAvatar="tapAvatar"></avatar>
+		<view class="home-avatar">
+			<avatar @tapAvatar="tapAvatar"></avatar>
+		</view>
+		
 		<view class="home-middle">
 			<clock-in @onTap="clockIn" v-if="!isClock"></clock-in>
 			<background-desc v-else :bg_decs="bg_decs"></background-desc>
@@ -100,7 +103,7 @@
 						url: '/pages/study/study?type=review&num=' + JSON.stringify(this.bookState)
 					})
 				} else {
-					if (!this.$store.state.book_id) {
+					if (this.$store.state.book_id) {
 						uni.redirectTo({
 							url: '/pages/study/study?type=learn&num=' + JSON.stringify(this.bookState)
 						})

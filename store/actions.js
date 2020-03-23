@@ -335,10 +335,12 @@ export default {
 		 
 		//2.判断今天是否已经更新过待复习的单词数组
 		let oldReviews = await getReviews()//从本地获取	
+		console.log("ceshi")
+		console.log(oldReviews)
 		
 			//判断数组第一位的时间标记位日期是否是今日,或者数组为空
-		if(!oldReviews || (oldReviews && oldReviews[0] && oldReviews[0].date !== dateFormat(Date.now()))) { //此处日期采用字符串的格式
-
+		if(oldReviews.length === 0 || (oldReviews && oldReviews[0] && oldReviews[0].date !== dateFormat(Date.now()))) { //此处日期采用字符串的格式
+		console.log("测试")
 			//2a.获取最多200个待复习单词id的数组
 			let wordsIdArr = []
 			let book = context.state.book_info.book
@@ -362,10 +364,12 @@ export default {
 		}else{//当日获取的待复习列表存在缓存中
 			reviewWaiting = oldReviews
 		}
-
+	console.log("测试waiting队列")
+console.log(reviewWaiting)
 		//3.判断正在学习的单词队列：
 		reviewQueue = await getReviewQueue() //从本地获取正在复习的单词队列
-
+		console.log("测试review队列")
+console.log(reviewQueue)
 		//4.若正在学习的单词数不满用户配置的每组个数,补充满
 		const group = context.state.config.numbers
 		const queueLength = reviewQueue.length
@@ -392,11 +396,11 @@ export default {
 		console.log("调用了获取下一个单词的方法")
 			//getters渲染队列第一个单词，因此我在这里只需要更改队列排序就可以了
 		let reviewQueue = getReviewQueue()	
-		
+		console.log(reviewQueue)
 		reviewQueue.push(reviewQueue.shift())//将数组第一个放到数组末尾
 		
 		let wordArr = [reviewQueue[0],reviewQueue[3],reviewQueue[7]]
-			
+			console.log(wordArr)
 		//保存到本地缓存，并且提交给mutation
 		saveToLocal('REVIEW_QUEUE', reviewQueue)
 		context.commit(SET_CURRENT_WORD, wordArr)		

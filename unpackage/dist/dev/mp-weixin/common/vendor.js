@@ -10012,11 +10012,13 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
               context.commit(_mutationTypes.UPDATE_REVIEW_DONE, []); //发送mutation更新页面
 
               //2.判断今天是否已经更新过待复习的单词数组
-              _context10.next = 7;return (0, _assistant.getReviews)();case 7:oldReviews = _context10.sent;if (!(
+              _context10.next = 7;return (0, _assistant.getReviews)();case 7:oldReviews = _context10.sent; //从本地获取	
+              console.log("ceshi");
+              console.log(oldReviews);
 
-
-              !oldReviews || oldReviews && oldReviews[0] && oldReviews[0].date !== (0, _utils.dateFormat)(Date.now()))) {_context10.next = 23;break;} //此处日期采用字符串的格式
-
+              //判断数组第一位的时间标记位日期是否是今日,或者数组为空
+              if (!(oldReviews.length === 0 || oldReviews && oldReviews[0] && oldReviews[0].date !== (0, _utils.dateFormat)(Date.now()))) {_context10.next = 26;break;} //此处日期采用字符串的格式
+              console.log("测试");
               //2a.获取最多200个待复习单词id的数组
               wordsIdArr = [];
               book = context.state.book_info.book;
@@ -10029,21 +10031,23 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
               });
 
               //2b.获取单词详情列表
-              if (!(wordsIdArr.length !== 0)) {_context10.next = 20;break;}_context10.next = 16;return (
-                (0, _assistant.getReviews)(wordsIdArr, true));case 16:reviewWaiting = _context10.sent; //从服务器获取
+              if (!(wordsIdArr.length !== 0)) {_context10.next = 23;break;}_context10.next = 19;return (
+                (0, _assistant.getReviews)(wordsIdArr, true));case 19:reviewWaiting = _context10.sent; //从服务器获取
               console.log(reviewWaiting[0]); //打印日期标志位
-              _context10.next = 21;break;case 20:
+              _context10.next = 24;break;case 23:
               //当日满足待复习条件的单词数为0
-              console.log("今天没有需要复习的单词");case 21:_context10.next = 24;break;case 23:
+              console.log("今天没有需要复习的单词");case 24:_context10.next = 27;break;case 26:
 
 
               //当日获取的待复习列表存在缓存中
-              reviewWaiting = oldReviews;case 24:_context10.next = 26;return (
+              reviewWaiting = oldReviews;case 27:
 
-
-
-                (0, _assistant.getReviewQueue)());case 26:reviewQueue = _context10.sent; //从本地获取正在复习的单词队列
-
+              console.log("测试waiting队列");
+              console.log(reviewWaiting);
+              //3.判断正在学习的单词队列：
+              _context10.next = 31;return (0, _assistant.getReviewQueue)();case 31:reviewQueue = _context10.sent; //从本地获取正在复习的单词队列
+              console.log("测试review队列");
+              console.log(reviewQueue);
               //4.若正在学习的单词数不满用户配置的每组个数,补充满
               group = context.state.config.numbers;
               queueLength = reviewQueue.length;
@@ -10061,7 +10065,7 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
               (0, _assistant.saveToLocal)('REVIEW_QUEUE', reviewQueue);
               (0, _assistant.saveToLocal)('REVIEW_WAITING', reviewWaiting);
 
-              context.commit(_mutationTypes.UPDATE_REVIEW_QUEUE, reviewQueue);case 34:case "end":return _context10.stop();}}}, _callee10, this);}));function initReview(_x11) {return _initReview.apply(this, arguments);}return initReview;}(),
+              context.commit(_mutationTypes.UPDATE_REVIEW_QUEUE, reviewQueue);case 41:case "end":return _context10.stop();}}}, _callee10, this);}));function initReview(_x11) {return _initReview.apply(this, arguments);}return initReview;}(),
 
 
 
@@ -10070,11 +10074,11 @@ var _server = __webpack_require__(/*! ../network/server */ 24);function _interop
     console.log("调用了获取下一个单词的方法");
     //getters渲染队列第一个单词，因此我在这里只需要更改队列排序就可以了
     var reviewQueue = (0, _assistant.getReviewQueue)();
-
+    console.log(reviewQueue);
     reviewQueue.push(reviewQueue.shift()); //将数组第一个放到数组末尾
 
     var wordArr = [reviewQueue[0], reviewQueue[3], reviewQueue[7]];
-
+    console.log(wordArr);
     //保存到本地缓存，并且提交给mutation
     (0, _assistant.saveToLocal)('REVIEW_QUEUE', reviewQueue);
     context.commit(_mutationTypes.SET_CURRENT_WORD, wordArr);
@@ -11266,12 +11270,14 @@ function _upload() {_upload = _asyncToGenerator( /*#__PURE__*/_regenerator.defau
 
 
 
+
+
 //获取本地的正在复习单词队列(同步)
-function _getReviews() {_getReviews = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee11() {var wordsIdArr,net,words,_args11 = arguments;return _regenerator.default.wrap(function _callee11$(_context11) {while (1) {switch (_context11.prev = _context11.next) {case 0:wordsIdArr = _args11.length > 0 && _args11[0] !== undefined ? _args11[0] : [];net = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : false;words = [];if (net) {_context11.next = 7;break;}words = uni.getStorageSync('REVIEW_WAITING');_context11.next = 12;break;case 7:_context11.next = 9;return (0, _server.netGetWords)(wordsIdArr);case 9:words = _context11.sent; //添加marker对象
+function _getReviews() {_getReviews = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee11() {var wordsIdArr,net,words,_args11 = arguments;return _regenerator.default.wrap(function _callee11$(_context11) {while (1) {switch (_context11.prev = _context11.next) {case 0:wordsIdArr = _args11.length > 0 && _args11[0] !== undefined ? _args11[0] : [];net = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : false;words = [];if (net) {_context11.next = 9;break;}words = uni.getStorageSync('REVIEW_WAITING');console.log('REVIEW_WAITING');console.log(words);_context11.next = 14;break;case 9:_context11.next = 11;return (0, _server.netGetWords)(wordsIdArr);case 11:words = _context11.sent; //添加marker对象
             words.forEach(function (word) {word.marker = {};word.marker.step = -1;word.marker.round = 0; //最多5个回合，强制完成复习并结算
               word.marker.score = 10; //决定下次复习的时间，选择模糊或者不认识都会扣除相应分数，模糊-1，不认识-2，选择认识直接退出结算分数，选中选项不扣分，不退出
             });words.unshift({ date: (0, _utils.dateFormat)(Date.now()) }); //加入日期标记更新时间
-          case 12:return _context11.abrupt("return", words);case 13:case "end":return _context11.stop();}}}, _callee11, this);}));return _getReviews.apply(this, arguments);}function getReviewQueue() {var queue = uni.getStorageSync('REVIEW_QUEUE');return queue ? queue : [];}
+          case 14:return _context11.abrupt("return", words);case 15:case "end":return _context11.stop();}}}, _callee11, this);}));return _getReviews.apply(this, arguments);}function getReviewQueue() {var queue = uni.getStorageSync('REVIEW_QUEUE');return queue ? queue : [];}
 //获取在本组已完成复习的单词(同步)
 function getReviewDone() {
   return uni.getStorageSync('REVIEW_DONE');

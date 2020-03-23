@@ -160,6 +160,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var ClockIn = function ClockIn() {return __webpack_require__.e(/*! import() | pages/index/childComp/ClockIn */ "pages/index/childComp/ClockIn").then(__webpack_require__.bind(null, /*! ./childComp/ClockIn.vue */ 101));};var BackgroundDesc = function BackgroundDesc() {return __webpack_require__.e(/*! import() | pages/index/childComp/BackgroundDesc */ "pages/index/childComp/BackgroundDesc").then(__webpack_require__.bind(null, /*! ./childComp/BackgroundDesc.vue */ 108));};var HomeBotton = function HomeBotton() {return __webpack_require__.e(/*! import() | pages/index/childComp/HomeBotton */ "pages/index/childComp/HomeBotton").then(__webpack_require__.bind(null, /*! ./childComp/HomeBotton.vue */ 115));};var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | pages/index/childComp/TabBar */ "pages/index/childComp/TabBar").then(__webpack_require__.bind(null, /*! ./childComp/TabBar.vue */ 122));};var Avatar = function Avatar() {return __webpack_require__.e(/*! import() | components/avatar/avatar */ "components/avatar/avatar").then(__webpack_require__.bind(null, /*! ../../components/avatar/avatar.vue */ 94));};var Panel = function Panel() {return __webpack_require__.e(/*! import() | components/panel/panel */ "components/panel/panel").then(__webpack_require__.bind(null, /*! components/panel/panel.vue */ 129));};var Popup = function Popup() {return __webpack_require__.e(/*! import() | components/popup.vue/Popup */ "components/popup.vue/Popup").then(__webpack_require__.bind(null, /*! components/popup.vue/Popup.vue */ 136));};var _default =
 
 
@@ -238,7 +241,7 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _objectSpread(target) {
           url: '/pages/study/study?type=review&num=' + JSON.stringify(this.bookState) });
 
       } else {
-        if (!this.$store.state.book_id) {
+        if (this.$store.state.book_id) {
           uni.redirectTo({
             url: '/pages/study/study?type=learn&num=' + JSON.stringify(this.bookState) });
 

@@ -5,11 +5,14 @@
 				{{params.text}}
 			</view>
 			<view class="my-popup-btns">
-				<child-btn class="my-popup-btn" v-for="(item, index) in params.btn" :key="index" @tap="$emit('onTap', index)">
+				<view class="my-popup-btn" v-for="(item, index) in params.btn" :key="index" @tap="$emit('onTap', index)">
+					<child-btn class="my-popup-btn" >
 					<template>
 						<view class="base-text-thin">{{item}}</view>
 					</template>
 				</child-btn>
+				</view>
+				
 			</view>
 
 
@@ -75,6 +78,7 @@
 		align-items: center;
 		justify-content: center;
 		flex: 2;
+		padding: 46rpx;
 	}
 
 	.my-popup-btns {
@@ -83,6 +87,7 @@
 		display: flex;
 		
 	}
+	
 	.my-popup-btn{
 		flex:1 ;
 	}
